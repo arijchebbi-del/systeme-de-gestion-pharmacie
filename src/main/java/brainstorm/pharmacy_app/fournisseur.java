@@ -7,4 +7,8 @@ public class fournisseur {
     protected String email;
     protected String adresse;
     private String typeProduits;
+<<<<<<< HEAD
 }
+=======
+    }
+>>>>>>> cf6168b6457e9a8c034d2379ae1962d8a550f68b
