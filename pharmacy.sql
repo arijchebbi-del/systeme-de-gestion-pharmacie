@@ -1,2 +1,2 @@
-CREATE database pharmacy;
-use pharmacy;
+CREATE database pharmacy_db;
+use pharmacy_db;
