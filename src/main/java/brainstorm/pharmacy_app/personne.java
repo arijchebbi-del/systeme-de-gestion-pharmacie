@@ -2,7 +2,7 @@ package brainstorm.pharmacy_app;
 
 public class personne {
     protected int id_Personne;
-    protected string Nom,Prénom;
+    protected String Nom,Prénom;
     protected int Num_Téléphone;
-    protected string E_mail;
+    protected String E_mail;
 }
