@@ -8,4 +8,3 @@ public class fournisseur {
     protected String adresse;
     private String typeProduits;
     }
-}
