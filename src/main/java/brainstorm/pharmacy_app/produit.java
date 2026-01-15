@@ -1,6 +1,6 @@
 package brainstorm.pharmacy_app;
 
-public class produit {
+public class Produit {
     private String reference;
     private String categorie;
     private String ordonnance;

@@ -7,5 +7,4 @@ public class fournisseur {
     protected String email;
     protected String adresse;
     private String typeProduits;
-    }
 }
