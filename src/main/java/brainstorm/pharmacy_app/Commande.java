@@ -9,8 +9,8 @@ public class Commande {
     private Employe employe;
     private Fournisseur fournisseur;
     private String etat; //cree,modifie,annulee,recue
-    private ArrayList<Composer>composition=new ArrayList<>();
-    public Commande(int id,ArrayList<Composer> compos,Fournisseur f,Employe e,String dc,String da){
+    private Composer composition;
+    public Commande(int id,Composer compos,Fournisseur f,Employe e,String dc,String da){
         this.idCommande=id;
         this.composition=compos;
         this.fournisseur=f;
@@ -20,9 +20,23 @@ public class Commande {
         this.etat="CREE";
         System.out.println("Commande cree");
     }
-    public ArrayList<Composer> getCompositions() {
-        return composition;
-    }
+    public int getIdCommande() {return idCommande;}
+    public String getDateCommande() {return dateCommande;}
+    public String getDateArrivee() {return dateArrivee;}
+    public double getPrixTotal() {return prixTotal;}
+    public Employe getEmploye() {return employe;}
+    public Fournisseur getFournisseur() {return fournisseur;}
+    public String getEtat() {return etat;}
+    public Composer getComposition() {return composition;}
+    // Setters
+    public void setIdCommande(int idCommande) {this.idCommande = idCommande;}
+    public void setDateCommande(String dateCommande) {this.dateCommande = dateCommande;}
+    public void setDateArrivee(String dateArrivee) {this.dateArrivee = dateArrivee;}
+    public void setPrixTotal(double prixTotal) {this.prixTotal = prixTotal;}
+    public void setEmploye(Employe employe) {this.employe = employe;}
+    public void setFournisseur(Fournisseur fournisseur) {this.fournisseur = fournisseur;}
+    public void setEtat(String etat) {this.etat = etat;}
+    public void setComposition(Composer composition) {this.composition = composition;}
 
     public void afficherCommande() {
         System.out.println("Employé : " + employe.getNom());

@@ -10,6 +10,7 @@ public class Composer {
         this.quantite=Quant;
         this.commande=Co;
     }
+    Commande getCommande(){return commande;}
     Produit getProduit(){
         return produit;
     }
@@ -17,4 +18,6 @@ public class Composer {
         return quantite;
     }
     void setQuantite(int q){quantite=q;}
+    void setCommande(Commande c){commande=c;}
+    void setProduit(Produit p){produit=p;}
 }
