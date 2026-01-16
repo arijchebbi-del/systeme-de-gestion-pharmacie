@@ -1,13 +1,19 @@
 package brainstorm.pharmacy_app;
-import brainstorm.pharmacy_app.Commande;
+
 
 public class Composer {
-    private Produit Produit;
-    private Commande Commande;
-    private int Quantite;
+    private Produit produit;
+    private Commande commande;
+    private int quantite;
     Composer(Commande Co,Produit Prod,int Quant){
-        this.Produit=Prod;
-        this.Quantite=Quant;
-        this.Commande=Co;
+        this.produit=Prod;
+        this.quantite=Quant;
+        this.commande=Co;
+    }
+    Produit getProduit(){
+        return produit;
+    }
+    int getQuantite(){
+        return quantite;
     }
 }
