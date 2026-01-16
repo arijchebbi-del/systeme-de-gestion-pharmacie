@@ -1,7 +1,38 @@
-package brainstorm.pharmacy_app;
+package brainstorm.pharmacy_app
+import java.util.ArrayList;
 
 public class Commande {
-    int idCommande;
-    String dateCommande; // search for date type 
-    float prixTotal;
+    private int idCommande;
+    private String dateCommande,dateArrivee;
+    private double prixTotal;
+    private Employe employe;
+    private Fournisseur fournisseur;
+    private ArrayList<Composer>composition=new ArrayList<>();
+    public Commande(int id,ArrayList<Composer> compos,Fournisseur f,Employe e,double p,String dc,String da){
+        this.idCommande=id;
+        this.composition=compos;
+        this.fournisseur=f;
+        this.employe=e;
+        this.prixTotal=p;
+        this.dateArrivee=da;
+        this.dateCommande=dc;
+    }
+    public ArrayList<Composer> getCompositions() {
+        return composition;
+    }
+
+    public void afficherCommande() {
+        System.out.println("Employé : " + employe.getNom());
+        System.out.println("Fournisseur : " + fournisseur.getNom());
+        System.out.println("Date : " + dateCommande);
+        System.out.println("Produits :");
+
+        for (Composer c : composition) {
+            System.out.println("  - " + c.getProduit().getNomProduit() +" x " + c.getQuantite());
+        }
+    }
+
+
 }
+
+
