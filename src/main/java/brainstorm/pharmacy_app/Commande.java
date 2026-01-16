@@ -104,7 +104,6 @@ public class Commande {
                     break;
                 case 4:
                     return;
-                    break;
                 default:
                     System.out.println("choix invalide!!!");
             }

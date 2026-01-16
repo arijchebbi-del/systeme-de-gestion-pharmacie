@@ -1,6 +1,4 @@
 package brainstorm.pharmacy_app;
-import com.sun.org.apache.bcel.internal.Const;
-
 import java.util.ArrayList;
 
 public class Vente {
@@ -15,9 +13,9 @@ public class Vente {
         this.dateVente=dateVente;
         this.employe=employe;
         this.listProduit=list;
-        int s=0;
+        float s=0;
         for (Constituer c : listProduit){
-            //s=s+c.getProduit().getPrixVente();
+            s=s+c.getProduit().getPrixVente();
         }
         prixTotal=s;
     }
@@ -37,10 +35,10 @@ public class Vente {
         System.out.println("Facture num : "+numFacture);
         System.out.println("Date : "+dateVente);
         System.out.println("Prix Total : "+prixTotal);
-        //System.out.println("Employé : "+employe.getIdPersonne);
+        //System.out.println("Employé : "+employe.getIdPersonne());
         System.out.println("Produits : ");
         for (Constituer c : listProduit){
-            //System.out.println("- "+c.getProduit().getReference()+" : "+c.getQuantite());
+            System.out.println("- "+c.getProduit().getReference()+" : "+c.getQuantite());
         }
     }
 }
