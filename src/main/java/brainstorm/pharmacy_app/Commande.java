@@ -71,29 +71,49 @@ public class Commande {
                     System.out.println("Ajout du produit");
                     Produit p = new Produit();
                     System.out.println("Quelle est sa quantite :");
-                    int q = sc.nextInt();
-                    composition.add(new Composer(this, p, q));
+                    int qu = sc.nextInt();
+                    composition.add(new Composer(this, p, qu));
                     System.out.println("produit ajoutee");
                 case 2:
-                    if (chercherProduitDansCommande()==-1){
-                        System.out.pritnln("vous n avez pas commander ce produit")
+                    System.out.println("donner la reference de produit a commander");
+                    int r= sc.nextInt();
+                    if (chercherProduitDansCommande(r)==-1){
+                        System.out.println("vous n avez pas commander ce produit");
                     }
                     else{
                         System.out.println("Quelle est la nouvelle quantite :");
-                        int q = sc.nextInt();
+                        int q= sc.nextInt();
                         Composer c;
-                        c=composition.get(chercherProduitDansCommande());
+                        c=composition.get(chercherProduitDansCommande(r));
                         c.setQuantite(q);
                         System.out.println("la quantite du produit est modifiee");
                     }
-
+                case 3:
+                    System.out.println("donner la reference de produit a commander");
+                    int re= sc.nextInt();
+                    if (chercherProduitDansCommande(re)==-1){
+                        System.out.println("ce produit est deja inexistant!");
+                    }
+                    else{
+                        composition.remove(composition.get(chercherProduitDansCommande(re)));
+                        System.out.println("le produit supprime de la commande");
+                    }
+                case 4:
+                    return;
+                default:
+                    System.out.println("choix invalide!!!");
+            }
+        }while(choix!=4);
+    }
+    int chercherProduitDansCommande(int ref){
+        for (Composer c :composition){
+            if (c.getProduit().getReference()==ref) {
+                return composition.indexOf(c);
             }
         }
-
-
+        return 0;
     }
-
-
+    
 }
 
 
