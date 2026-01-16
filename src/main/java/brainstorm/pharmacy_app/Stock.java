@@ -14,6 +14,6 @@ public class Stock {
         this.seuilMinimal = seuilMinimal;
         this.derniereMiseAJour = LocalDate.now();
     }
-    
+
 
 }

@@ -7,10 +7,10 @@ public class Vente {
     private int numFacture;
     private String dateVente;
     private double prixTotal;
-    private Employé employe;
+    private Employe employe;
     private ArrayList<Constituer> listProduit;
     public Vente(){}
-    public Vente(int numFacture,String dateVente,Employé employe,ArrayList<Constituer> list){
+    public Vente(int numFacture,String dateVente,Employe employe,ArrayList<Constituer> list){
         this.numFacture=numFacture;
         this.dateVente=dateVente;
         this.employe=employe;
@@ -30,7 +30,7 @@ public class Vente {
     public double getPrixTotal(){
         return this.prixTotal;
     }
-    public Employé getEmploye(){
+    public Employe getEmploye(){
         return this.employe;
     }
     public void afficherVente(){
@@ -38,7 +38,7 @@ public class Vente {
         System.out.println("Date : "+dateVente);
         System.out.println("Prix Total : "+prixTotal);
         //System.out.println("Employé : "+employe.getIdPersonne);
-        System.out.println("Produits : ")
+        System.out.println("Produits : ");
         for (Constituer c : listProduit){
             //System.out.println("- "+c.getProduit().getReference()+" : "+c.getQuantite());
         }
