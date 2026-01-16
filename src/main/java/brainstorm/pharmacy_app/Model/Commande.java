@@ -1,4 +1,4 @@
-package brainstorm.pharmacy_app;
+package brainstorm.pharmacy_app.Model;
 import java.util.ArrayList;
 import java.util.Scanner;
 
