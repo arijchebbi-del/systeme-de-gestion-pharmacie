@@ -35,6 +35,7 @@ public class Commande {
         }
     }
     void prixTotalCommande(){
+        prixTotal=0;
         for (Composer c : composition){
             prixTotal+=((c.getProduit()).getPrixAchat())*(c.getQuantite());
         }
@@ -111,7 +112,7 @@ public class Commande {
                 return composition.indexOf(c);
             }
         }
-        return 0;
+        return -1;
     }
 
 }
