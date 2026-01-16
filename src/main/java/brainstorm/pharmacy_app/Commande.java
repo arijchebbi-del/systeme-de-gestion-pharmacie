@@ -19,7 +19,7 @@ public class Commande {
         this.prixTotal=p;
         this.dateArrivee=da;
         this.dateCommande=dc;
-        System.out.println("l'employe "+employe.getNom()+"a commande "+getComposition(idCommande)+;
+        System.out.println("l'employe "+employe.getNom()+"a commande "+getComposition(idCommande)+" du founisseur : "+fournisseur.getNom()+"le "+dateCommande+" et qui arrivera le "+dateArrivee);
     }
 
 }
