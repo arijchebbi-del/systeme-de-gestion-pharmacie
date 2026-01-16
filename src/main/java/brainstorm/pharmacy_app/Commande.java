@@ -73,8 +73,9 @@ public class Commande {
                     Produit p = new Produit();
                     System.out.println("Quelle est sa quantite :");
                     int qu = sc.nextInt();
-                    composition.add(new Composer(this, p, qu));
+                    ajouterProduit(p,qu);
                     System.out.println("produit ajoutee");
+                    break;
                 case 2:
                     System.out.println("donner la reference de produit a commander");
                     int r= sc.nextInt();
@@ -89,6 +90,7 @@ public class Commande {
                         c.setQuantite(q);
                         System.out.println("la quantite du produit est modifiee");
                     }
+                    break;
                 case 3:
                     System.out.println("donner la reference de produit a commander");
                     int re= sc.nextInt();
@@ -99,8 +101,10 @@ public class Commande {
                         composition.remove(composition.get(chercherProduitDansCommande(re)));
                         System.out.println("le produit supprime de la commande");
                     }
+                    break;
                 case 4:
                     return;
+                    break;
                 default:
                     System.out.println("choix invalide!!!");
             }
@@ -114,7 +118,25 @@ public class Commande {
         }
         return -1;
     }
-
+    public void ajouterProduit(Produit p, int qte) {
+        int i = chercherProduitDansCommande(p.getReference());
+        if (i == -1) {
+            composition.add(new Composer(this, p, qte));
+        } else {
+            composition.get(i).setQuantite(
+                    composition.get(i).getQuantite() + qte
+            );
+        }
+    }
+    public void recevoirCommande() {
+        if (etat.equals("ANNULEE")) {
+            System.out.println("Commande annulée, impossible de la recevoir");
+            return;
+        }
+        etat = "RECUE";
+        System.out.println("La commande recue");
+        ajouterAuStock(this);
+    }
 }
 
 
