@@ -1,5 +1,5 @@
 package brainstorm.pharmacy_app;
-import java.time.LocalDate
+import java.time.LocalDate;
 
 public class Stock {
     private int numLot;
@@ -14,6 +14,7 @@ public class Stock {
         this.seuilMinimal = seuilMinimal;
         this.derniereMiseAJour = LocalDate.now();
     }
+
 
 
 }

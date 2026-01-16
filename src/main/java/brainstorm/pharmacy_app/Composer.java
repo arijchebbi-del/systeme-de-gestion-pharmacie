@@ -16,4 +16,5 @@ public class Composer {
     int getQuantite(){
         return quantite;
     }
+    void setQuantite(int q){quantite=q;}
 }
