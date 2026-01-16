@@ -1,4 +1,4 @@
-package brainstorm.pharmacy_app
+package brainstorm.pharmacy_app;
 import java.util.ArrayList;
 
 public class Commande {
@@ -8,12 +8,11 @@ public class Commande {
     private Employe employe;
     private Fournisseur fournisseur;
     private ArrayList<Composer>composition=new ArrayList<>();
-    public Commande(int id,ArrayList<Composer> compos,Fournisseur f,Employe e,double p,String dc,String da){
+    public Commande(int id,ArrayList<Composer> compos,Fournisseur f,Employe e,String dc,String da){
         this.idCommande=id;
         this.composition=compos;
         this.fournisseur=f;
         this.employe=e;
-        this.prixTotal=p;
         this.dateArrivee=da;
         this.dateCommande=dc;
     }
@@ -31,7 +30,12 @@ public class Commande {
             System.out.println("  - " + c.getProduit().getNomProduit() +" x " + c.getQuantite());
         }
     }
-
+    void prixTotalCommande(){
+        for (Composer c : composition){
+            prixTotal+=((c.getProduit()).getPrixAchat())*(c.getQuantite());
+        }
+    }
+    
 
 }
 
