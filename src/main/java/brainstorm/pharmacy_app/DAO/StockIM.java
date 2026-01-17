@@ -12,7 +12,7 @@ public class StockIM implements StockDAO {
 
         String query = "INSERT INTO Stock (DerniereMiseAJour, Quantite, SeuilMinimal, Reference)VALUES (?, ?, ?, ?) ";
 
-        try (Connection con = DBConnection.getAdminConnection();
+        try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setTimestamp(1, s.getDerniereMiseAJour());
@@ -31,7 +31,7 @@ public class StockIM implements StockDAO {
 
         String query = "UPDATE StockSET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ?WHERE NumLot = ?";
 
-        try (Connection con = DBConnection.getAdminConnection();
+        try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setTimestamp(1, s.getDerniereMiseAJour());
