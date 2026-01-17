@@ -1,11 +1,10 @@
 package brainstorm.pharmacy_app.DAO;
 
 import brainstorm.pharmacy_app.Model.Stock;
+import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
+import java.sql.*;
 
 public class StockIM implements StockDAO {
     public void creation_s(Stock s) {
@@ -61,4 +60,32 @@ public class StockIM implements StockDAO {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
     }
+    public Stock ChercherParNumLot(int numLot) {
+        String query = "SELECT * FROM Stock WHERE NumLot = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setInt(1, numLot);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int quantite = rs.getInt("Quantite");
+                int seuil = rs.getInt("SeuilMinimal");
+                int ref = rs.getInt("Reference");
+                Timestamp derniereMAJ = rs.getTimestamp("DerniereMiseAJour");
+
+                Produit produit = new Produit();
+                produit.setReference(ref);
+
+                Stock s = new Stock(numLot, produit, quantite, seuil);
+                s.setDerniereMiseAJour(derniereMAJ);
+                return s;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL: " + e.getMessage());
+        }
+        return null;
+    }
+
 }
