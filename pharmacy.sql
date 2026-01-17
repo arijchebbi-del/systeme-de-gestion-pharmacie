@@ -7,7 +7,7 @@ CREATE TABLE Employe(
 	MotDePasse VARCHAR(30),
 	Role VARCHAR(15),
 	HoraireDeTravail VARCHAR(20),
-	NumTel VARCHAR(15),
+	NumTel INT,
 	Prenom VARCHAR(30),
 	Nom VARCHAR(30),
 	Email VARCHAR(60)
@@ -15,7 +15,7 @@ CREATE TABLE Employe(
 CREATE TABLE Fournisseur(
 	IdFournisseur INT PRIMARY KEY auto_increment,
 	Nom VARCHAR(30),
-	NumTel VARCHAR(15),
+	NumTel INT,
 	Email VARCHAR(60),
 	Adresse VARCHAR(50),
 	TypeProduit VARCHAR(20)
