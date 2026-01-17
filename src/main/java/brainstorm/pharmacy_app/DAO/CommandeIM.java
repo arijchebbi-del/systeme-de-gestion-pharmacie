@@ -25,7 +25,51 @@ public class CommandeIM implements CommandeDAO{
             System.err.println("Erreur SQL: " + e.getMessage());
         }
     }
-    public void modification_c(Commande c){}
-    public void annulation_c(Commande c){}
-    public void reception_c(Commande c){}
+    public void modification_c(Commande c){
+        String query = "UPDATE Commande SET PrixTotal = ?,DateCommande = ?,DateArrivee = ?,Quantite = ?,IdEmploye = ?,IdFournisseur = ?,Etat = ? WHERE IdCommande = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setFloat(1,c.getPrixTotal());
+            ps.setDate(2,c.getDateCommande());
+            ps.setDate(3,c.getDateArrivee());
+            ps.setInt(4,c.getComposition().getQuantiteComposer());
+            ps.setInt(5,c.getEmploye().getIdEmploye());
+            ps.setInt(6,c.getFournisseur().getId_Fournisseur());
+            ps.setString(7,c.getEtat());
+
+
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("commande modifiée avec succès");
+            } else {
+                System.out.println("Aucune commande trouvée avec cet ID");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Erreur SQL: " + ex.getMessage());
+        }
+    }
+
+
+
+
+    public void annulation_c(int idCommande){
+
+        String sql = "DELETE FROM Commande WHERE IdCommande = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idCommande);
+            ps.executeUpdate();
+            System.out.println("Commande annulée");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
