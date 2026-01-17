@@ -1,0 +1,47 @@
+package brainstorm.pharmacy_app.DAO;
+
+import brainstorm.pharmacy_app.Model.Produit;
+import brainstorm.pharmacy_app.Utils.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class ProduitIM {
+    public void creation_c(Produit p){
+        String query = "INSERT INTO Produit( NomProduit,Categorie,Type,ModeUtilisation,Ordonnance,PrixAchat,PrixVente, SeuilMinimal  VALUES (?,?,?,?,?,?,?,?)";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1,p.getNomProduit());
+            ps.setString(2,p.getCategorie());
+            ps.setString(3,p.getType());
+            ps.setString(4,p.getModeUtilisation());
+            ps.setBoolean(5,p.getOrdonnance());
+            ps.setFloat(6,p.getPrixAchat());
+            ps.setFloat(7,p.getPrixVente());
+            ps.setFloat(8,p.getSeuilMinimal());
+            ps.executeUpdate();
+            System.out.println("Commande bien ajoutée");
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL: " + e.getMessage());
+        }
+    }
+    public void suppression_p(int reference){
+        String sql = "DELETE FROM Produit WHERE Reference = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, reference);
+            ps.executeUpdate();
+            System.out.println("Produit supprimé");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+}

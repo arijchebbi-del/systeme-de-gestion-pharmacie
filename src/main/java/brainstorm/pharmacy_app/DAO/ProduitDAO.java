@@ -1,6 +1,6 @@
 package brainstorm.pharmacy_app.DAO;
-
+import brainstorm.pharmacy_app.Model.Produit;
 public interface ProduitDAO {
-    public void creation_p();
+    public void creation_p(Produit p );
     public void suppression_p();
 }
