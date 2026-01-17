@@ -35,7 +35,7 @@ public class Vente {
         System.out.println("Facture num : "+numFacture);
         System.out.println("Date : "+dateVente);
         System.out.println("Prix Total : "+prixTotal);
-        //System.out.println("Employé : "+employe.getIdPersonne());
+        System.out.println("Employé : "+employe.getIdEmploye());
         System.out.println("Produits : ");
         for (Constituer c : listProduit){
             System.out.println("- "+c.getProduit().getReference()+" : "+c.getQuantite());
