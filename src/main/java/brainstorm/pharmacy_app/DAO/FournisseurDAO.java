@@ -1,6 +1,8 @@
 package brainstorm.pharmacy_app.DAO;
 
 import brainstorm.pharmacy_app.Model.Fournisseur;
+import brainstorm.pharmacy_app.Utils.DBConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -17,7 +19,7 @@ public class FournisseurIM implements FournisseurDAO{
     public void creation_f(Fournisseur f){
         String query = "INSERT INTO Fournisseur VALUES(?,?,?,?,?,?)";
 
-        try (Connection con = DBConnection.get(Admin)Connection();{
+        try (Connection con = DBConnection.getAdminConnection();
         PreparedStatement ps = con.prepareStatement(query)){
             //ps.setInt(1, f.getId_Fournisseur()); zeyda auto increment
             ps.setString(2, f.getNom());
@@ -29,7 +31,7 @@ public class FournisseurIM implements FournisseurDAO{
             System.out.println("Fournisseur ajouté");
 
 
-         }}catch (SQLException e) {
+         }catch (SQLException e) {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
 
@@ -39,7 +41,7 @@ public class FournisseurIM implements FournisseurDAO{
             UPDATE Fournisseur
             SET Nom =?,NumTel =?,Email=?,Adresse=?,TypeProduit=?
             WHERE IdFournisseur=?""";
-        try (Connection con = DBConnection.getConnection();
+        try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, f.getNom());
@@ -59,10 +61,10 @@ public class FournisseurIM implements FournisseurDAO{
         
 
     }
-    public void suppression_f(int idFournisseur) {
+    public void suppression_f(int IdFournisseur) {
         String sql = "DELETE FROM Fournisseur WHERE IdFournisseur = ?";
 
-        try (Connection con = DBConnection.getConnection();
+        try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, IdFournisseur);
@@ -73,5 +75,4 @@ public class FournisseurIM implements FournisseurDAO{
             e.printStackTrace();
         }
     }
-}
 }
