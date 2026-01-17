@@ -5,7 +5,7 @@ public class Employe {
     private String nom,prenom;
     private int numTel;
     private String email;
-    private String motdepasse;
+    private String motDePasse;
     private String role;
     private String horaire;
 
@@ -13,9 +13,9 @@ public class Employe {
     //getter
     public String getNom (){return nom;}
     public String getPrenom (){return prenom;}
-    public int getNumTelephone (){return numTel;}
+    public int getNumTelephoneEmploye (){return numTel;}
     public String getEmail (){return email;}
-    public String getMotdepasse() {return motdepasse;}
+    public String getMotdePasse() {return motdepasse;}
     public String getRole (){return role;}
     public String getHoraire (){return horaire;}
     public int getIdPersonne(){return idEmploye;}
