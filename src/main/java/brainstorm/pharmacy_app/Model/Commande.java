@@ -45,13 +45,13 @@ public class Commande {
         System.out.println("Produits :");
 
         for (Composer c : composition) {
-            System.out.println("  - " + c.getProduit().getNomProduit() +" x " + c.getQuantite());
+            System.out.println("  - " + c.getProduit().getNomProduit() +" x " + c.getQuantiteComposer());
         }
     }
     void prixTotalCommande(){
         prixTotal=0;
         for (Composer c : composition){
-            prixTotal+=((c.getProduit()).getPrixAchat())*(c.getQuantite());
+            prixTotal+=((c.getProduit()).getPrixAchat())*(c.getQuantiteComposer());
         }
     }
     public String getEtat(){
@@ -101,7 +101,7 @@ public class Commande {
                         int q= sc.nextInt();
                         Composer c;
                         c=composition.get(chercherProduitDansCommande(r));
-                        c.setQuantite(q);
+                        c.setQuantiteComposer(q);
                         System.out.println("la quantite du produit est modifiee");
                     }
                     break;
@@ -136,8 +136,8 @@ public class Commande {
         if (i == -1) {
             composition.add(new Composer(this, p, qte));
         } else {
-            composition.get(i).setQuantite(
-                    composition.get(i).getQuantite() + qte
+            composition.get(i).setQuantiteComposer(
+                    composition.get(i).getQuantiteComposer() + qte
             );
         }
     }
@@ -148,7 +148,6 @@ public class Commande {
         }
         etat = "RECUE";
         System.out.println("La commande recue");
-        ajouterAuStock(this);
     }
 }
 

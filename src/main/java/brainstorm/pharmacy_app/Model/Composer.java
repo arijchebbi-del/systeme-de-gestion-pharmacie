@@ -14,10 +14,10 @@ public class Composer {
     Produit getProduit(){
         return produit;
     }
-    int getQuantite(){
+    int getQuantiteComposer(){
         return quantite;
     }
-    void setQuantite(int q){quantite=q;}
+    void setQuantiteComposer(int q){quantite=q;}
     void setCommande(Commande c){commande=c;}
     void setProduit(Produit p){produit=p;}
 }

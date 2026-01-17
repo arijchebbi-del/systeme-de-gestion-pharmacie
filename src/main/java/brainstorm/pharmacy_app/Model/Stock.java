@@ -1,9 +1,9 @@
 package brainstorm.pharmacy_app.Model;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 public class Stock {
     private int numLot;
-    private LocalDate derniereMiseAJour;
+    private Timestamp derniereMiseAJour;
     private int quantite;
     private int seuilMinimal;
     private Produit produit;
@@ -12,8 +12,19 @@ public class Stock {
         this.produit = produit;
         this.quantite = quantite;
         this.seuilMinimal = seuilMinimal;
-        this.derniereMiseAJour = LocalDate.now();
-    }
+        this.derniereMiseAJour =System.currentTimeMillis();}
+    public int getNumLot() {return numLot;}
+    public Timestamp getDerniereMiseAJour() {return derniereMiseAJour;}
+    public int getQuantite() {return quantite;}
+    public int getSeuilMinimal() {return seuilMinimal;}
+    public Produit getProduit() {return produit;}
+
+    public void setNumLot(int numLot) {this.numLot = numLot;}
+    public void setDerniereMiseAJour(Timestamp derniereMiseAJour) {this.derniereMiseAJour = derniereMiseAJour;}
+    public void setQuantite(int quantite) {this.quantite = quantite;}
+    public void setSeuilMinimal(int seuilMinimal) {this.seuilMinimal = seuilMinimal;}
+    public void setProduit(Produit produit) {this.produit = produit;}
+}
 
 
 
