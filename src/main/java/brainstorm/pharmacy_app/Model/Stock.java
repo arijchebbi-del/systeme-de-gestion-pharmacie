@@ -12,7 +12,7 @@ public class Stock {
         this.produit = produit;
         this.quantite = quantite;
         this.seuilMinimal = seuilMinimal;
-        this.derniereMiseAJour =System.currentTimeMillis();}
+        this.derniereMiseAJour = new Timestamp(System.currentTimeMillis());}
     public int getNumLot() {return numLot;}
     public Timestamp getDerniereMiseAJour() {return derniereMiseAJour;}
     public int getQuantite() {return quantite;}
@@ -24,9 +24,4 @@ public class Stock {
     public void setQuantite(int quantite) {this.quantite = quantite;}
     public void setSeuilMinimal(int seuilMinimal) {this.seuilMinimal = seuilMinimal;}
     public void setProduit(Produit produit) {this.produit = produit;}
-}
-
-
-
-
 }
