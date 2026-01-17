@@ -2,11 +2,10 @@ package brainstorm.pharmacy_app.DAO;
 
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Utils.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 
 public class StockIM implements StockDAO {
     public void creation_s(Stock s) {
