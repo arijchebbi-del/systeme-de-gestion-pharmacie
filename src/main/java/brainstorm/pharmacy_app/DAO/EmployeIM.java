@@ -70,4 +70,9 @@ public class EmployeIM implements EmployeDAO{
             e.printStackTrace();
         }
     }
+    public Employe ChercherParId(int idEmploye) {
+        String sql = "SELECT * FROM Employe WHERE IdEmploye = ?";
+        return null;
+    }
+
 }

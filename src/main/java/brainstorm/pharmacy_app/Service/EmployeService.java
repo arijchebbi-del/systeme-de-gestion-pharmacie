@@ -3,6 +3,7 @@ import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.DAO.EmployeIM;
 import brainstorm.pharmacy_app.Exceptions.IdEmployeNegativeException;
 import brainstorm.pharmacy_app.Exceptions.AucunNomException;
+import brainstorm.pharmacy_app.Exceptions.EmployeInexistantException;
 
 public class EmployeService {
 
@@ -34,5 +35,18 @@ public class EmployeService {
         empDAO.suppression_e(id); // Appelle le DAO
         System.out.println("Employé supprimé via le service !");
     }
+
+    public Employe chercherEmploye(int id) throws IdEmployeNegativeException, EmployeInexistantException {
+        if (id <= 0) {
+            throw new IdEmployeNegativeException("ID invalide");
+        }
+
+        Employe e = empDAO.ChercherParId(id);
+        if (e == null) {
+            throw new EmployeInexistantException("Employé introuvable");
+        }
+        return e;
+    }
+
 }
 
