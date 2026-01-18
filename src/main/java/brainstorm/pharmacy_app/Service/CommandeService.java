@@ -77,7 +77,7 @@ public class CommandeService {
                 s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
                 stockDAO.creation_s(s);
 
-                
+
                 gererDAO.enregistrerAction(idEmployeConnecte, s.getNumLot());
 
                 if (quantiteRecue <= p.getSeuilMinimal()) {
