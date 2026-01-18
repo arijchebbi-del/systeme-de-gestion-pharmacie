@@ -59,7 +59,7 @@ public class EmployeService {
             throw new MotDePasseInvalideException("Mot de passe trop court");
         }
 
-        empDAO.updateMotDePasse(idEmploye, nouveauMotDePasse);
+        empDAO.changerMotDePasse(idEmploye, nouveauMotDePasse);
     }
 }
 
