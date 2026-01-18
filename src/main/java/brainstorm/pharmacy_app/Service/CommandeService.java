@@ -2,6 +2,7 @@ package brainstorm.pharmacy_app.Service;
 
 import brainstorm.pharmacy_app.DAO.CommandeIM;
 import brainstorm.pharmacy_app.DAO.StockIM;
+import brainstorm.pharmacy_app.DAO.GererIM;
 import brainstorm.pharmacy_app.DAO.ProduitIM;
 import brainstorm.pharmacy_app.Model.Commande;
 import brainstorm.pharmacy_app.Model.Produit;
@@ -15,7 +16,7 @@ public class CommandeService {
     private CommandeIM commandeDAO = new CommandeIM();
     private StockIM stockDAO = new StockIM();
     private ProduitIM produitDAO = new ProduitIM(); // Vérifiez si c'est produitIM ou produitDAO
-
+    private GererIM gererDAO = new GererIM();
 
     public void passerCommande(Commande c) throws QuantiteNegativeException {
 
@@ -39,7 +40,7 @@ public class CommandeService {
     }
 
 
-    public void receptionnerEtMettreAJourStock(Commande c, Produit p, Stock s) throws QuantiteNegativeException {
+    public void receptionnerEtMettreAJourStock(Commande c, Produit p, Stock s, int idEmployeConnecte) throws QuantiteNegativeException {
         try {
             c.setEtat("Reçue");
             commandeDAO.modification_c(c);
@@ -57,10 +58,11 @@ public class CommandeService {
                 s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
                 stockDAO.modification_s(s);
 
+
+                gererDAO.enregistrerAction(idEmployeConnecte, s.getNumLot());
+
                 System.out.println("Stock mis a jour pour : " + p.getNomProduit());
 
-                // alerte de Seuil Minimal
-                //  apres ajout la quantite reste sous le seuil critique
                 if (nouvelleQuantite <= p.getSeuilMinimal()) {
                     System.out.println("Le produit " + p.getNomProduit() +
                             " est toujours sous le seuil minimal (" + p.getSeuilMinimal() +
@@ -75,7 +77,9 @@ public class CommandeService {
                 s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
                 stockDAO.creation_s(s);
 
-                //verif seuil
+                
+                gererDAO.enregistrerAction(idEmployeConnecte, s.getNumLot());
+
                 if (quantiteRecue <= p.getSeuilMinimal()) {
                     System.out.println(" Nouveau produit " + p.getNomProduit() +
                             " ajoute avec une quantite inferieure au seuil minimal");

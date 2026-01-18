@@ -7,7 +7,7 @@ import brainstorm.pharmacy_app.Exceptions.AucunNomException;
 import java.util.List;
 
 public class ProduitService {
-<<<<<<< HEAD
+
 
     private ProduitIM produitDAO = new ProduitIM();
 
@@ -41,10 +41,6 @@ public class ProduitService {
         return produitDAO.lire_p(ref);
     }
 
-    public List<Produit> listerTousLesProduits() {
-        return produitDAO.lister_p();
-    }
-=======
-    
->>>>>>> 4d16c30e53260ccd389f73a80a3745a23931a61e
+
+
 }
