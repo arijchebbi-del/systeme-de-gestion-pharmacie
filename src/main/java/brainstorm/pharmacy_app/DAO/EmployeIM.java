@@ -56,6 +56,7 @@ public class EmployeIM implements EmployeDAO{
             System.err.println("Erreur SQL: " + ex.getMessage());
         }
     }
+
     public void suppression_e(int idEmploye){
         String sql = "DELETE FROM Employe WHERE IdEmploye = ?";
 
