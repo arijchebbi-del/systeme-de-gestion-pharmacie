@@ -91,4 +91,31 @@ public class RapportIM {
 
 
     }
+    public void rapportPerformanceFournisseurs() {
+        String sql = "SELECT f.IdFournisseur, f.Nom, " + "COUNT(c.IdCommande) AS nbCommandes, " + "SUM(c.PrixTotal) AS valeurTotale, " + "SUM(CASE WHEN c.DateArrivee <= c.DateCommande THEN 1 ELSE 0 END) AS commandesATemps, " + "SUM(CASE WHEN c.DateArrivee > c.DateCommande THEN 1 ELSE 0 END) AS commandesEnRetard, " + "AVG(DATEDIFF(c.DateArrivee, c.DateCommande)) AS delaiMoyen " + "FROM Fournisseur f " + "LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur " + "GROUP BY f.IdFournisseur, f.Nom";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            System.out.println("Rapport de performance des fournisseurs \n");
+            while (rs.next()) {
+                int id = rs.getInt("IdFournisseur");
+                String nom = rs.getString("Nom");
+                int nbCommandes = rs.getInt("nbCommandes");
+                double valeurTotale = rs.getDouble("valeurTotale");
+                int commandesATemps = rs.getInt("commandesATemps");
+                int commandesEnRetard = rs.getInt("commandesEnRetard");
+                double delaiMoyen = rs.getDouble("delaiMoyen");
+                System.out.println("Fournisseur : " + nom + " (ID : " + id + ")");
+                System.out.println("Nombre de commandes : " + nbCommandes);
+                System.out.println("Valeur totale des commandes : " + valeurTotale + " DT");
+                System.out.println("Commandes à temps : " + commandesATemps);
+                System.out.println("Commandes en retard : " + commandesEnRetard);
+                System.out.println("Délai moyen de livraison : " + String.format("%.2f", delaiMoyen) + " jours");
+                System.out.println("fin rapport");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la génération du rapport : " + e.getMessage());
+        }
+    }
 }
