@@ -38,4 +38,5 @@ public class StockService {
         stockDAO.suppression_s(numLot);
         System.out.println("Stock supprimé via le service !");
     }
+
 }

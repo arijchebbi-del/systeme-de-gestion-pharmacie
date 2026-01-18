@@ -20,15 +20,42 @@ public class RapportIM {
         } catch (SQLException e) { e.printStackTrace(); }
         return tot;
     }
+    //rapport etat stock
+    public void rapportEtatStock() {
+        String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, " +
+                " s.DerniereMiseAJour " +
+                "FROM Stock s "+
+                "JOIN Produit p ON s.Reference = p.Reference ";
 
-    //  les produits quantite au dessous seuil
-    public ResultSet getProduitAuDessous() throws SQLException {
-        Connection con = DBConnection.getAdminConnection();
-        String sql = "SELECT p.NomProduit, s.Quantité, p.SeuilMinimal " +
-                "FROM produit p JOIN stock s ON p.Référence = s.Référence " +
-                "WHERE s.Quantite <= p.SeuilMinimal";
-        return con.createStatement().executeQuery(sql);
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            System.out.println("Rapport d'état des stocks");
+            while (rs.next()) {
+                String produit = rs.getString("NomProduit");
+                int quantite = rs.getInt("Quantite");
+                int seuil = rs.getInt("SeuilMinimal");
+                java.sql.Timestamp maj = rs.getTimestamp("DerniereMiseAJour");
+
+                String etat = (quantite >= seuil) ? "Supérieur ou égal au seuil" : "Inférieur au seuil";
+                int decalage = (quantite >= seuil) ? quantite - seuil : seuil - quantite;
+
+                System.out.println("Produit : " + produit);
+                System.out.println("Quantité actuelle : " + quantite);
+                System.out.println("Seuil minimal : " + seuil);
+                System.out.println("État : " + etat);
+                System.out.println("Décalage : " + decalage);
+                System.out.println("Dernière mise à jour : " + maj);
+                System.out.println("fin rapport");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+        }
     }
+
+
 
 
 
