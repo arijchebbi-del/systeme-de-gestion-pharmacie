@@ -23,7 +23,7 @@ public class FournisseurService {
             fournisseurDAO.modification_f(f);
         }
     }
-    
+
     public void supprimerFournisseur(int id) {
         if (fournisseurDAO.aDesCommandes(id)) {
             System.out.println("Suppression impossible fournisseur a des commandes existantes");

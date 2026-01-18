@@ -7,12 +7,14 @@ public class Vente {
     private double prixTotal;
     private Employe employe;
     private ArrayList<Constituer> listProduit;
+    private boolean presenceOrd;
     public Vente(){}
-    public Vente(int numFacture,String dateVente,Employe employe,ArrayList<Constituer> list){
+    public Vente(int numFacture,String dateVente,Employe employe,ArrayList<Constituer> list,boolean pres){
         this.numFacture=numFacture;
         this.dateVente=dateVente;
         this.employe=employe;
         this.listProduit=list;
+        this.presenceOrd=pres;
         float s=0;
         for (Constituer c : listProduit){
             s=s+c.getProduit().getPrixVente();
@@ -31,6 +33,7 @@ public class Vente {
     public Employe getEmploye(){
         return this.employe;
     }
+    public boolean getPresenceOrd(){return presenceOrd;}
     public void afficherVente(){
         System.out.println("Facture num : "+numFacture);
         System.out.println("Date : "+dateVente);
