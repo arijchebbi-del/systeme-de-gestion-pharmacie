@@ -11,18 +11,17 @@ import java.sql.SQLException;
 public class StockIM implements StockDAO {
     public void creation_s(Stock s) {
 
-        String query = "INSERT INTO Stock (DerniereMiseAJour, Quantite, SeuilMinimal, Reference)VALUES (?, ?, ?, ?) ";
+        String query = "INSERT INTO Stock (DerniereMiseAJour, Quantite, Reference)VALUES (?, ?, ?, ?) ";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setTimestamp(1, s.getDerniereMiseAJour());
             ps.setInt(2, s.getQuantite());
-            ps.setInt(3, s.getSeuilMinimal());
-            ps.setInt(4, s.getNumLot());
+            ps.setInt(3, s.getNumLot());
 
             ps.executeUpdate();
-            System.out.println("Stock ajouté");
+            System.out.println("Stock ajoute");
 
         } catch (SQLException e) {
             System.err.println("Erreur SQL: " + e.getMessage());
@@ -30,14 +29,13 @@ public class StockIM implements StockDAO {
     }
     public void modification_s(Stock s) {
 
-        String query = "UPDATE StockSET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ?WHERE NumLot = ?";
+        String query = "UPDATE StockSET DerniereMiseAJour = ?,Quantite = ?,WHERE NumLot = ?";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
             ps.setTimestamp(1, s.getDerniereMiseAJour());
             ps.setInt(2, s.getQuantite());
-            ps.setInt(3, s.getSeuilMinimal());
             ps.setInt(4, s.getNumLot());
 
             ps.executeUpdate();
