@@ -5,6 +5,7 @@ import brainstorm.pharmacy_app.Utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FournisseurIM implements FournisseurDAO{
@@ -65,4 +66,22 @@ public class FournisseurIM implements FournisseurDAO{
             e.printStackTrace();
         }
     }
+
+    public boolean aDesCommandes(int idFournisseur) {
+        String sql = "SELECT COUNT(*) FROM Commande WHERE IdFournisseur = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idFournisseur);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

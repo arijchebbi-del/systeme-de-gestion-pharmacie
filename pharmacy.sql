@@ -50,17 +50,18 @@ CREATE TABLE Stock(
 	NumLot INT PRIMARY KEY auto_increment,
 	DerniereMiseAJour DATETIME,
 	Quantite INT,
-	SeuilMinimal INT,
+    SeuilMinimal INT,
 	Reference INT,
 	FOREIGN KEY (Reference) REFERENCES Produit(Reference),
 	CONSTRAINT CHK_Stock
-	CHECK (Quantite>=0 AND SeuilMinimal>0)
+	CHECK (Quantite>=0 )
 );
 CREATE TABLE Vente(
 	NumFacture INT PRIMARY KEY auto_increment,
 	DateAchat DATETIME,
 	PrixTotal DECIMAL(10,2),
 	IdEmploye INT,
+    Ordonnance BOOLEAN,
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye)
 );
 CREATE TABLE Composer(

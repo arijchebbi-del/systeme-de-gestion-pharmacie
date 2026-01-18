@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class ConstituerIM implements ConstituerDAO {
 
-    @Override
+
     public void ajouterLigneVente(int numFacture, int reference, int quantite) {
         String query = "INSERT INTO constituer (Reference, NumFacture, Quantite) VALUES (?, ?, ?)";
 
@@ -24,5 +24,7 @@ public class ConstituerIM implements ConstituerDAO {
         } catch (SQLException e) {
             System.err.println("Erreur SQL dans ConstituerIM : " + e.getMessage());
         }
+
     }
+
 }

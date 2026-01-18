@@ -5,4 +5,7 @@ public interface EmployeDAO {
     public void creation_e(Employe e);
     public void modification_e(Employe e);
     public void suppression_e(int idEmploye);
+    public Employe ChercherParId(int idEmploye);
+    void changerMotDePasse(int idEmploye, String nouveauMotDePasse);
+
 }

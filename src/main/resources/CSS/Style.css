@@ -3,6 +3,15 @@
     src: url('../fonts/Poppins-SemiBold.ttf');
 }
 
+<<<<<<< HEAD
+.body{
+    height: 1025px;
+    width: 1822px;
+}
+.myPharma-login{
+    -fx-font-family: Poppins, sans-serif;
+    -fx-font-size: 64px;
+=======
 
 .myPharma-login{
     -fx-font-family: Poppins, sans-serif;
@@ -12,5 +21,6 @@
     -fx-text-alignment: center;
 }
 .Login{
+>>>>>>> 4d16c30e53260ccd389f73a80a3745a23931a61e
 
 }

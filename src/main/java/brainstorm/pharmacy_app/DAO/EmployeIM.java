@@ -71,4 +71,35 @@ public class EmployeIM implements EmployeDAO{
             e.printStackTrace();
         }
     }
+    public Employe ChercherParId(int idEmploye) {
+        String sql = "SELECT * FROM Employe WHERE IdEmploye = ?";
+        return null;
+    }
+    public Employe ChercherParHoraire(int horaire) {
+        String sql = "SELECT * FROM Employe WHERE Horaire = ?";
+        return null;
+    }
+    public void changerMotDePasse(int idEmploye, String nouveauMotDePasse) {
+
+        String sql = "UPDATE Employe SET MotDePasse = ? WHERE IdEmploye = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, nouveauMotDePasse);
+            ps.setInt(2, idEmploye);
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Mot de passe mis à jour");
+            } else {
+                System.out.println("Aucun employé trouvé avec cet ID");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL : " + e.getMessage());
+        }
+    }
+
 }

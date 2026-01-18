@@ -90,6 +90,32 @@ public class ProduitIM {
         return false;
     }
 
+    public Produit lire_p(int reference) {
+        String sql = "SELECT * FROM Produit WHERE Référence = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, reference);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Produit p = new Produit();
+                    p.setReference(rs.getInt("Référence"));
+                    p.setNomProduit(rs.getString("NomProduit"));
+                    p.setCategorie(rs.getString("Categorie"));
+                    p.setType(rs.getString("Type"));
+                    p.setModeUtilisation(rs.getString("ModeUtilisation"));
+                    p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
+                    p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
+                    p.setPrixVente(rs.getFloat("PrixVente"));     // Mapping float
+                    p.setSeuilMinimal(rs.getInt("SeuilMinimal"));
+                    return p;
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return null;
+    }
+
+
 
 
 }

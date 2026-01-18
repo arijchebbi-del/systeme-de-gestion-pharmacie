@@ -12,15 +12,12 @@ public class StockService {
 
     public void ajouterStock(Stock s) throws QuantiteNegativeException,SeuilMinimalAtteintException{
         if (s.getQuantite() < 0) {
-            throw new QuantiteNegativeException("La quantité ne peut pas être négative");
-        }
-        if (s.getSeuilMinimal() <= 0) {
-            throw new SeuilMinimalAtteintException("Le seuil minimal doit être > 0");
+            throw new QuantiteNegativeException("La quantite ne peut pas etre negative");
         }
         s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
 
         stockDAO.creation_s(s);
-        System.out.println("Stock ajouté via le service !");
+        System.out.println("Stock ajouté via le service ");
     }
 
 

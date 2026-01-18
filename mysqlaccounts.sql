@@ -1,3 +1,4 @@
+
 # Users
 CREATE USER 'employee'@'localhost' IDENTIFIED BY 'employee123';
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin123';
