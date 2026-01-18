@@ -77,7 +77,7 @@ public class StockIM implements StockDAO {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
     }
-    public Stock ChercherParNumLot(int numLot) {
+    public Stock chercherParNumLot(int numLot) {
         String query = "SELECT * FROM Stock WHERE NumLot = ?";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
