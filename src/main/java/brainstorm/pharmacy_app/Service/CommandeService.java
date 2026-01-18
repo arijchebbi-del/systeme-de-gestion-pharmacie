@@ -38,38 +38,28 @@ public class CommandeService {
             System.out.println(" Commande " + idCommande + " annulée.");
         }
     }
-
-
     public void receptionnerEtMettreAJourStock(Commande c, Produit p, Stock s, int idEmployeConnecte) throws QuantiteNegativeException {
+
         try {
             c.setEtat("Reçue");
             commandeDAO.modification_c(c);
             int quantiteRecue = c.getComposition().getQuantiteComposer();
-
             if (quantiteRecue < 0) {
                 throw new QuantiteNegativeException("La quantite reçue ne peut pas etre negative");
             }
-
             if (produitDAO.existe(p.getReference())) {
                 int stockActuel = stockDAO.getQuantiteByProduit(p.getReference());
                 int nouvelleQuantite = stockActuel + quantiteRecue;
-
                 s.setQuantite(nouvelleQuantite);
                 s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
                 stockDAO.modification_s(s);
-
-
                 gererDAO.enregistrerAction(idEmployeConnecte, s.getNumLot());
-
                 System.out.println("Stock mis a jour pour : " + p.getNomProduit());
-
-                if (nouvelleQuantite <= p.getSeuilMinimal()) {
-                    System.out.println("Le produit " + p.getNomProduit() +
-                            " est toujours sous le seuil minimal (" + p.getSeuilMinimal() +
-                            "). Stock actuel : " + nouvelleQuantite);
+                if (nouvelleQuantite <= s.getSeuilMinimal()) {
+                    System.out.println("Le produit " + p.getNomProduit() + " still sous le seuil minimal (" + s.getSeuilMinimal() + "). Stock actuel : " + nouvelleQuantite);
                 }
-
-            } else {
+            }
+            else {
                 System.out.println("Nouveau produit ");
                 produitDAO.creation_p(p);
 
@@ -77,16 +67,14 @@ public class CommandeService {
                 s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
                 stockDAO.creation_s(s);
 
-
                 gererDAO.enregistrerAction(idEmployeConnecte, s.getNumLot());
 
-                if (quantiteRecue <= p.getSeuilMinimal()) {
-                    System.out.println(" Nouveau produit " + p.getNomProduit() +
-                            " ajoute avec une quantite inferieure au seuil minimal");
+                if (quantiteRecue <= s.getSeuilMinimal()) {
+                    System.out.println("Nouveau produit " + p.getNomProduit() + " ajouté avec une quantite inferieure au seuil minimal (" + s.getSeuilMinimal() + ")");
                 }
             }
 
-            System.out.println("reception terminee ");
+            System.out.println("Réception terminée");
 
         } catch (QuantiteNegativeException e) {
             throw e;
@@ -94,6 +82,5 @@ public class CommandeService {
             System.err.println("Erreur critique lors de la réception de commande : " + e.getMessage());
         }
     }
-
 
 }
