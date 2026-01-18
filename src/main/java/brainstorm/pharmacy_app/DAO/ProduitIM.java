@@ -73,6 +73,22 @@ public class ProduitIM {
         }
 
     }
+    // verifier s'il existe un produit
+    public boolean existe(int reference) {
+        String query = "SELECT COUNT(*) FROM Produit WHERE Référence = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, reference);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public boolean existe(int reference) {
         String query = "SELECT COUNT(*) FROM Produit WHERE Référence = ?";

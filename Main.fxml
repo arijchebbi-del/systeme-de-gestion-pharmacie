@@ -7,7 +7,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" stylesheets="@src/main/resources/CSS/Style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+<<<<<<< HEAD
       <Text layoutX="627.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="myPharma-login" text="MyPharma" textAlignment="CENTER">
+=======
+      <Text layoutX="17.0" layoutY="-12.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="myPharma-login" text="MyPharma" textAlignment="CENTER" wrappingWidth="345.91998291015625">
+>>>>>>> 4d16c30e53260ccd389f73a80a3745a23931a61e
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
