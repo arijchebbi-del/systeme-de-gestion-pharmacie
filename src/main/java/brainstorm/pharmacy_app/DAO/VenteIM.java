@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class VenteIM implements VenteDAO{
     public void creation_v(Vente v){
-        String query = "INSERT INTO Vente VALUES(?,?,?,?)";
+        String query = "INSERT INTO Vente VALUES(?,?,?,?,?)";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)){
@@ -17,12 +17,14 @@ public class VenteIM implements VenteDAO{
             ps.setString(2, v.getDateVente());
             ps.setDouble(3, v.getPrixTotal());
             ps.setInt(4, v.getEmploye().getIdEmploye());
+            ps.setBoolean(5, v.getPresenceOrd());
+
             ps.executeUpdate();
-            System.out.println("Vente ajoutée");
+            System.out.println("Vente ajoutee");
 
 
         }catch (SQLException e) {
-            System.err.println("Erreur SQL: " + e.getMessage());
+            System.err.println("erreur SQL: " + e.getMessage());
         }
 
     }

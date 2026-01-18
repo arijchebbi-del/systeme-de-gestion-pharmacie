@@ -61,6 +61,7 @@ CREATE TABLE Vente(
 	DateAchat DATETIME,
 	PrixTotal DECIMAL(10,2),
 	IdEmploye INT,
+    Ordonnance BOOLEAN,
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye)
 );
 CREATE TABLE Composer(

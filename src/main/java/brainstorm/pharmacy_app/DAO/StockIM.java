@@ -4,6 +4,7 @@ import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -60,5 +61,21 @@ public class StockIM implements StockDAO {
         } catch (SQLException e) {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
+    }
+    // donner quantité de produit
+    public int getQuantiteByProduit(int reference) {
+        String query = "SELECT Quantité FROM Stock WHERE Référence = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, reference);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -12,5 +12,6 @@ public interface FournisseurDAO {
     public void creation_f(Fournisseur f );
     public void modification_f(Fournisseur f);
     public void suppression_f(int idFournisseur);
+    public boolean aDesCommandes(int id);
 }
 
