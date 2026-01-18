@@ -79,7 +79,7 @@ public class EmployeIM implements EmployeDAO{
         String sql = "SELECT * FROM Employe WHERE Horaire = ?";
         return null;
     }
-    public void updateMotDePasse(int idEmploye, String nouveauMotDePasse) {
+    public void changerMotDePasse(int idEmploye, String nouveauMotDePasse) {
 
         String sql = "UPDATE Employe SET MotDePasse = ? WHERE IdEmploye = ?";
 
