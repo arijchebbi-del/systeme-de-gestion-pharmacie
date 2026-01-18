@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-SemiBold.ttf');
+}
+
+.body{
+    height: 1025px;
+    width: 1822px;
+}
+.myPharma-login{
+    -fx-font-family: Poppins, sans-serif;
+    -fx-font-size: 64px;
+
+}

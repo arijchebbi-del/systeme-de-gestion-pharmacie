@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class CommandeIM implements CommandeDAO{
     public void creation_c(Commande c){
         String query = "INSERT INTO Commande(PrixTotal,DateCommande,DateArrivee,Quantite,IdEmploye,IdFournisseur,Etat) VALUES (?,?,?,?,?,?,?)";
-        try (Connection con = DBConnection.getAdminConnection();
+        try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setFloat(1,c.getPrixTotal());
             ps.setDate(2,c.getDateCommande());
@@ -28,7 +28,7 @@ public class CommandeIM implements CommandeDAO{
     public void modification_c(Commande c){
         String query = "UPDATE Commande SET PrixTotal = ?,DateCommande = ?,DateArrivee = ?,Quantite = ?,IdEmploye = ?,IdFournisseur = ?,Etat = ? WHERE IdCommande = ?";
 
-        try (Connection con = DBConnection.getAdminConnection();
+        try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setFloat(1,c.getPrixTotal());
             ps.setDate(2,c.getDateCommande());
@@ -60,7 +60,7 @@ public class CommandeIM implements CommandeDAO{
 
         String sql = "DELETE FROM Commande WHERE IdCommande = ?";
 
-        try (Connection con = DBConnection.getAdminConnection();
+        try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idCommande);

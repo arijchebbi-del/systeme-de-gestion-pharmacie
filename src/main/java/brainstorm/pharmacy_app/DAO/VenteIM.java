@@ -11,7 +11,7 @@ public class VenteIM implements VenteDAO{
     public void creation_v(Vente v){
         String query = "INSERT INTO Vente VALUES(?,?,?,?)";
 
-        try (Connection con = DBConnection.getAdminConnection();
+        try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)){
             //ps.setString(1, v.getNumFacture()); auto-increment
             ps.setString(2, v.getDateVente());
