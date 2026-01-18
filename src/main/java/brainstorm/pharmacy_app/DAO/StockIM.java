@@ -109,6 +109,21 @@ public class StockIM implements StockDAO {
         }
         return null;
     }
+    public int getQuantiteByProduit(int reference) {
+        String query = "SELECT Quantite FROM Stock WHERE Référence = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, reference);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 
 }

@@ -5,4 +5,5 @@ public interface StockDAO {
     public void modification_s(Stock s);
     public void suppression_s(int numLot);
     public Stock ChercherParNumLot(int numLot);
+    public int getQuantiteByProduit(int reference);
 }
