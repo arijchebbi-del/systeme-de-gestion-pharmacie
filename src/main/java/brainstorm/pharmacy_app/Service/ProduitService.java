@@ -8,16 +8,11 @@ import java.util.List;
 
 public class ProduitService {
 
-
     private ProduitIM produitDAO = new ProduitIM();
 
     public void ajouterProduit(Produit p) throws AucunNomException {
         if (p.getNomProduit() == null || p.getNomProduit().isEmpty()) {
             throw new AucunNomException("Le nom du produit est obligatoire");
-        }
-
-        if (p.getSeuilMinimal() < 0) {
-            p.setSeuilMinimal(5); // Valeur par defaut si non specifiee
         }
 
         produitDAO.creation_p(p);

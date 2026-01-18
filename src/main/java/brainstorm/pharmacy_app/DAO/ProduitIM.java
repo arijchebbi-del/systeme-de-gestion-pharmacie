@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class ProduitIM {
     public void creation_p(Produit p){
-        String query = "INSERT INTO Produit( NomProduit,Categorie,Type,ModeUtilisation,Ordonnance,PrixAchat,PrixVente, SeuilMinimal  VALUES (?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO Produit( NomProduit,Categorie,Type,ModeUtilisation,Ordonnance,PrixAchat,PrixVente,  VALUES (?,?,?,?,?,?,?)";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1,p.getNomProduit());
@@ -21,7 +21,6 @@ public class ProduitIM {
             ps.setBoolean(5,p.getOrdonnance());
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
-            ps.setFloat(8,p.getSeuilMinimal());
             ps.executeUpdate();
             System.out.println("Commande bien ajoutée");
         } catch (SQLException e) {
@@ -30,7 +29,7 @@ public class ProduitIM {
     }
 
     public void modification_p(Produit p) {
-        String query = "UPDATE Produit SET NomProduit =? ,Categorie =? ,Type =?,ModeUtilisation =? ,Ordonnance =? ,PrixAchat =? ,PrixVente =? , SeuilMinimal =? WHERE Reference = ?";
+        String query = "UPDATE Produit SET NomProduit =? ,Categorie =? ,Type =?,ModeUtilisation =? ,Ordonnance =? ,PrixAchat =? ,PrixVente =? ,WHERE Reference = ?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -41,8 +40,6 @@ public class ProduitIM {
             ps.setBoolean(5,p.getOrdonnance());
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
-            ps.setFloat(8,p.getSeuilMinimal());
-
 
             int rows = ps.executeUpdate();
 
@@ -107,15 +104,10 @@ public class ProduitIM {
                     p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
                     p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
                     p.setPrixVente(rs.getFloat("PrixVente"));     // Mapping float
-                    p.setSeuilMinimal(rs.getInt("SeuilMinimal"));
                     return p;
                 }
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
-
-
-
-
 }
