@@ -9,11 +9,9 @@ public class Commande {
     private Employe employe;
     private Fournisseur fournisseur;
     private String etat; //cree,modifie,annulee,recue
-    private Composer composition;
 
-    public Commande(int id,Composer compos,Fournisseur f,Employe e,Date dc,Date da){
+    public Commande(int id,Fournisseur f,Employe e,Date dc,Date da){
         this.idCommande=id;
-        this.composition=compos;
         this.fournisseur=f;
         this.employe=e;
         this.dateArrivee=da;
@@ -28,7 +26,6 @@ public class Commande {
     public Employe getEmploye() {return employe;}
     public Fournisseur getFournisseur() {return fournisseur;}
     public String getEtat() {return etat;}
-    public Composer getComposition() {return composition;}
     // Setters
     public void setIdCommande(int idCommande) {this.idCommande = idCommande;}
     public void setDateCommande(Date dateCommande) {this.dateCommande = dateCommande;}
@@ -37,8 +34,6 @@ public class Commande {
     public void setEmploye(Employe employe) {this.employe = employe;}
     public void setFournisseur(Fournisseur fournisseur) {this.fournisseur = fournisseur;}
     public void setEtat(String etat) {this.etat = etat;}
-    public void setComposition(Composer composition) {this.composition = composition;}
-
 
 }
 

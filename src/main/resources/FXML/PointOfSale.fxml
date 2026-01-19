@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.DashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.PointOfSaleController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -37,25 +41,7 @@
             </Text>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerDashboard" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#078f0c">
-                     <styleClass>
-                        <String fx:value="dashboard-buttons" />
-                        <String fx:value="dashboard-button" />
-                     </styleClass>
-                     <font>
-                        <Font name="Poppins Light" size="20.0" />
-                     </font>
-                  </MFXButton>
-                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="dashboard-icon">
-                     <image>
-                        <Image url="@../images/Gdashboard-icon.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
-               <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerPointOfSale" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Point of Sale" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerDashboard" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -64,9 +50,27 @@
                         <Font name="Poppins Light" size="20.0" />
                      </font>
                   </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="dashboard-icon">
+                     <image>
+                        <Image url="@../images/dashboard-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerPointOfSale" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Point of Sale" textAlignment="CENTER" textFill="#078f0c">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="dashboard-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
                      <image>
-                        <Image url="@../images/add-to-cart-icon.png" />
+                        <Image url="@../images/Gadd-to-cart-icon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -191,17 +195,82 @@
       </VBox>
    </left>
    <center>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1320.0" translateX="85.0" BorderPane.alignment="CENTER">
          <top>
-            <HBox prefHeight="150.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+            <HBox translateY="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.14" prefWidth="1077.0" styleClass="white-background" translateY="-20.0">
+                     <children>
+                        <MFXTextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Product" style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
+                           <font>
+                              <Font name="Poppins Light" size="24.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="selected-field" />
+                              <String fx:value="search-bar" />
+                           </styleClass>
+                        </MFXTextField>
+                        <MFXComboBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="290.0" styleClass="selected-field" translateX="40.0" translateY="15.0" />
+                     </children>
+                  </HBox>
                </children>
             </HBox>
          </top>
-         <center>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="692.0" prefWidth="1269.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" styleClass="white-background" BorderPane.alignment="CENTER" />
-         </center>
+         <left>
+            <MFXPaginatedTableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1077.0" styleClass="white-background" BorderPane.alignment="CENTER" />
+         </left>
       </BorderPane>
    </center>
+   <right>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="291.0" styleClass="white-background" translateX="-45.0" translateY="75.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text fill="#5d5d5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Cart" translateX="20.0" translateY="10.0">
+                     <font>
+                        <Font name="Poppins Medium" size="26.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="31.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" translateX="180.0" translateY="10.0">
+                     <image>
+                        <Image url="@../images/panier.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </top>
+         <bottom>
+            <VBox prefHeight="180.0" prefWidth="291.0" translateX="-45.0" translateY="-100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" translateY="25.0">
+                     <children>
+                        <Text fill="#5d5d5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Total :" textAlignment="CENTER" translateX="20.0" translateY="25.0">
+                           <font>
+                              <Font name="Poppins Medium" size="26.0" />
+                           </font>
+                        </Text>
+                        <Label text="00.00DT" textFill="#eb6464" translateX="100.0" translateY="25.0">
+                           <font>
+                              <Font name="Poppins Medium" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <MFXButton depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="253.0" rippleColor="WHITE" styleClass="payment-button" text="💳 Complete the payment" translateX="20.0" translateY="10.0">
+                           <font>
+                              <Font name="Poppins Light" size="16.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="CLOSED_HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
+      </BorderPane>
+   </right>
 </BorderPane>

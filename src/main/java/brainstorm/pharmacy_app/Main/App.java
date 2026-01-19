@@ -19,28 +19,6 @@ public class App extends Application {
         launch(args);
     }
 
-    /*@Override
-    public void start(Stage stage) throws Exception {
-        try {
-            CSSFX.start();
-            UserAgentBuilder.builder()
-                    .themes(JavaFXThemes.MODENA)
-                    .themes(MaterialFXStylesheets.forAssemble(true))
-                    .build()
-                    .setGlobal();
-            FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/FXML/Login.fxml"));
-            Parent root=loader.load();
-            Scene scene = new Scene(root);
-            scene.setFill(Color.TRANSPARENT);
-            stage.setScene(scene);
-            stage.setTitle("MyPharma");
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @Override
     public void start(Stage stage) throws Exception {
         try {

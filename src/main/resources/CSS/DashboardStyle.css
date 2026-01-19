@@ -1,3 +1,4 @@
+
 .dashboard-body{
     -fx-background-image: url("../images/LogoPharmacieBg.png");
     -fx-background-position: 1260px 0px;
@@ -6,6 +7,8 @@
 }
 .white-background{
     -fx-background-color: white;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 .dashboard-logo{
     -fx-translate-x: 55px;
@@ -15,25 +18,71 @@
 .dashboard-menu{
     -fx-translate-x: 55px;
     -fx-translate-y: -10px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
+
 }
-.dashboard-button{
-    -fx-background-image: url("../images/DashboardButton.png");
-    -fx-background-position: 20px 5px;
-    -fx-background-repeat: no-repeat;
-}
+
 .dashboard-buttons{
     -fx-translate-x: 20px;
-    -fx-translate-y : 20px;
+    -fx-translate-y : 21px;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
+    -fx-cursor: hand;
+
+}
+.dashboard-button{
+    -fx-label-padding: 0px 32px;
+    -fx-background-color: #f7f7f7;
+
+}
+.dashboard-icon{
+    -fx-translate-x: -198px;
+    -fx-translate-y: 37px;
+    -fx-scale-y: 1.3px;
+    -fx-scale-x: 1.3px;
+}
+.pos-icon{
+    -fx-translate-x: -198px;
+    -fx-translate-y: 37px;
+    -fx-scale-y: 1.3px;
+    -fx-scale-x: 1.3px;
+
 }
 .pos-button{
-    -fx-background-image: url("../images/add-to-cart-icon.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: 20px 5px;
-    -fx-label-padding: -8px 32px;
+    -fx-label-padding: 0px 32px;
 
+}
+.empolyee-icon{
+    -fx-translate-x: -228px;
 
+}
+
+.selected-field:focus-within{
+    -fx-border-color: rgba(115, 115, 115, 0.8);
+}
+
+.search-bar{
+    -fx-text-alignment: left;
+    -fx-padding: 7px 18px ;
+}
+
+.add-product-button{
+    -fx-background-color: #44bada;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+}
+.add-supplier-button{
+    -fx-background-color: #b686ef;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+}
+.payment-button{
+    -fx-background-color: #0EB014;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
 }
