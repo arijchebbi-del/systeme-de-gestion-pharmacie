@@ -3,15 +3,12 @@
     src: url('../fonts/Poppins-SemiBold.ttf');
 }
 
-<<<<<<< HEAD
 .body{
-    height: 1025px;
-    width: 1822px;
+    -fx-background-image: url("../images/LogoPharmacieBg.png");
+    -fx-background-position: left;
+    -fx-background-size: 1150px 1100px;
+    -fx-background-repeat: no-repeat;
 }
-.myPharma-login{
-    -fx-font-family: Poppins, sans-serif;
-    -fx-font-size: 64px;
-=======
 
 .myPharma-login{
     -fx-font-family: Poppins, sans-serif;
@@ -20,7 +17,42 @@
     -fx-translate-y: 0;
     -fx-text-alignment: center;
 }
-.Login{
->>>>>>> 4d16c30e53260ccd389f73a80a3745a23931a61e
 
+.login-button{
+    -fx-background-color: #87BFF4;
+    -fx-alignment: center-left;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-font-family: "Poppins Medium";
+    -fx-font-size: 30px;
+}
+
+.username-field{
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-font-size: 32px;
+    -fx-font-family: "Poppins Light";
+    -fx-padding: 0 0 0 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.12, -1.0, 2.0);
+
+}
+
+.username-field:focus-within{
+    -fx-border-color: rgba(59, 217, 59, 0.8);
+}
+
+
+.password-field{
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-font-size: 32px;
+    -fx-font-family: "Poppins Light";
+    -fx-padding: 0 0 0 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.12, -1.0, 2.0);
+
+}
+.password-field:focus-within{
+    -fx-border-color: rgba(59, 217, 59, 0.8);
 }
