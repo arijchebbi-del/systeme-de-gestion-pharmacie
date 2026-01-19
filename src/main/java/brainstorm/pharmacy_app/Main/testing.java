@@ -3,6 +3,8 @@ import brainstorm.pharmacy_app.Exceptions.*;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Service.*;
 
+import java.security.Timestamp;
+
 public class testing {
     public static void main(String[] args) {
         /*FournisseurService service = new FournisseurService();
@@ -105,12 +107,12 @@ public class testing {
                 MotDePasseInvalideException e) {
             System.out.println("Mot de passe : " + e.getMessage());
         }*/
-        StockService stockService = new StockService();
+        /*StockService stockService = new StockService();
 
         try {
             // ===== Create Produit (MUST exist in DB) =====
             ProduitService produitService = new ProduitService();
-
+            produitService.supprimerProduit(12);
             // 1️⃣ Création d'un produit
             Produit p = new Produit();
             p.setNomProduit("Paracetamol");
@@ -120,8 +122,10 @@ public class testing {
             p.setOrdonnance(false);
             p.setPrixAchat(2.5f);
             p.setPrixVente(4.0f);
-            p.setReference(101);// ⚠️ must exist in table Produit
+
+            //p.setReference(1);// ⚠️ must exist in table Produit
             produitService.ajouterProduit(p);
+            int ref=p.getReference();
             // ===== TEST 1 : Ajouter Stock =====
             System.out.println("=== TEST : Ajouter Stock ===");
 
@@ -153,7 +157,55 @@ public class testing {
             System.err.println("Erreur métier : " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
+        }*/
+        try {
+            // ===== 1️⃣ Create a Produit (must exist before stock or sale) =====
+            ProduitService produitService = new ProduitService();
+
+            Produit p = new Produit();
+            p.setNomProduit("Paracetamol");
+            p.setCategorie("Antalgique");
+            p.setType("Comprime");
+            p.setModeUtilisation("Voie orale");
+            p.setOrdonnance(false);
+            p.setPrixAchat(2.5f);
+            p.setPrixVente(4.0f);
+
+            // Insert into DB and get generated reference
+            produitService.ajouterProduit(p);
+            int referenceProduit = p.getReference(); // assume your DAO sets this after insertion
+            System.out.println("Produit ajouté avec reference: " + referenceProduit);
+
+            // ===== 2️⃣ Create Stock for that Produit =====
+            StockService stockService = new StockService();
+            Stock s = new Stock(
+                    1,       // NumLot
+                    p,       // Produit
+                    50,      // Quantite
+                    10       // SeuilMinimal
+            );
+            stockService.ajouterStock(s);
+
+            // ===== 3️⃣ Create a Vente =====
+            VenteService venteService = new VenteService();
+            Vente v = new Vente();
+            v.setDateVente(new Timestamp(System.currentTimeMillis()));
+            v.setPresenceOrd(false); // No ordonnance for this test
+
+            // ===== 4️⃣ Execute a Sale =====
+            int quantiteVente = 5;
+            venteService.faireVente(v, p, s, quantiteVente);
+
+            System.out.println("\n=== TEST COMPLETED ===");
+
+        } catch (QuantiteNegativeException e) {
+            System.err.println("Erreur Quantité : " + e.getMessage());
+        } catch (NumLotNegativeException e) {
+            System.err.println("Erreur NumLot : " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
     }
 }
