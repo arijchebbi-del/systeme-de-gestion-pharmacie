@@ -37,7 +37,7 @@ public class StockIM implements StockDAO {
     public void modification_s(Stock s) {
 
 
-        String query = "UPDATE Stock SET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ?WHERE NumLot = ?";
+        String query = "UPDATE Stock SET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ? WHERE NumLot = ?";
 
 
         try (Connection con = DBConnection.getEmployeeConnection();

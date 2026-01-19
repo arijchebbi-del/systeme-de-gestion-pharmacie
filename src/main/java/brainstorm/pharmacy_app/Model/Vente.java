@@ -1,7 +1,6 @@
 package brainstorm.pharmacy_app.Model;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class Vente {
     private int numFacture;
@@ -25,7 +24,7 @@ public class Vente {
     public void setNumFacture(int numFacture) { this.numFacture = numFacture; }
 
     public Date getDateVente() { return dateVente; }
-    public void setDateVente(Timestamp dateVente) { this.dateVente = dateVente; }
+    public void setDateVente(Date dateVente) { this.dateVente = dateVente; }
 
     public int getIdEmploye() { return idEmploye; }
     public void setIdEmploye(int idEmploye) { this.idEmploye = idEmploye; }

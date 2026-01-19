@@ -4,17 +4,14 @@ import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ProduitIM {
     public void creation_p(Produit p){
         String query = "INSERT INTO Produit (NomProduit, Categorie, Type, ModeUtilisation, Ordonnance, PrixAchat, PrixVente) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1,p.getNomProduit());
             ps.setString(2,p.getCategorie());
             ps.setString(3,p.getType());
@@ -23,7 +20,12 @@ public class ProduitIM {
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
             ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                p.setReference(rs.getInt(1)); // important! now p.getReference() matches the DB
+            }
             System.out.println("Commande bien ajoutée");
+
         } catch (SQLException e) {
             System.err.println("Erreur SQL: " + e.getMessage());
         }

@@ -3,6 +3,7 @@ import brainstorm.pharmacy_app.Exceptions.*;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Service.*;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class testing {
@@ -175,6 +176,14 @@ public class testing {
             produitService.ajouterProduit(p);
             int referenceProduit = p.getReference(); // assume your DAO sets this after insertion
             System.out.println("Produit ajouté avec reference: " + referenceProduit);
+            EmployeService service = new EmployeService();
+            Employe e1 = new Employe();
+            e1.setNom("Ahmed");
+            e1.setPrenom("Ben Ali");
+            e1.setNumTelephone(56565656);
+            e1.setMotdepasse("password123");
+
+            service.ajouterEmploye(e1);
 
             // ===== 2️⃣ Create Stock for that Produit =====
             StockService stockService = new StockService();
@@ -189,8 +198,9 @@ public class testing {
             // ===== 3️⃣ Create a Vente =====
             VenteService venteService = new VenteService();
             Vente v = new Vente();
-            v.setDateVente(new Timestamp(System.currentTimeMillis()));
-            v.setPresenceOrd(false); // No ordonnance for this test
+            v.setDateVente(new Date(System.currentTimeMillis()));
+            v.setPresenceOrd(false);
+            v.setIdEmploye(1);// No ordonnance for this test
 
             // ===== 4️⃣ Execute a Sale =====
             int quantiteVente = 5;
