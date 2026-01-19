@@ -91,7 +91,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Stock Control" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -104,6 +104,28 @@
                      <image>
                         <Image url="@../images/box-solid-svgrepo-com.png" />
                      </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Suppliers Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/box-solid-svgrepo-com.png" />
+                     </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
                   </ImageView>
                </children>
             </HBox>
