@@ -15,8 +15,8 @@ public class CommandeIM implements CommandeDAO{
             ps.setDouble(1,c.getPrixTotal());
             ps.setDate(2,c.getDateCommande());
             ps.setDate(3,c.getDateArrivee());
-            ps.setInt(4,c.getEmploye().getIdEmploye());
-            ps.setInt(5,c.getFournisseur().getId_Fournisseur());
+            ps.setInt(4,c.getIdEmploye());
+            ps.setInt(5,c.getIdFournisseur());
             ps.setString(6,c.getEtat());
             ps.executeUpdate();
             System.out.println("Commande bien ajoutée");
@@ -32,8 +32,8 @@ public class CommandeIM implements CommandeDAO{
             ps.setFloat(1,c.getPrixTotal());
             ps.setDate(2,c.getDateCommande());
             ps.setDate(3,c.getDateArrivee());
-            ps.setInt(4,c.getEmploye().getIdEmploye());
-            ps.setInt(5,c.getFournisseur().getId_Fournisseur());
+            ps.setInt(4,c.getIdEmploye());
+            ps.setInt(5,c.getIdFournisseur());
             ps.setString(6,c.getEtat());
 
 

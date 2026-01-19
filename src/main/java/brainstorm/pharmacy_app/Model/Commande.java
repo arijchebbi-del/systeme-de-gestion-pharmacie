@@ -6,14 +6,14 @@ public class Commande {
     private int idCommande;
     private Date dateCommande,dateArrivee;
     private float prixTotal;
-    private Employe employe;
-    private Fournisseur fournisseur;
+    private int idEmploye;
+    private int id_Fournisseur;
     private String etat; //cree,modifie,annulee,recue
 
-    public Commande(int id,Fournisseur f,Employe e,Date dc,Date da){
+    public Commande(int id,int f,int e,Date dc,Date da){
         this.idCommande=id;
-        this.fournisseur=f;
-        this.employe=e;
+        this.id_Fournisseur=f;
+        this.idEmploye=e;
         this.dateArrivee=da;
         this.dateCommande=dc;
         this.etat="CREE";
@@ -23,16 +23,16 @@ public class Commande {
     public Date getDateCommande() {return dateCommande;}
     public Date getDateArrivee() {return dateArrivee;}
     public float getPrixTotal() {return prixTotal;}
-    public Employe getEmploye() {return employe;}
-    public Fournisseur getFournisseur() {return fournisseur;}
+    public int getIdEmploye() {return idEmploye;}
+    public int getIdFournisseur() {return id_Fournisseur;}
     public String getEtat() {return etat;}
     // Setters
     public void setIdCommande(int idCommande) {this.idCommande = idCommande;}
     public void setDateCommande(Date dateCommande) {this.dateCommande = dateCommande;}
     public void setDateArrivee(Date dateArrivee) {this.dateArrivee = dateArrivee;}
     public void setPrixTotal(float prixTotal) {this.prixTotal = prixTotal;}
-    public void setEmploye(Employe employe) {this.employe = employe;}
-    public void setFournisseur(Fournisseur fournisseur) {this.fournisseur = fournisseur;}
+    public void setIdEmploye(int employe) {this.idEmploye = employe;}
+    public void setIdFournisseur(int fournisseur) {this.id_Fournisseur = fournisseur;}
     public void setEtat(String etat) {this.etat = etat;}
 
 }

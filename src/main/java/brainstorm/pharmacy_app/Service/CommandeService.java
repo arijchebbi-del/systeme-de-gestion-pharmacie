@@ -18,9 +18,9 @@ public class CommandeService {
     private ProduitIM produitDAO = new ProduitIM(); // Vérifiez si c'est produitIM ou produitDAO
     private GererIM gererDAO = new GererIM();
 
-    public void passerCommande(Commande c) throws QuantiteNegativeException {
+    /*public void passerCommande(Commande c) throws QuantiteNegativeException {
 
-        if (c.getComposition().getQuantiteComposer() <= 0) {
+        if (c.getQuantiteComposer() <= 0) {
             throw new QuantiteNegativeException("La quantité commandée doit être positive");
         }
 
@@ -81,6 +81,6 @@ public class CommandeService {
         } catch (Exception e) {
             System.err.println("Erreur critique lors de la réception de commande : " + e.getMessage());
         }
-    }
+    }*/
 
 }

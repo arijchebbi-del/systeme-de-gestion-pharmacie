@@ -6,13 +6,16 @@ import brainstorm.pharmacy_app.DAO.StockIM;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.Vente;
 import brainstorm.pharmacy_app.Model.Constituer;
+import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -21,6 +24,25 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class PointOfSaleController {
+    private void chargerPointOfSale(ActionEvent event) {
+        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerProductControl(ActionEvent event) {
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerOrderControl(ActionEvent event) {
+        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerSuppliersControl(ActionEvent event) {
+        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerHistory(ActionEvent event) {
+        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
+    }
 
     @FXML private MFXTextField txtSearch;
     @FXML private TableView<Stock> tableStock;
