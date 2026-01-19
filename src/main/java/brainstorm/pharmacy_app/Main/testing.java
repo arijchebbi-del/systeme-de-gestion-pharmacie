@@ -1,13 +1,18 @@
 package brainstorm.pharmacy_app.Main;
 import brainstorm.pharmacy_app.Exceptions.AucunNomException;
+import brainstorm.pharmacy_app.Exceptions.EmployeInexistantException;
+import brainstorm.pharmacy_app.Exceptions.IdEmployeNegativeException;
+import brainstorm.pharmacy_app.Exceptions.MotDePasseInvalideException;
+import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Model.Produit;
+import brainstorm.pharmacy_app.Service.EmployeService;
 import brainstorm.pharmacy_app.Service.FournisseurService;
 import brainstorm.pharmacy_app.Service.ProduitService;
 
 public class testing {
     public static void main(String[] args) {
-        FournisseurService service = new FournisseurService();
+        /*FournisseurService service = new FournisseurService();
 
         // 1️⃣ Ajouter
         Fournisseur f = new Fournisseur();
@@ -60,6 +65,53 @@ public class testing {
 
         // 4️⃣ Suppression du produit
         produitService.supprimerProduit(1);
-    }
-    }
+    }*/
+        EmployeService service = new EmployeService();
+
+        try {
+            // 1️⃣ Création d’un employé
+            Employe e1 = new Employe();
+            e1.setNom("Ahmed");
+            e1.setPrenom("Ben Ali");
+            e1.setNumTelephone(56565656);
+            e1.setMotdepasse("password123");
+
+            //service.ajouterEmploye(e1);
+
+            // ⚠️ Supposons que l’ID est auto-incrémenté
+            int id = 1; // adapte selon ta BD
+
+            // 2️⃣ Recherche
+            Employe eTrouve = service.chercherEmploye(id);
+            System.out.println("Employé trouvé : " + eTrouve.getNom());
+
+            // 3️⃣ Modification
+            eTrouve.setPrenom("Ali");
+            service.modifierEmploye(eTrouve);
+
+            // 4️⃣ Changement de mot de passe
+            service.changerMotDePasse(id, "newpass123");
+            System.out.println("Mot de passe changé avec succès");
+
+            // 5️⃣ Suppression
+            service.supprimerEmploye(id);
+
+
+        //} catch (AucunNomException e) {
+            //System.out.println("Erreur ajout : " + e.getMessage());
+
+        } catch (
+                IdEmployeNegativeException e) {
+            System.out.println("Erreur ID : " + e.getMessage());
+
+        } catch (
+                EmployeInexistantException e) {
+            System.out.println("Recherche : " + e.getMessage());
+
+        } catch (
+                MotDePasseInvalideException e) {
+            System.out.println("Mot de passe : " + e.getMessage());
+        }
+    }}
+
 
