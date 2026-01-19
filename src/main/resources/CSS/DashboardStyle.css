@@ -1,0 +1,39 @@
+.dashboard-body{
+    -fx-background-image: url("../images/LogoPharmacieBg.png");
+    -fx-background-position: 1260px 0px;
+    -fx-background-size: 1150px 1100px;
+    -fx-background-repeat: no-repeat;
+}
+.white-background{
+    -fx-background-color: white;
+}
+.dashboard-logo{
+    -fx-translate-x: 55px;
+    -fx-translate-y: 40px;
+
+}
+.dashboard-menu{
+    -fx-translate-x: 55px;
+    -fx-translate-y: -10px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+.dashboard-button{
+    -fx-background-image: url("../images/DashboardButton.png");
+    -fx-background-position: 20px 5px;
+    -fx-background-repeat: no-repeat;
+}
+.dashboard-buttons{
+    -fx-translate-x: 20px;
+    -fx-translate-y : 20px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+.pos-button{
+    -fx-background-image: url("../images/add-to-cart-icon.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 20px 5px;
+    -fx-label-padding: -8px 32px;
+
+
+}
