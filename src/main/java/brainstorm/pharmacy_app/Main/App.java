@@ -28,7 +28,7 @@ public class App extends Application {
                     .themes(MaterialFXStylesheets.forAssemble(true))
                     .build()
                     .setGlobal();
-            FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/FXML/PointOfSale.fxml"));
+            FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/FXML/Login.fxml"));
             Parent root=loader.load();
             Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
