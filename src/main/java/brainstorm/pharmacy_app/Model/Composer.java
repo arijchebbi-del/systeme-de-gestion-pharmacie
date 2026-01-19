@@ -2,21 +2,21 @@ package brainstorm.pharmacy_app.Model;
 
 
 public class Composer {
-    private Produit produit;
-    private Commande commande;
+    private int reference;
+    private int idCommande;
     private int quantite;
-    Composer(Commande Co, Produit Prod, int Quant){
-        this.produit=Prod;
+    Composer(int idCo, int ref, int Quant){
+        this.reference=ref;
         this.quantite=Quant;
-        this.commande=Co;
+        this.idCommande=idCo;
     }
-    Commande getCommande(){return commande;}
-    Produit getProduit(){
-        return produit;
+    int getIdCommande(){return idCommande;}
+    int getIdProduit(){
+        return reference;
     }
     public int getQuantiteComposer(){return quantite;}
     public void setQuantiteComposer(int q){quantite=q;}
-    public void setCommande(Commande c){commande=c;}
-    public void setProduit(Produit p){produit=p;}
+    public void setIdCommande( int idCommande){this.idCommande=idCommande;}
+    public void setProduit(int ref){reference=ref;}
 
 }
