@@ -21,10 +21,14 @@ public class Employe {
     public int getIdEmploye(){return idEmploye;}
 
     //setters
+
+    public void setIdEmploye(int idEmploye) {this.idEmploye = idEmploye;}
     public void setNom (String nom){this.nom=nom;}
     public void setPrenom (String prenom){prenom=prenom;}
     public void setNumTelephone (int num){numTel=num;}
     public void setEmail (String mail){email=mail;}
     public void setMotdepasse(String mdp) {motDePasse=mdp;}
     public void setRole(String role){role=role;}
-    public void setHoraire (String horaire ){this.horaire=horaire;}}
+    public void setHoraire (String horaire ){this.horaire=horaire;}
+    public void setIdemploye(int idEmploye) {this.idEmploye=idEmploye;}
+}

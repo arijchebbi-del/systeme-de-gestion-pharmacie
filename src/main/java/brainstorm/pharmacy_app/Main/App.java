@@ -26,8 +26,6 @@ public class App extends Application {
             UserAgentBuilder.builder()
                     .themes(JavaFXThemes.MODENA)
                     .themes(MaterialFXStylesheets.forAssemble(true))
-                    .setDeploy(true)
-                    .setResolveAssets(true)
                     .build()
                     .setGlobal();
             FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/Main.fxml"));

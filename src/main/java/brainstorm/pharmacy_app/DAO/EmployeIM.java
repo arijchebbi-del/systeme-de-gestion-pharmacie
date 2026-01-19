@@ -4,6 +4,7 @@ import brainstorm.pharmacy_app.Utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EmployeIM implements EmployeDAO{
@@ -71,9 +72,36 @@ public class EmployeIM implements EmployeDAO{
             e.printStackTrace();
         }
     }
+
+
     public Employe ChercherParId(int idEmploye) {
+
         String sql = "SELECT * FROM Employe WHERE IdEmploye = ?";
-        return null;
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idEmploye);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Employe e = new Employe();
+                e.setIdemploye(rs.getInt("IdEmploye"));
+                e.setNom(rs.getString("Nom"));
+                e.setPrenom(rs.getString("Prenom"));
+                e.setEmail(rs.getString("Email"));
+                e.setRole(rs.getString("Role"));
+                e.setHoraire(rs.getString("HoraireDeTravail"));
+                e.setNumTelephone(rs.getInt("NumTel"));
+                e.setMotdepasse(rs.getString("MotDePasse"));
+                return e;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL : " + e.getMessage());
+        }
+
+        return null; // only if not found
     }
     public Employe ChercherParHoraire(int horaire) {
         String sql = "SELECT * FROM Employe WHERE Horaire = ?";
@@ -100,6 +128,34 @@ public class EmployeIM implements EmployeDAO{
         } catch (SQLException e) {
             System.err.println("Erreur SQL : " + e.getMessage());
         }
+    }
+
+    // Ajoutez cette méthode à la fin de votre classe EmployeIM
+    public Employe authentifier(String nom, String motDePasse) {
+        // La requête cherche un employé par son nom ET son mot de passe
+        String sql = "SELECT * FROM Employe WHERE Nom = ? AND MotDePasse = ?";
+
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, nom);
+            ps.setString(2, motDePasse);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Si trouvé, on crée l'objet Employe pour le retourner au LoginController
+                    Employe e = new Employe();
+                    e.setIdEmploye(rs.getInt("IdEmploye"));
+                    e.setNom(rs.getString("Nom"));
+                    e.setPrenom(rs.getString("Prenom"));
+                    e.setRole(rs.getString("Role"));
+                    return e;
+                }
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur Authentification : " + ex.getMessage());
+        }
+        return null; // Retourne null si aucun utilisateur n'est trouvé
     }
 
 }

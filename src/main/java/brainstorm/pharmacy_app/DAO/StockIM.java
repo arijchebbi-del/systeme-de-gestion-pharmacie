@@ -37,7 +37,7 @@ public class StockIM implements StockDAO {
     public void modification_s(Stock s) {
 
 
-        String query = "UPDATE StockSET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ?WHERE NumLot = ?";
+        String query = "UPDATE Stock SET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ? WHERE NumLot = ?";
 
 
         try (Connection con = DBConnection.getEmployeeConnection();
@@ -77,7 +77,7 @@ public class StockIM implements StockDAO {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
     }
-    public Stock ChercherParNumLot(int numLot) {
+    public Stock chercherParNumLot(int numLot) {
         String query = "SELECT * FROM Stock WHERE NumLot = ?";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -108,6 +108,21 @@ public class StockIM implements StockDAO {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
         return null;
+    }
+    public int getQuantiteByProduit(int reference) {
+        String query = "SELECT Quantite FROM Stock WHERE Référence = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, reference);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

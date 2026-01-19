@@ -58,10 +58,10 @@ CREATE TABLE Stock(
 );
 CREATE TABLE Vente(
 	NumFacture INT PRIMARY KEY auto_increment,
-	DateAchat DATETIME,
-	PrixTotal DECIMAL(10,2),
+	DateVente DATETIME,
 	IdEmploye INT,
-    Ordonnance BOOLEAN,
+    PresenceOrd BOOLEAN,
+    PrixTotal DECIMAL(10,2),
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye)
 );
 CREATE TABLE Composer(
@@ -74,15 +74,22 @@ CREATE TABLE Composer(
 	FOREIGN KEY (Reference) REFERENCES Produit(Reference),
 	FOREIGN KEY (IdCommande) REFERENCES Commande(IdCommande)
 );
-CREATE TABLE Constituer(
-	Reference INT,
-	NumFacture INT,
-	Quantite INT,
-	CONSTRAINT CHK_Constituer
-	CHECK (Quantite>0),
-	PRIMARY KEY(Reference,NumFacture),
-	FOREIGN KEY (Reference) REFERENCES Produit(Reference),
-	FOREIGN KEY (NumFacture) REFERENCES Vente(NumFacture)
+CREATE TABLE Constituer (
+    NumFacture INT,
+    Reference INT,
+    QuantiteVendu INT NOT NULL,
+    PrixVente FLOAT NOT NULL,
+
+    PRIMARY KEY (NumFacture, Reference),
+
+
+    CONSTRAINT FK_Vente FOREIGN KEY (NumFacture)
+    REFERENCES vente(NumFacture)
+    ON DELETE CASCADE,
+
+    CONSTRAINT FK_Produit FOREIGN KEY (Reference)
+    REFERENCES produit(Reference)
+    ON UPDATE CASCADE
 );
 CREATE TABLE Gerer(
 	IdEmploye INT,

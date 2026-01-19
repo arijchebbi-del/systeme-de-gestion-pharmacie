@@ -19,7 +19,7 @@ public class ComposerIM implements ComposerDAO {
             ps.setInt(3, quantite);
 
             ps.executeUpdate();
-            System.out.println("Ligne de commande ajoutée dans 'composer'.");
+            System.out.println("Ligne de commande ajoutee dans 'composer'.");
 
         } catch (SQLException e) {
             System.err.println("Erreur SQL dans ComposerIM : " + e.getMessage());
