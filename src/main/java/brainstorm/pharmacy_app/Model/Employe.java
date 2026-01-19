@@ -21,6 +21,8 @@ public class Employe {
     public int getIdEmploye(){return idEmploye;}
 
     //setters
+
+    public void setIdEmploye(int idEmploye) {this.idEmploye = idEmploye;}
     public void setNom (String nom){this.nom=nom;}
     public void setPrenom (String prenom){prenom=prenom;}
     public void setNumTelephone (int num){numTel=num;}

@@ -59,9 +59,9 @@ CREATE TABLE Stock(
 CREATE TABLE Vente(
 	NumFacture INT PRIMARY KEY auto_increment,
 	DateVente DATETIME,
-	PrixTotal DECIMAL(10,2),
 	IdEmploye INT,
     PresenceOrd BOOLEAN,
+    PrixTotal DECIMAL(10,2),
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye)
 );
 CREATE TABLE Composer(

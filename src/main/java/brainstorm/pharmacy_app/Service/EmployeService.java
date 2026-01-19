@@ -11,7 +11,7 @@ public class EmployeService {
 
     private EmployeIM empDAO = new EmployeIM(); // DAO utilisé par le Service
 
-    // Ajouter un employé avec validation simple
+    // Ajouter un employé avec validation simple par admin
     public void ajouterEmploye(Employe e) throws AucunNomException{
         if (e.getNom() == null || e.getNom().isEmpty()) {
             throw new AucunNomException("Le nom est obligatoire");
@@ -20,7 +20,7 @@ public class EmployeService {
         System.out.println("Employé ajouté via le service !");
     }
 
-    // Modifier un employé
+    // Modifier un employé par admin
     public void modifierEmploye(Employe e) throws IdEmployeNegativeException{
         if (e.getIdEmploye() <= 0) {
             throw new IdEmployeNegativeException("ID invalide pour la modification");
@@ -29,7 +29,7 @@ public class EmployeService {
         System.out.println("Employé modifié via le service !");
     }
 
-    // Supprimer un employé
+    // Supprimer un employé par admin
     public void supprimerEmploye(int id) throws IdEmployeNegativeException{
         if (id <= 0) {
             throw new IdEmployeNegativeException("ID invalide pour la suppression");
