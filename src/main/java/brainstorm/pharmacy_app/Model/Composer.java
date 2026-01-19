@@ -5,7 +5,7 @@ public class Composer {
     private Produit produit;
     private Commande commande;
     private int quantite;
-    Composer(Commande Co,Produit Prod,int Quant){
+    Composer(Commande Co, Produit Prod, int Quant){
         this.produit=Prod;
         this.quantite=Quant;
         this.commande=Co;

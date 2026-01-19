@@ -75,8 +75,33 @@ public class EmployeIM implements EmployeDAO{
 
 
     public Employe ChercherParId(int idEmploye) {
+
         String sql = "SELECT * FROM Employe WHERE IdEmploye = ?";
-        return null;
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idEmploye);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Employe e = new Employe();
+                e.setIdemploye(rs.getInt("IdEmploye"));
+                e.setNom(rs.getString("Nom"));
+                e.setPrenom(rs.getString("Prenom"));
+                e.setEmail(rs.getString("Email"));
+                e.setRole(rs.getString("Role"));
+                e.setHoraire(rs.getString("HoraireDeTravail"));
+                e.setNumTelephone(rs.getInt("NumTel"));
+                e.setMotdepasse(rs.getString("MotDePasse"));
+                return e;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL : " + e.getMessage());
+        }
+
+        return null; // only if not found
     }
     public Employe ChercherParHoraire(int horaire) {
         String sql = "SELECT * FROM Employe WHERE Horaire = ?";

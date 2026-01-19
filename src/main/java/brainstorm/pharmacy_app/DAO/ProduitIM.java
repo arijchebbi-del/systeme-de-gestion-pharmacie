@@ -4,16 +4,14 @@ import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ProduitIM {
     public void creation_p(Produit p){
-        String query = "INSERT INTO Produit( NomProduit,Categorie,Type,ModeUtilisation,Ordonnance,PrixAchat,PrixVente,  VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO Produit (NomProduit, Categorie, Type, ModeUtilisation, Ordonnance, PrixAchat, PrixVente) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1,p.getNomProduit());
             ps.setString(2,p.getCategorie());
             ps.setString(3,p.getType());
@@ -22,14 +20,20 @@ public class ProduitIM {
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
             ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                p.setReference(rs.getInt(1)); // important! now p.getReference() matches the DB
+            }
             System.out.println("Commande bien ajoutée");
+
         } catch (SQLException e) {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
     }
 
     public void modification_p(Produit p) {
-        String query = "UPDATE Produit SET NomProduit =? ,Categorie =? ,Type =?,ModeUtilisation =? ,Ordonnance =? ,PrixAchat =? ,PrixVente =? ,WHERE Reference = ?";
+        String query = "UPDATE Produit SET NomProduit=?, Categorie=?, Type=?, ModeUtilisation=?, Ordonnance=?, PrixAchat=?, PrixVente=? " +
+                "WHERE Reference=?";;
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -40,6 +44,7 @@ public class ProduitIM {
             ps.setBoolean(5,p.getOrdonnance());
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
+            ps.setInt(8, p.getReference());
 
             int rows = ps.executeUpdate();
 
@@ -72,7 +77,7 @@ public class ProduitIM {
     }
     // verifier s'il existe un produit
     public boolean existe(int reference) {
-        String query = "SELECT COUNT(*) FROM Produit WHERE Référence = ?";
+        String query = "SELECT COUNT(*) FROM Produit WHERE Reference = ?";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, reference);
@@ -88,7 +93,7 @@ public class ProduitIM {
     }
 
     public Produit lire_p(int reference) {
-        String sql = "SELECT * FROM Produit WHERE Référence = ?";
+        String sql = "SELECT * FROM Produit WHERE Reference = ?";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -96,7 +101,7 @@ public class ProduitIM {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Produit p = new Produit();
-                    p.setReference(rs.getInt("Référence"));
+                    p.setReference(rs.getInt("Reference"));
                     p.setNomProduit(rs.getString("NomProduit"));
                     p.setCategorie(rs.getString("Categorie"));
                     p.setType(rs.getString("Type"));

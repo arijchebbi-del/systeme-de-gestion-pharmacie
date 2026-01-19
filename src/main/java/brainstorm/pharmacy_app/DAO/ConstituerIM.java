@@ -10,7 +10,7 @@ public class ConstituerIM implements ConstituerDAO {
 
     public void ajouterLigneVente(Constituer c) {
         // Ajout de la colonne PrixVente pour respecter la 3FN
-        String query = "INSERT INTO constituer (NumFacture, Référence, QuantitéVendu, PrixVente) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO constituer (NumFacture, Reference, QuantiteVendu, PrixVente) VALUES (?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
