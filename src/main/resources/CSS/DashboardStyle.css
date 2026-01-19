@@ -18,22 +18,38 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
-.dashboard-button{
-    -fx-background-image: url("../images/DashboardButton.png");
-    -fx-background-position: 20px 5px;
-    -fx-background-repeat: no-repeat;
-}
+
 .dashboard-buttons{
     -fx-translate-x: 20px;
-    -fx-translate-y : 20px;
+    -fx-translate-y : 21px;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
+    -fx-cursor: hand;
+
+}
+.dashboard-button{
+    -fx-label-padding: 0px 32px;
+    -fx-background-color: #f7f7f7;
+
+}
+.dashboard-icon{
+    -fx-translate-x: -198px;
+    -fx-translate-y: 37px;
+    -fx-scale-y: 1.3px;
+    -fx-scale-x: 1.3px;
+}
+.pos-icon{
+    -fx-translate-x: -198px;
+    -fx-translate-y: 37px;
+    -fx-scale-y: 1.3px;
+    -fx-scale-x: 1.3px;
+
 }
 .pos-button{
-    -fx-background-image: url("../images/add-to-cart-icon.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: 20px 5px;
-    -fx-label-padding: -8px 32px;
+    -fx-label-padding: 0px 32px;
 
+}
+.empolyee-icon{
+    -fx-translate-x: -228px;
 
 }

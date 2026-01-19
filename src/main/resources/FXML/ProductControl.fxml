@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -37,10 +39,10 @@
             </Text>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#078f0c">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
-                        <String fx:value="dashboard-button" />
+                        <String fx:value="pos-button" />
                      </styleClass>
                      <font>
                         <Font name="Poppins Light" size="20.0" />
@@ -48,7 +50,7 @@
                   </MFXButton>
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="dashboard-icon">
                      <image>
-                        <Image url="@../images/Gdashboard-icon.png" />
+                        <Image url="@../images/dashboard-icon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -73,10 +75,10 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Product Control" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Product Control" textAlignment="CENTER" textFill="#078f0c">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
-                        <String fx:value="pos-button" />
+                        <String fx:value="dashboard-button" />
                      </styleClass>
                      <font>
                         <Font name="Poppins Light" size="20.0" />
@@ -84,7 +86,7 @@
                   </MFXButton>
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
                      <image>
-                        <Image url="@../images/pill_medicine_dragee_medicament_drug.png" />
+                        <Image url="@../images/Gpill_medicine_dragee_medicament_drug.png" />
                      </image>
                   </ImageView>
                </children>
@@ -171,14 +173,20 @@
    <center>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
          <top>
-            <HBox prefHeight="150.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+            <HBox BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.14" prefWidth="1020.0" style="-fx-background-color: white;" translateY="-20.0">
+                     <children>
+                        <MFXTextField alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="674.65" translateX="20.0" translateY="15.0" />
+                        <MFXComboBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="290.0" translateX="40.0" translateY="15.0" />
+                     </children>
+                  </HBox>
+                  <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="280.0" text="Add Product        +" translateX="20.0" translateY="-20.0" />
                </children>
             </HBox>
          </top>
          <center>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="692.0" prefWidth="1269.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" styleClass="white-background" BorderPane.alignment="CENTER" />
+            <MFXPaginatedTableView BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </center>

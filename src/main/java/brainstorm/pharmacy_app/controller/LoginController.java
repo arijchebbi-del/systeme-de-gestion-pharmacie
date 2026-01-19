@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 public class LoginController {
-// illi bch yaamel l'interface leezem yssami haka txtUsername txtPassword lblError
     @FXML private MFXTextField txtUsername;
     @FXML private MFXPasswordField txtPassword;
     @FXML private Label lblError;
@@ -44,7 +43,7 @@ public class LoginController {
     private void chargerDashboard(ActionEvent event) {
         try {
             // Chargement de la scène Dashboard
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml"));// lahnee leezem thot mtaa dashbord
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml"));
             Scene scene = new Scene(loader.load());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
