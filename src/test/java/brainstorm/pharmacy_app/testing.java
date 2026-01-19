@@ -1,9 +1,9 @@
-package brainstorm.pharmacy_app.Main;
+package brainstorm.pharmacy_app;
 import brainstorm.pharmacy_app.Exceptions.*;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Service.*;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class testing {
     public static void main(String[] args) {
