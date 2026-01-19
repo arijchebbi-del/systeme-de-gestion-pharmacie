@@ -36,6 +36,9 @@ public class StockService {
         s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
         stockDAO.modification_s(s);
 
+        //Verification needed after modification (who said the modification was successful)?
+        //You can verify by comparing s with chercherStockParNumLot(s.NumLot)
+
         if (s.getQuantite() <= s.getSeuilMinimal()) {
             System.out.println(
                     "⚠️ ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
@@ -49,8 +52,9 @@ public class StockService {
         if (numLot <= 0) {
             throw new NumLotNegativeException("Numéro de lot invalide pour la suppression");
         }
-
+        //Verification Needed to verify if numLot exist in DB before trying to delete it!
         stockDAO.suppression_s(numLot);
+        //Verification NEEDED to verify if the row was deleted successfully or not!
         System.out.println("Stock supprimé via le service !");
     }
 

@@ -3,7 +3,7 @@
     src: url('../fonts/Poppins-SemiBold.ttf');
 }
 
-.body{
+.login-body{
     -fx-background-image: url("../images/LogoPharmacieBg.png");
     -fx-background-position: left;
     -fx-background-size: 1150px 1100px;

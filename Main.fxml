@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" stylesheets="@src/main/resources/CSS/Style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" stylesheets="@src/main/resources/CSS/LoginStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="17.0" layoutY="-12.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="myPharma-login" text="MyPharma" textAlignment="CENTER" wrappingWidth="345.91998291015625">
          <font>

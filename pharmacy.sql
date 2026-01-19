@@ -79,16 +79,13 @@ CREATE TABLE Constituer (
     Reference INT,
     QuantiteVendu INT NOT NULL,
     PrixVente FLOAT NOT NULL,
-
     PRIMARY KEY (NumFacture, Reference),
-
-
     CONSTRAINT FK_Vente FOREIGN KEY (NumFacture)
-    REFERENCES vente(NumFacture)
+    REFERENCES Vente(NumFacture)
     ON DELETE CASCADE,
 
     CONSTRAINT FK_Produit FOREIGN KEY (Reference)
-    REFERENCES produit(Reference)
+    REFERENCES Produit(Reference)
     ON UPDATE CASCADE
 );
 CREATE TABLE Gerer(
