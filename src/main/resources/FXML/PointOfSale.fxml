@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.PointOfSaleController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -41,7 +41,7 @@
             </Text>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerDashboard" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -59,25 +59,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Point of Sale" textAlignment="CENTER" textFill="#5d5d5d">
-                     <styleClass>
-                        <String fx:value="dashboard-buttons" />
-                        <String fx:value="pos-button" />
-                     </styleClass>
-                     <font>
-                        <Font name="Poppins Light" size="20.0" />
-                     </font>
-                  </MFXButton>
-                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
-                     <image>
-                        <Image url="@../images/add-to-cart-icon.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
-               <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Product Control" textAlignment="CENTER" textFill="#078f0c">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerPointOfSale" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Point of Sale" textAlignment="CENTER" textFill="#078f0c">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="dashboard-button" />
@@ -88,14 +70,32 @@
                   </MFXButton>
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
                      <image>
-                        <Image url="@../images/Gpill_medicine_dragee_medicament_drug.png" />
+                        <Image url="@../images/Gadd-to-cart-icon.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerProductControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Product Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/pill_medicine_dragee_medicament_drug.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerOrderControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -113,7 +113,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Suppliers Control" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerSuppliersControl" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Suppliers Control" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -135,7 +135,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="History" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerHistory" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="History" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />

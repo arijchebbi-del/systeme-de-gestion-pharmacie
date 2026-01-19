@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
-
+import brainstorm.pharmacy_app.nav.Navigation;
 public class LoginController {
     @FXML private MFXTextField txtUsername;
     @FXML private MFXPasswordField txtPassword;
@@ -34,24 +34,10 @@ public class LoginController {
 
         if (emp != null) {
             System.out.println("Connexion réussie : " + emp.getNom());
-            chargerDashboard(event);
+            Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
         } else {
             lblError.setText("Identifiants incorrects.");
         }
     }
 
-    private void chargerDashboard(ActionEvent event) {
-        try {
-            // Chargement de la scène Dashboard
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
