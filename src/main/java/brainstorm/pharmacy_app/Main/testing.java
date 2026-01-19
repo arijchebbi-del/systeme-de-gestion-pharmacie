@@ -1,14 +1,7 @@
 package brainstorm.pharmacy_app.Main;
-import brainstorm.pharmacy_app.Exceptions.AucunNomException;
-import brainstorm.pharmacy_app.Exceptions.EmployeInexistantException;
-import brainstorm.pharmacy_app.Exceptions.IdEmployeNegativeException;
-import brainstorm.pharmacy_app.Exceptions.MotDePasseInvalideException;
-import brainstorm.pharmacy_app.Model.Employe;
-import brainstorm.pharmacy_app.Model.Fournisseur;
-import brainstorm.pharmacy_app.Model.Produit;
-import brainstorm.pharmacy_app.Service.EmployeService;
-import brainstorm.pharmacy_app.Service.FournisseurService;
-import brainstorm.pharmacy_app.Service.ProduitService;
+import brainstorm.pharmacy_app.Exceptions.*;
+import brainstorm.pharmacy_app.Model.*;
+import brainstorm.pharmacy_app.Service.*;
 
 public class testing {
     public static void main(String[] args) {
@@ -66,7 +59,7 @@ public class testing {
         // 4️⃣ Suppression du produit
         produitService.supprimerProduit(1);
     }*/
-        EmployeService service = new EmployeService();
+        /*EmployeService service = new EmployeService();
 
         try {
             // 1️⃣ Création d’un employé
@@ -111,7 +104,58 @@ public class testing {
         } catch (
                 MotDePasseInvalideException e) {
             System.out.println("Mot de passe : " + e.getMessage());
+        }*/
+        StockService stockService = new StockService();
+
+        try {
+            // ===== Create Produit (MUST exist in DB) =====
+            ProduitService produitService = new ProduitService();
+
+            // 1️⃣ Création d'un produit
+            Produit p = new Produit();
+            p.setNomProduit("Paracetamol");
+            p.setCategorie("Antalgique");
+            p.setType("Comprime");
+            p.setModeUtilisation("Voie orale");
+            p.setOrdonnance(false);
+            p.setPrixAchat(2.5f);
+            p.setPrixVente(4.0f);
+            p.setReference(101);// ⚠️ must exist in table Produit
+            produitService.ajouterProduit(p);
+            // ===== TEST 1 : Ajouter Stock =====
+            System.out.println("=== TEST : Ajouter Stock ===");
+
+            Stock stock = new Stock(
+                    1,      // numLot
+                    p,      // produit
+                    50,      // quantite
+                    10      // seuilMinimal
+            );
+
+            stockService.ajouterStock(stock);
+
+            // ===== TEST 2 : Rechercher Stock =====
+            System.out.println("\n=== TEST : Rechercher Stock ===");
+            Stock s = stockService.chercherStockParNumLot(1);
+
+            // ===== TEST 3 : Modifier Stock =====
+            System.out.println("\n=== TEST : Modifier Stock ===");
+            if (s != null) {
+                s.setQuantite(3); // <= seuil → alert
+                stockService.modifierStock(s);
+            }
+
+            // ===== TEST 4 : Supprimer Stock =====
+            System.out.println("\n=== TEST : Supprimer Stock ===");
+            stockService.supprimerStock(1);
+
+        } catch (QuantiteNegativeException | NumLotNegativeException e) {
+            System.err.println("Erreur métier : " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }}
+
+    }
+}
 
 
