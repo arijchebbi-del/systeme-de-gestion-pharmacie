@@ -189,7 +189,7 @@ public class testing {
             StockService stockService = new StockService();
             Stock s = new Stock(
                     1,       // NumLot
-                    p,       // Produit
+                    1,       // Produit
                     50,      // Quantite
                     10       // SeuilMinimal
             );
