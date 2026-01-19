@@ -3,13 +3,14 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="login-body" stylesheets="@../CSS/LoginStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="login-body" stylesheets="@../CSS/LoginStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.LoginController">
    <children>
       <ImageView fitHeight="130.0" fitWidth="121.0" layoutX="848.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,8 +22,13 @@
             <Font name="Poppins SemiBold" size="64.0" />
          </font>
       </Text>
-      <MFXButton layoutX="766.0" layoutY="762.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="291.0" styleClass="login-button" text="Login                   &gt;" />
-      <MFXTextField floatMode="ABOVE" layoutX="456.0" layoutY="400.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="908.0" promptText="Username" styleClass="username-field" />
-      <MFXPasswordField floatMode="ABOVE" layoutX="456.0" layoutY="579.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="908.0" promptText="Password" styleClass="password-field" />
+      <MFXButton fx:id="loginButton" layoutX="766.0" layoutY="762.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleLogin" prefHeight="81.0" prefWidth="291.0" styleClass="login-button" text="Login                   &gt;" />
+      <MFXTextField fx:id="txtUsername" floatMode="ABOVE" layoutX="456.0" layoutY="400.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="908.0" promptText="Username" styleClass="username-field" />
+      <MFXPasswordField fx:id="txtPassword" floatMode="ABOVE" layoutX="456.0" layoutY="579.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="908.0" promptText="Password" styleClass="password-field" />
+      <Label fx:id="lblError" alignment="TOP_CENTER" layoutX="464.0" layoutY="901.0" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="900.0" textAlignment="CENTER" textFill="#c60000">
+         <font>
+            <Font name="Poppins Light" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

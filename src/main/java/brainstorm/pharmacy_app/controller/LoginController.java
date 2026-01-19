@@ -1,8 +1,8 @@
 package brainstorm.pharmacy_app.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import  io.github.palexdev.materialfx.controls.MFXPasswordField;
+import  io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import brainstorm.pharmacy_app.DAO.EmployeIM;
@@ -14,8 +14,8 @@ import javafx.scene.Node;
 
 public class LoginController {
 // illi bch yaamel l'interface leezem yssami haka txtUsername txtPassword lblError
-    @FXML private TextField txtUsername;
-    @FXML private PasswordField txtPassword;
+    @FXML private MFXTextField txtUsername;
+    @FXML private MFXPasswordField txtPassword;
     @FXML private Label lblError;
 
     private EmployeIM employeDAO = new EmployeIM();
@@ -44,7 +44,7 @@ public class LoginController {
     private void chargerDashboard(ActionEvent event) {
         try {
             // Chargement de la scène Dashboard
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/Dashboard.fxml"));// lahnee leezem thot mtaa dashbord
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml"));// lahnee leezem thot mtaa dashbord
             Scene scene = new Scene(loader.load());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

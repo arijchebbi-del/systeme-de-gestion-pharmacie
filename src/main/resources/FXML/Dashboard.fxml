@@ -42,7 +42,7 @@
                   <String fx:value="dashboard-button" />
                </styleClass>
             </MFXButton>
-            <MFXButton alignment="TOP_LEFT" prefHeight="46.0" prefWidth="254.0" text="Point Of Sale" textAlignment="CENTER" textFill="#5d5d5d">
+            <MFXButton alignment="TOP_LEFT" prefHeight="46.0" prefWidth="254.0" text="Point of Sale" textAlignment="CENTER" textFill="#5d5d5d">
                <font>
                   <Font name="Poppins Light" size="21.0" />
                </font>
