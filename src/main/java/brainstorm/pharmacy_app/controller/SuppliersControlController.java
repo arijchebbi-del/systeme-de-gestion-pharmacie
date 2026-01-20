@@ -9,6 +9,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class SuppliersControlController {
 
@@ -49,16 +50,10 @@ public class SuppliersControlController {
         loadFournisseurs();
 
         //Initialiser filtre catégorie (à adapter selon ta base)
+        filterCombo.getItems().clear();
         filterCombo.getItems().add("Tous");
 
-        /*
-           TODO:
-           - Créer dans FournisseurService une méthode:
-             List<String> getAllCategories();
-           - Elle appelle DAO pour récupérer DISTINCT typeProduits depuis la table fournisseur
-           - Puis ici:
-             filterCombo.getItems().addAll(fournisseurService.getAllCategories());
-        */
+        filterCombo.getItems().addAll(fournisseurService.getAllCategories());
 
         filterCombo.setValue("Tous");
 
@@ -79,19 +74,9 @@ public class SuppliersControlController {
 
     // charger ml base de donne
     private void loadFournisseurs() {
+
         fournisseurList.clear();
-
-        /*
-           TODO:
-           - Ajouter dans FournisseurService une méthode:
-             List<Fournisseur> getAllFournisseurs();
-
-           - Cette méthode appelle FournisseurDAO.selectAll() (ou autre nom)
-
-           - Exemple:
-             fournisseurList.addAll(fournisseurService.getAllFournisseurs());
-        */
-
+        fournisseurList.addAll(fournisseurService.getAllFournisseurs());
     }
 
     //FILTER (SEARCH + CATEGORY)
@@ -119,48 +104,95 @@ public class SuppliersControlController {
     // add supplier
     private void openAddSupplier() {
 
-        /*
-           TODO:
-           - Créer une nouvelle scene / popup add_fournisseur.fxml
-           - Créer AddFournisseurController
-           - Ouvrir la fenêtre ici avec FXMLLoader
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/add_fournisseur.fxml"));
+            Parent root = loader.load();
 
-           Après ajout:
-           - Appeler loadFournisseurs() pour rafraîchir la table
-        */
+            // نجيب controller متاع popup
+            AddFournisseurController controller = loader.getController();
 
+            // نبعثلو reference متاع هذا controller باش يعمل refresh بعد ajout
+            controller.setParentController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter Fournisseur");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refreshTable() {
+        loadFournisseurs();
     }
 
     // DELETE SUPPLIER
     private void deleteSelectedSupplier() {
 
         Fournisseur selected = tableFournisseurs.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
 
-        /*
-           TODO:
-           - Appeler:
-             fournisseurService.supprimerFournisseur(selected.getId_Fournisseur());
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention");
+            alert.setContentText("Veuillez sélectionner un fournisseur à supprimer.");
+            alert.show();
+            return;
+        }
 
-           - Puis:
-             loadFournisseurs();
-        */
+        // Confirmation avant suppression
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmation");
+        confirm.setHeaderText("Supprimer Fournisseur");
+        confirm.setContentText("Voulez-vous vraiment supprimer ce fournisseur ?");
+
+        if (confirm.showAndWait().get() == ButtonType.OK) {
+            fournisseurService.supprimerFournisseur(selected.getId_Fournisseur());
+
+            // mise a jour l table  la table
+            loadFournisseurs();
+
+            // Message succès
+            Alert info = new Alert(Alert.AlertType.INFORMATION);
+            info.setTitle("Succès");
+            info.setContentText("Fournisseur supprimé avec succès !");
+            info.show();
+        }
     }
 
-    // UPDATE SUPPLIER (optionnel plus tard) 
+
+    // modifier SUPPLIER
     private void updateSelectedSupplier() {
-
         Fournisseur selected = tableFournisseurs.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
 
-        /*
-           TODO:
-           - Ouvrir popup modification avec selected passé en paramètre
-           - Après validation:
-             fournisseurService.modifierFournisseur(fournisseurModifie);
-           - Puis:
-             loadFournisseurs();
-        */
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention");
+            alert.setContentText("Veuillez sélectionner un fournisseur à modifier.");
+            alert.show();
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/edit_fournisseur.fxml"));
+            Parent root = loader.load();
+
+            // نجيب controller متاع popup
+            EditFournisseurController controller = loader.getController();
+
+            // نبعثلو fournisseur المختار + reference باش يعمل refresh بعد update
+            controller.setFournisseur(selected);
+            controller.setParentController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier Fournisseur");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
