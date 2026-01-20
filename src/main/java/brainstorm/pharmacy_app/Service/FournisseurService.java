@@ -33,4 +33,10 @@ public class FournisseurService {
         fournisseurDAO.suppression_f(id);
         System.out.println("Fournisseur supprime");
     }
+    public List<String> getAllCategories() {
+        return fournisseurDAO.selectDistinctCategories();
+    }
+    public List<Fournisseur> getAllFournisseurs() {
+        return fournisseurDAO.selectAll();
+    }
 }

@@ -5,7 +5,7 @@ import brainstorm.pharmacy_app.Service.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-
+/*
 public class testing {
     public static void main(String[] args) {
         /*FournisseurService service = new FournisseurService();
@@ -159,7 +159,7 @@ public class testing {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-        try {
+        /*try {
             // ===== 1️⃣ Create a Produit (must exist before stock or sale) =====
             ProduitService produitService = new ProduitService();
 
@@ -189,7 +189,7 @@ public class testing {
             StockService stockService = new StockService();
             Stock s = new Stock(
                     1,       // NumLot
-                    p,       // Produit
+                    1,       // Produit
                     50,      // Quantite
                     10       // SeuilMinimal
             );
@@ -215,9 +215,85 @@ public class testing {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            // ===== 1️⃣ Add Produit =====
+            ProduitService produitService = new ProduitService();
+            Produit p = new Produit();
+            p.setNomProduit("Paracetamol");
+            p.setCategorie("Antalgique");
+            p.setType("Comprime");
+            p.setModeUtilisation("Voie orale");
+            p.setOrdonnance(false);
+            p.setPrixAchat(2.5f);
+            p.setPrixVente(4.0f);
+
+            produitService.ajouterProduit(p); // DAO should set generated Reference
+            System.out.println("Produit ajouté avec reference: " + p.getReference());
+
+            // ===== 2️⃣ Add Stock =====
+            StockService stockService = new StockService();
+            Stock s = new Stock(
+                    1,  // NumLot
+                    p,  // Produit
+                    50, // Quantite
+                    10  // SeuilMinimal
+            );
+            stockService.ajouterStock(s);
+
+            // ===== 3️⃣ Add Employé =====
+            EmployeService employeService = new EmployeService();
+            Employe e = new Employe();
+            e.setNom("Ahmed");
+            e.setPrenom("Ben Ali");
+            e.setNumTelephone(56565656);
+            e.setMotdepasse("password123");
+            employeService.ajouterEmploye(e); // should set generated ID
+            int employeId = e.getIdEmploye();
+            System.out.println("Employé ajouté avec ID : " + employeId);
+
+            // ===== 4️⃣ Pass a Commande =====
+            Date now = new Date(System.currentTimeMillis());
+            Commande c = new Commande(0, null, f, e, now, now);
+            CommandeService commandeService = new CommandeService();
+            int idCommande = 0; // 0 or placeholder, DB may generate ID
+            int idFournisseur = 1; // or whatever is needed
+            Date dateCommande = new Date(System.currentTimeMillis());
+            String etat = "passer";
+            int idEmploye = employeId;
+            Composer composition = new Composer(p.getReference(), 20, s.getNumLot());
+            Commande c = new Commande();
+            composition.setQuantiteComposer(20); // Quantity ordered
+            c.setComposition(composition);
+
+            commandeService.passerCommande(c); // Etat = "passer"
+
+            // ===== 5️⃣ Receptionner commande and update stock =====
+            commandeService.receptionnerEtMettreAJourStock(c, p, s, employeId);
+
+            // ===== 6️⃣ Make a Vente =====
+            VenteService venteService = new VenteService();
+            Vente v = new Vente();
+            v.setDateVente(new Date(System.currentTimeMillis()));
+            v.setPresenceOrd(false); // No ordonnance
+            v.setIdEmploye(employeId);
+
+            int quantiteVente = 5;
+            venteService.faireVente(v, p, s, quantiteVente);
+
+            System.out.println("\n=== FULL TEST COMPLETED SUCCESSFULLY ===");
+
+        } catch (QuantiteNegativeException e) {
+            System.err.println("Erreur Quantité : " + e.getMessage());
+        } catch (NumLotNegativeException e) {
+            System.err.println("Erreur NumLot : " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     }
-}
 
 
+*/

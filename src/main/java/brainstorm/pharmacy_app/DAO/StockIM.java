@@ -7,6 +7,8 @@ import brainstorm.pharmacy_app.Utils.DBConnection;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class StockIM implements StockDAO {
@@ -94,11 +96,10 @@ public class StockIM implements StockDAO {
                 Timestamp derniereMAJ = rs.getTimestamp("DerniereMiseAJour");
 
 
-                Produit produit = new Produit();
-                produit.setReference(ref);
 
 
-                Stock s = new Stock(numLot, produit, quantite, seuil);
+
+                Stock s = new Stock(numLot, ref, quantite, seuil);
                 s.setDerniereMiseAJour(derniereMAJ);
                 return s;
             }
@@ -124,6 +125,53 @@ public class StockIM implements StockDAO {
         }
         return 0;
     }
+    public List<Stock> getToutLeStock() {
+        List<Stock> listeStock = new ArrayList<>();
+        String query = "SELECT * FROM stock"; // La variable 'query' utilisée dans votre capture
 
+        // Utilisation du bloc try-with-resources selon votre image
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                // Utilisation du constructeur de votre classe Stock
+                Stock s = new Stock(
+                        rs.getInt("numLot"),        // correspond à numLot
+                        rs.getInt("Reference"),     // correspond à reference
+                        rs.getInt("Quantite"),      // correspond à quantite
+                        rs.getInt("SeuilMinimal")   // correspond à seuilMinimal
+                );
+
+                // Récupération du timestamp (dernière ligne de votre capture)
+                s.setDerniereMiseAJour(rs.getTimestamp("derniereMiseAJour"));
+
+                listeStock.add(s);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur dans StockIM : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listeStock;
+    }
+
+    public float getPrixProduitByRef(int ref) {
+        float prix = 0.0f;
+        String sql = "SELECT PrixVente FROM produit WHERE Reference = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, ref);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                prix = rs.getFloat("PrixVente");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prix;
+    }
 
 }

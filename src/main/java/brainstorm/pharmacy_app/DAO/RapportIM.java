@@ -1,27 +1,164 @@
 package brainstorm.pharmacy_app.DAO;
 
+import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RapportIM {
 
-    public float calculerCA(Date debut, Date fin) {
-        float tot = 0;
+    public void rapportChiffreAffaires(Date debut, Date fin) {
 
-        String sql = "SELECT SUM(PrixTotal) FROM vente v ON " +
-                "WHERE v.DateVente BETWEEN ? AND ?";
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDate(1, debut);
-            ps.setDate(2, fin);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) tot = rs.getFloat(1);
+        String sqlResume = "SELECT SUM(PrixTotal) AS total, COUNT(*) AS nbVentes, AVG(PrixTotal) AS panier " + "FROM Vente WHERE DateVente BETWEEN ? AND ?";
+
+        String sqlOrdonnance = "SELECT p.Ordonnance, SUM(c.Quantite * p.PrixVente) AS ca " + "FROM Constituer c " + "JOIN Produit p ON c.Reference = p.Reference " + "JOIN Vente v ON c.NumFacture = v.NumFacture " + "WHERE v.DateVente BETWEEN ? AND ? " + "GROUP BY p.Ordonnance";
+
+        String sqlTopEmployes = "SELECT e.Nom, e.Prenom, SUM(v.PrixTotal) AS ca " +
+                "FROM Vente v " +
+                "JOIN Employe e ON v.IdEmploye = e.IdEmploye " +
+                "WHERE v.DateVente BETWEEN ? AND ? " +
+                "GROUP BY e.IdEmploye " +
+                "ORDER BY ca DESC " + "LIMIT 5";
+
+        String sqlTopJours = "SELECT DateVente, COUNT(*) AS nbVentes, SUM(PrixTotal) AS ca " +
+                "FROM Vente " +
+                "WHERE DateVente BETWEEN ? AND ? " +
+                "GROUP BY DateVente " +
+                "ORDER BY nbVentes DESC " +
+                "LIMIT 5";
+
+        String sqlTopProduits = "SELECT p.NomProduit, SUM(c.Quantite) AS qte, " +
+                "SUM(c.Quantite * p.PrixVente) AS ca " +
+                "FROM Constituer c " +
+                "JOIN Produit p ON c.Reference = p.Reference " +
+                "JOIN Vente v ON c.NumFacture = v.NumFacture " +
+                "WHERE v.DateVente BETWEEN ? AND ? " +
+                "GROUP BY p.Reference, p.NomProduit " +
+                "ORDER BY qte DESC " +
+                "LIMIT 5";
+
+        try (Connection con = DBConnection.getAdminConnection()) {
+
+            System.out.println("***");
+            System.out.println("   RAPPORT DE CHIFFRE D’AFFAIRES - PHARMACIE");
+            System.out.println("   Période : " + debut + "  -->  " + fin);
+            System.out.println("***\n");
+            //general ca total et nb facture  panier moyen
+            try (PreparedStatement ps = con.prepareStatement(sqlResume)) {
+                ps.setDate(1, debut);
+                ps.setDate(2, fin);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        System.out.println("RÉSUMÉ GÉNÉRAL");
+                        System.out.println("Chiffre d'affaires total : " + rs.getFloat("total") + " DT");
+                        System.out.println("Nombre de factures       : " + rs.getInt("nbVentes"));
+                        System.out.println("Panier moyen             : " + rs.getFloat("panier") + " DT\n");
+                    }
+                }
             }
-        } catch (SQLException e) { e.printStackTrace(); }
-        return tot;
+            // division avec ordonnance et sans ordonnance
+            System.out.println("AVEC SANS ORDONNANCE");
+            try (PreparedStatement ps = con.prepareStatement(sqlOrdonnance)) {
+                ps.setDate(1, debut);
+                ps.setDate(2, fin);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        boolean ord = rs.getBoolean("Ordonnance");
+                        float ca = rs.getFloat("ca");
+
+                        if (ord)
+                            System.out.println(" - Avec ordonnance : " + ca + " DT");
+                        else
+                            System.out.println(" - Sans ordonnance : " + ca + " DT");
+                    }
+                }
+            }
+
+            //akther 5 employettt ydakhloulou flouss
+            System.out.println("\n TOP 5 EMPLOYÉS VENDEURS");
+            try (PreparedStatement ps = con.prepareStatement(sqlTopEmployes)) {
+                ps.setDate(1, debut);
+                ps.setDate(2, fin);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        System.out.println(" - " + rs.getString("Nom") + " " +
+                                rs.getString("Prenom") + " : " +
+                                rs.getFloat("ca") + " DT");
+                    }
+                }
+            }
+
+            //  akther ayamet ybi3 fehom
+            System.out.println("\nJOURS AVEC LE PLUS DE VENTES");
+            try (PreparedStatement ps = con.prepareStatement(sqlTopJours)) {
+                ps.setDate(1, debut);
+                ps.setDate(2, fin);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        System.out.println(" - " + rs.getDate("DateVente") +
+                                " | Nb ventes : " + rs.getInt("nbVentes") +
+                                " | CA : " + rs.getFloat("ca") + " DT");
+                    }
+                }
+            }
+
+            // Top 5produits vendus
+            System.out.println("\nTOP 5 PRODUITS LES PLUS VENDUS");
+            try (PreparedStatement ps = con.prepareStatement(sqlTopProduits)) {
+                ps.setDate(1, debut);
+                ps.setDate(2, fin);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        System.out.println(" - " + rs.getString("NomProduit") +
+                                " | Quantité : " + rs.getInt("qte") +
+                                " | CA : " + rs.getFloat("ca") + " DT");
+                    }
+                }
+            }
+
+            System.out.println("\n***");
+            System.out.println("        FIN DU RAPPORT");
+            System.out.println("***\n");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+    // Inside RapportIM
+    public List<Object[]> rapportEtatStockList() {
+        List<Object[]> list = new ArrayList<>();
+        String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, s.DerniereMiseAJour " +
+                "FROM Stock s JOIN Produit p ON s.Reference = p.Reference";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String produit = rs.getString("NomProduit");
+                int quantite = rs.getInt("Quantite");
+                int seuil = rs.getInt("SeuilMinimal");
+                Timestamp maj = rs.getTimestamp("DerniereMiseAJour");
+
+                String etat = (quantite >= seuil) ? "OK" : "LOW";
+                int decalage = Math.abs(quantite - seuil);
+
+                Object[] row = new Object[]{rs.getInt("NumLot"), produit, quantite, seuil, etat, decalage, maj};
+                list.add(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     //rapport etat stock
-    public void rapportEtatStock() {
+    public Stock rapportEtatStock() {
         String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, " +
                 " s.DerniereMiseAJour " +
                 "FROM Stock s "+
@@ -53,6 +190,7 @@ public class RapportIM {
         } catch (Exception e) {
             System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
         }
+        return null;
     }
 
 

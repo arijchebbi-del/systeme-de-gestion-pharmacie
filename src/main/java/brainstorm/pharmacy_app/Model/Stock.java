@@ -1,4 +1,6 @@
 package brainstorm.pharmacy_app.Model;
+import brainstorm.pharmacy_app.DAO.ProduitIM;
+
 import java.sql.Timestamp;
 
 public class Stock {
@@ -6,11 +8,11 @@ public class Stock {
     private Timestamp derniereMiseAJour;
     private int quantite;
     private int seuilMinimal;
+    private int reference;
 
-    private Produit produit;
-    public Stock(int numLot, Produit produit, int quantite,int seuil) {
+    public Stock(int numLot, int ref, int quantite,int seuil) {
         this.numLot = numLot;
-        this.produit = produit;
+        this.reference = ref;
         this.quantite = quantite;
         this.seuilMinimal=seuil;
         this.derniereMiseAJour = new Timestamp(System.currentTimeMillis());}
@@ -18,11 +20,24 @@ public class Stock {
     public Timestamp getDerniereMiseAJour() {return derniereMiseAJour;}
     public int getQuantite() {return quantite;}
 
-    public Produit getProduit() {return produit;}
+    public int getReference() {return reference;}
     public int getSeuilMinimal() {return seuilMinimal;}
     public void setNumLot(int numLot) {this.numLot = numLot;}
     public void setDerniereMiseAJour(Timestamp derniereMiseAJour) {this.derniereMiseAJour = derniereMiseAJour;}
     public void setQuantite(int quantite) {this.quantite = quantite;}
     public void setSeuilMinimal(int seuilMinimal){this.seuilMinimal=seuilMinimal;}
-    public void setProduit(Produit produit) {this.produit = produit;}
+    public void setReference(int ref) {this.reference =ref;}
+
+    public String getNomProduit(int ref) {
+        ProduitIM produitIM = new ProduitIM();
+        return produitIM.getNomProduitByRef(this.reference);
+    }
+    public String getEtat() {
+        if (quantite >= seuilMinimal) {
+            return "OK";
+        } else {
+            return "LOW";
+        }
+    }
+
 }

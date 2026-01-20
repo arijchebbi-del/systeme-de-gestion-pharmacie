@@ -21,7 +21,7 @@ public class StockService {
 
         if (s.getQuantite() <= s.getSeuilMinimal()) {
             System.out.println(
-                    "⚠️ ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
+                    "ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
         }
 
         System.out.println("Stock ajouté via le service");
@@ -41,7 +41,7 @@ public class StockService {
 
         if (s.getQuantite() <= s.getSeuilMinimal()) {
             System.out.println(
-                    "⚠️ ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
+                    " ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
         }
 
         System.out.println("Stock modifié via le service !");

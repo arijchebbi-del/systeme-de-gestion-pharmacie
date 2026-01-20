@@ -1,6 +1,7 @@
 package brainstorm.pharmacy_app.Service;
 
 import brainstorm.pharmacy_app.DAO.ProduitIM;
+import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Exceptions.AucunNomException;
 
@@ -34,6 +35,9 @@ public class ProduitService {
 
     public Produit rechercherParReference(int ref) {
         return produitDAO.lire_p(ref);
+    }
+    public List<Produit> getAllProduits() {
+        return produitDAO.selectAll();
     }
 
 

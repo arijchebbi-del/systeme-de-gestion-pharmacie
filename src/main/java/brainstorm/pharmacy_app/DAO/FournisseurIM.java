@@ -7,7 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 public class FournisseurIM implements FournisseurDAO{
 
     public void creation_f(Fournisseur f){
@@ -84,5 +85,54 @@ public class FournisseurIM implements FournisseurDAO{
         }
         return false;
     }
+    public List<String> selectDistinctCategories() {
+
+        List<String> categories = new ArrayList<>();
+        String sql = "SELECT DISTINCT typeProduit FROM Fournisseur";
+
+        try (Connection conn = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                categories.add(rs.getString("typeProduit"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
+    public List<Fournisseur> selectAll() {
+
+        List<Fournisseur> fournisseurs = new ArrayList<>();
+        String sql = "SELECT * FROM Fournisseur";
+
+        try (Connection conn = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Fournisseur f = new Fournisseur();
+
+                f.setId_Fournisseur(rs.getInt("IdFournisseur"));
+                f.setNom(rs.getString("Nom"));
+                f.setNumTelephone(rs.getString("NumTel"));
+                f.setEmail(rs.getString("Email"));
+                f.setAdresse(rs.getString("Adresse"));
+                f.setTypeProduits(rs.getString("TypeProduit"));
+
+                fournisseurs.add(f);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return fournisseurs;
+    }
+
 
 }

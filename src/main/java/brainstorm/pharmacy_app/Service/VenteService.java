@@ -57,8 +57,7 @@ public class VenteService {
         System.out.println(" Stock restant pour " + p.getNomProduit() + " : " + resteEnStock);
 
         if (resteEnStock <= s.getSeuilMinimal()) {
-            System.out.println(" Le seuil minimal (" + s.getSeuilMinimal() +
-                    ") est atteint pour le lot de " + p.getNomProduit());
+            System.out.println(" Le seuil minimal (" + s.getSeuilMinimal() + ") est atteint pour le lot de " + p.getNomProduit());
         }
     }
 }
