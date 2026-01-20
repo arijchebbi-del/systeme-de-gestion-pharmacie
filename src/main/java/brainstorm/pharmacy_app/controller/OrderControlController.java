@@ -4,6 +4,8 @@ import brainstorm.pharmacy_app.Model.Commande;
 import brainstorm.pharmacy_app.Service.CommandeService;
 import brainstorm.pharmacy_app.nav.Navigation;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +22,39 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-/*
+
 public class OrderControlController {
-    @FXML private TextField searchField;
-    @FXML private ComboBox<String> categoryCombo;
+
+    @FXML
+    private void chargerDashboard(ActionEvent event) {
+        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerPointOfSale(ActionEvent event) {
+        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerProductControl(ActionEvent event) {
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerOrderControl(ActionEvent event) {
+        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerSuppliersControl(ActionEvent event) {
+        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerHistory(ActionEvent event) {
+        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
+    }
+
+    @FXML private MFXTextField searchField;
+    @FXML private MFXComboBox<String> categoryCombo;
     @FXML private FlowPane ordersContainer;
+
+    /*
     private void loadOrders() {
         ordersContainer.getChildren().clear();
 
@@ -96,30 +126,5 @@ public class OrderControlController {
         categoryCombo.setValue("All");
 
         loadOrders();
-    }
-    @FXML
-    private void chargerDashboard(ActionEvent event) {
-        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerPointOfSale(ActionEvent event) {
-        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerProductControl(ActionEvent event) {
-        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerOrderControl(ActionEvent event) {
-        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerSuppliersControl(ActionEvent event) {
-        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerHistory(ActionEvent event) {
-        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
-    }
+    }*/
 }
-*/
