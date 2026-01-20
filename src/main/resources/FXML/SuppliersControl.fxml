@@ -218,14 +218,14 @@
          </top>
          <left>
             <TableView fx:id="tableFournisseurs" prefHeight="200.0" prefWidth="1375.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="colId" prefWidth="270.0" text="C1" />
-                <TableColumn fx:id="colNom" minWidth="0.0" prefWidth="176.0" text="C2" />
+               <columns>
+                  <TableColumn fx:id="colId" prefWidth="270.0" text="C1" />
+                  <TableColumn fx:id="colNom" minWidth="0.0" prefWidth="176.0" text="C2" />
                   <TableColumn fx:id="colTel" prefWidth="246.0" text="Column X" />
                   <TableColumn fx:id="colType" prefWidth="213.0" text="Column X" />
                   <TableColumn fx:id="colView" prefWidth="75.0" text="Column X" />
                   <TableColumn fx:id="colDelete" prefWidth="75.0" text="Column X" />
-              </columns>
+               </columns>
             </TableView>
          </left>
       </BorderPane>

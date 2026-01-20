@@ -4,6 +4,7 @@ import brainstorm.pharmacy_app.DAO.ProduitIM;
 import brainstorm.pharmacy_app.Model.Produit;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
@@ -31,7 +32,7 @@ public class ProductFormController {
     }
 
     @FXML
-    private void handleSave() {
+    private void handleSave(ActionEvent event) {
         if (currentProduit == null) currentProduit = new Produit();
 
         currentProduit.setNomProduit(txtNom.getText());

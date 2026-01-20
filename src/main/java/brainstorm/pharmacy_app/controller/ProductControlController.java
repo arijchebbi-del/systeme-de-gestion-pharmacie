@@ -2,6 +2,7 @@ package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.ProduitIM;
 import brainstorm.pharmacy_app.Model.Produit;
+import brainstorm.pharmacy_app.Service.ProduitService;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -57,7 +58,7 @@ public class ProductControlController {
     @FXML private TableColumn<Produit, String> colCategory;
     @FXML private TableColumn<Produit, Float> colPrice;
     @FXML private TableColumn<Produit, Void> colActions;
-
+    private ProduitService produitService = new ProduitService();
     private ProduitIM produitDAO = new ProduitIM();
     private ObservableList<Produit> masterData = FXCollections.observableArrayList();
 
@@ -87,7 +88,7 @@ public class ProductControlController {
 
     public void refreshTable() {
         // Ici, vous devriez avoir une méthode getAll() dans ProduitIM
-        // masterData.setAll(produitDAO.getAll());
+        masterData.setAll(produitService.getAllProduits());
         tableProducts.refresh();
     }
 
@@ -115,13 +116,13 @@ public class ProductControlController {
     }
 
     @FXML
-    private void handleOpenAddPopup() {
+    private void handleOpenAddPopup(ActionEvent event) {
         openProductDialog(null);
     }
 
     private void openProductDialog(Produit p) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ProductForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddProductPopUp.fxml"));
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UTILITY);

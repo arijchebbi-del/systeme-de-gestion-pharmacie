@@ -1,10 +1,13 @@
 package brainstorm.pharmacy_app.DAO;
 
 import brainstorm.pharmacy_app.Model.Employe;
+import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProduitIM {
     public void creation_p(Produit p){
@@ -114,5 +117,34 @@ public class ProduitIM {
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return null;
+    }
+    public List<Produit> selectAll() {
+
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT * FROM Produit";
+
+        try (Connection conn = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Produit p = new Produit();
+                p.setReference(rs.getInt("Reference"));
+                p.setNomProduit(rs.getString("NomProduit"));
+                p.setCategorie(rs.getString("Categorie"));
+                p.setType(rs.getString("Type"));
+                p.setModeUtilisation(rs.getString("ModeUtilisation"));
+                p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
+                p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
+                p.setPrixVente(rs.getFloat("PrixVente"));
+                produits.add(p);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return produits;
     }
 }
