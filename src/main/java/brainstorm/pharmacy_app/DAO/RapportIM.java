@@ -4,7 +4,9 @@ import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RapportIM {
 
@@ -192,15 +194,6 @@ public class RapportIM {
         }
         return null;
     }
-
-
-
-
-
-
-
-
-
     public void Historique() {
         String sql = "SELECT v.NumFacture, v.DateVente, p.NomProduit, c.Quantite " +
                 "FROM vente v " +

@@ -79,9 +79,7 @@ public class StockDetailsController {
                     setStyle("");
                 } else {
                     setText(item);
-                    if (item.equals("OK")) {
-                        setStyle("-fx-background-color: lightgreen; -fx-alignment: CENTER;");
-                    } else if (item.equals("LOW")) {
+                    if (item.equals("LOW")) {
                         setStyle("-fx-background-color: lightcoral; -fx-alignment: CENTER;");
                     }
                 }
