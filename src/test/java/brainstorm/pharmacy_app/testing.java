@@ -5,7 +5,7 @@ import brainstorm.pharmacy_app.Service.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-
+/*
 public class testing {
     public static void main(String[] args) {
         /*FournisseurService service = new FournisseurService();
@@ -214,7 +214,7 @@ public class testing {
             System.err.println("Erreur NumLot : " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         try {
             // ===== 1️⃣ Add Produit =====
             ProduitService produitService = new ProduitService();
@@ -296,4 +296,4 @@ public class testing {
     }
 
 
-
+*/
