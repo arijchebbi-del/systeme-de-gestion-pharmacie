@@ -16,17 +16,17 @@ import java.sql.Date;
 
 public class AnalysisReportsController {
 
-    // ===== Date filters =====
+    // li bchtkhtar behom date
     @FXML private DatePicker dateDebut;
     @FXML private DatePicker dateFin;
 
-    // ===== Revenue summary labels =====
+    // labelllllls
     @FXML private Label lblTotalRevenue;
     @FXML private Label lblNbSales;
     @FXML private Label lblAverageBasket;
     @FXML private Button btnFullRevenueReport;
 
-    // ===== Suppliers summary labels =====
+    // labelsss agaain
     @FXML private Label lblTotalSuppliersOrders;
     @FXML private Label lblSuppliersOnTime;
     @FXML private Label lblSuppliersLate;
@@ -34,7 +34,7 @@ public class AnalysisReportsController {
 
     private RapportIM rapportIM = new RapportIM();
 
-    // ===== Fill revenue summary =====
+    //resume taa revenue heheheh
     @FXML
     private void showRevenueSummary(ActionEvent event) {
         if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
@@ -47,7 +47,7 @@ public class AnalysisReportsController {
         lblAverageBasket.setText(rapportIM.getAverageBasket(debut, fin) + " DT");
     }
 
-    // ===== Fill suppliers summary =====
+    // resume sghair labels taa fournissuer
     @FXML
     private void showSuppliersSummary(ActionEvent event) {
         lblTotalSuppliersOrders.setText(String.valueOf(rapportIM.getTotalSupplierOrders()));
@@ -55,7 +55,7 @@ public class AnalysisReportsController {
         lblSuppliersLate.setText(String.valueOf(rapportIM.getSuppliersLate()));
     }
 
-    // ===== Open full revenue report =====
+    // hedha bahth lflous
     @FXML
     private void openFullRevenueReport(ActionEvent event) {
         try {
@@ -77,7 +77,7 @@ public class AnalysisReportsController {
         }
     }
 
-    // ===== Open full suppliers report =====
+    // hedha bch tunlocki l full potential
     @FXML
     private void openFullSuppliersReport(ActionEvent event) {
         try {

@@ -2,8 +2,10 @@ package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.RapportIM;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 import java.sql.Date;
 
@@ -19,14 +21,18 @@ public class ViewRevenueReportController {
     private RapportIM rapportIM = new RapportIM();
 
     public void showReport(Date debut, Date fin) {
-        // Summary Labels
+        // touskieee
         lblTotalRevenue.setText(rapportIM.getTotalRevenue(debut, fin) + " DT");
         lblNbSales.setText(String.valueOf(rapportIM.getNumberOfSales(debut, fin)));
         lblAverageBasket.setText(rapportIM.getAverageBasket(debut, fin) + " DT");
-
-        // Detailed Lists
         listTopEmployees.getItems().setAll(rapportIM.getTopEmployees(debut, fin));
         listTopProducts.getItems().setAll(rapportIM.getTopProducts(debut, fin));
+    }
+    @FXML private Button btnCancel; // teebt fi hietiii
+    @FXML
+    private void handleCancel() {
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        stage.close();
     }
 }
 
