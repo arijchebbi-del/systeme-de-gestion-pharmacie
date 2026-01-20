@@ -56,7 +56,7 @@ public class StockDetailsController {
     @FXML
     public void initialize() {
 
-        // ---------------- Map columns ----------------
+        // map col
         colNumLot.setCellValueFactory(new PropertyValueFactory<>("numLot"));
         colProduit.setCellValueFactory(cellData -> {
             // Display product name using ProduitIM
@@ -69,7 +69,7 @@ public class StockDetailsController {
         colDecalage.setCellValueFactory(new PropertyValueFactory<>("decalage"));
         colDerniereMAJ.setCellValueFactory(new PropertyValueFactory<>("derniereMAJ"));
 
-        // ---------------- Color etat column ----------------
+        // ycolori l etat hasb low wala ok
         colEtat.setCellFactory(column -> new TableCell<Stock, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -88,15 +88,15 @@ public class StockDetailsController {
             }
         });
 
-        // ---------------- Load data ----------------
+        // charg donnes
         loadStock();
 
-        // ---------------- Filter combo ----------------
+        // combo mfalter
         filterCombo.getItems().clear();
         filterCombo.getItems().addAll("Tous", "OK", "LOW");
         filterCombo.setValue("Tous");
 
-        // ---------------- Filtered list ----------------
+        // list mfaltra
         filteredData = new FilteredList<>(stockList, p -> true);
 
         // Listeners for search and filter
@@ -136,12 +136,12 @@ public class StockDetailsController {
         });
     }
 
-    // ---------------- Refresh table ----------------
+    // refresh
     public void refreshTable() {
         loadStock();
     }
 
-    // ---------------- Navigation ----------------
+    // nav
     @FXML
     private void chargerDashboard(ActionEvent event) {
         Navigation.navTo("/FXML/Dashboard.fxml", ((Node) event.getSource()));
