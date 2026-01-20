@@ -1,4 +1,4 @@
-package brainstorm.pharmacy_app.Controller;
+package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Service.FournisseurService;
@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class SuppliersControlController {
 
-    // ===== Table and columns =====
     @FXML private TableView<Fournisseur> tableFournisseurs;
     @FXML private TableColumn<Fournisseur, Integer> colId;
     @FXML private TableColumn<Fournisseur, String> colNom;
@@ -25,14 +24,10 @@ public class SuppliersControlController {
     @FXML private TableColumn<Fournisseur, Void> colView;
     @FXML private TableColumn<Fournisseur, Void> colDelete;
 
-    // ===== Search + Filter =====
     @FXML private TextField searchField;
     @FXML private ComboBox<String> filterCombo;
-
-    // ===== Add Supplier Button =====
     @FXML private Button btnAdd;
 
-    // ===== Service + data =====
     private FournisseurService fournisseurService = new FournisseurService();
     private ObservableList<Fournisseur> fournisseurList = FXCollections.observableArrayList();
     private FilteredList<Fournisseur> filteredData;
@@ -40,22 +35,18 @@ public class SuppliersControlController {
     @FXML
     public void initialize() {
 
-        // --- Setup Table columns ---
         colId.setCellValueFactory(new PropertyValueFactory<>("id_Fournisseur"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colTel.setCellValueFactory(new PropertyValueFactory<>("numTelephone"));
         colType.setCellValueFactory(new PropertyValueFactory<>("typeProduits"));
 
-        // --- Load data from DB ---
         loadFournisseurs();
 
-        // --- Filter ComboBox setup ---
         filterCombo.getItems().clear();
         filterCombo.getItems().add("Tous");
         filterCombo.getItems().addAll(fournisseurService.getAllCategories());
         filterCombo.setValue("Tous");
 
-        // --- FilteredList for dynamic search/filter ---
         filteredData = new FilteredList<>(fournisseurList, p -> true);
 
         searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
@@ -65,21 +56,17 @@ public class SuppliersControlController {
         sortedData.comparatorProperty().bind(tableFournisseurs.comparatorProperty());
         tableFournisseurs.setItems(sortedData);
 
-        // --- Add Buttons in Table ---
         addViewButtonToTable();
         addDeleteButtonToTable();
 
-        // --- Add Supplier Button ---
         btnAdd.setOnAction(e -> openAddSupplier());
     }
 
-    // ===================== Load fournisseurs =====================
     private void loadFournisseurs() {
         fournisseurList.clear();
         fournisseurList.addAll(fournisseurService.getAllFournisseurs());
     }
 
-    // ===================== Filter logic =====================
     private void applyFilter() {
         String searchText = searchField.getText().toLowerCase();
         String selectedType = filterCombo.getValue();
@@ -97,13 +84,13 @@ public class SuppliersControlController {
         });
     }
 
-    // ===================== Add Supplier =====================
+    // ---------------- Add Supplier ----------------
     private void openAddSupplier() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/add_fournisseur.fxml"));
             Parent root = loader.load();
 
-            AddFournisseurController controller = loader.getController();
+            brainstorm.pharmacy_app.Controller.AddSupplierController controller = loader.getController();
             controller.setParentController(this);
 
             Stage stage = new Stage();
@@ -120,11 +107,10 @@ public class SuppliersControlController {
         loadFournisseurs();
     }
 
-    // ===================== View Button Column =====================
+    // ---------------- View Button ----------------
     private void addViewButtonToTable() {
         colView.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("View");
-
             {
                 btn.setOnAction(event -> {
                     Fournisseur f = getTableView().getItems().get(getIndex());
@@ -158,11 +144,10 @@ public class SuppliersControlController {
         }
     }
 
-    // ===================== Delete Button Column =====================
+    // ---------------- Delete Button ----------------
     private void addDeleteButtonToTable() {
         colDelete.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("Delete");
-
             {
                 btn.setOnAction(event -> {
                     Fournisseur f = getTableView().getItems().get(getIndex());
@@ -195,5 +180,6 @@ public class SuppliersControlController {
         }
     }
 }
+
 
 
