@@ -90,7 +90,7 @@ public class SuppliersControlController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/add_fournisseur.fxml"));
             Parent root = loader.load();
 
-            brainstorm.pharmacy_app.Controller.AddSupplierController controller = loader.getController();
+            AddSupplierController controller = loader.getController();
             controller.setParentController(this);
 
             Stage stage = new Stage();
@@ -131,8 +131,8 @@ public class SuppliersControlController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/view_fournisseur.fxml"));
             Parent root = loader.load();
 
-            brainstorm.pharmacy_app.Controller.ViewSupplierController controller = loader.getController();
-            controller.setFournisseur(f);
+            ViewSupplierController controller = loader.getController();
+            controller.setSupplier(f);
 
             Stage stage = new Stage();
             stage.setTitle("Fournisseur Details");

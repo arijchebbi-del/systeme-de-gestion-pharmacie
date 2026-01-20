@@ -1,4 +1,4 @@
-package brainstorm.pharmacy_app.Controller;
+package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Service.FournisseurService;

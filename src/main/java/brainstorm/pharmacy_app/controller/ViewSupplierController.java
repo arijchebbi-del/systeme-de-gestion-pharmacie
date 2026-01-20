@@ -13,7 +13,7 @@ public class ViewSupplierController {
     @FXML private Label lblEmail;
     @FXML private Label lblAdresse;
 
-    public void setFournisseur(Fournisseur f) {
+    public void setSupplier(Fournisseur f) {
         lblId.setText(String.valueOf(f.getId_Fournisseur()));
         lblNom.setText(f.getNom());
         lblTel.setText(f.getNumTelephone());
