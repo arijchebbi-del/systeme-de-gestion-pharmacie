@@ -1,7 +1,10 @@
 package brainstorm.pharmacy_app.DAO;
 
+import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RapportIM {
 
@@ -126,9 +129,36 @@ public class RapportIM {
             e.printStackTrace();
         }
     }
+    // Inside RapportIM
+    public List<Object[]> rapportEtatStockList() {
+        List<Object[]> list = new ArrayList<>();
+        String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, s.DerniereMiseAJour " +
+                "FROM Stock s JOIN Produit p ON s.Reference = p.Reference";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String produit = rs.getString("NomProduit");
+                int quantite = rs.getInt("Quantite");
+                int seuil = rs.getInt("SeuilMinimal");
+                Timestamp maj = rs.getTimestamp("DerniereMiseAJour");
+
+                String etat = (quantite >= seuil) ? "OK" : "LOW";
+                int decalage = Math.abs(quantite - seuil);
+
+                Object[] row = new Object[]{rs.getInt("NumLot"), produit, quantite, seuil, etat, decalage, maj};
+                list.add(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     //rapport etat stock
-    public void rapportEtatStock() {
+    public Stock rapportEtatStock() {
         String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, " +
                 " s.DerniereMiseAJour " +
                 "FROM Stock s "+
@@ -160,6 +190,7 @@ public class RapportIM {
         } catch (Exception e) {
             System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
         }
+        return null;
     }
 
 

@@ -6,4 +6,5 @@ public interface ProduitDAO {
     public void modification_p(Produit p);
     public void suppression_p();
     public boolean existe(int reference);
+    public String getProduitByRef(int reference);
 }

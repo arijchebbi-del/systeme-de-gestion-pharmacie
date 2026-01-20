@@ -1,4 +1,6 @@
 package brainstorm.pharmacy_app.Model;
+import brainstorm.pharmacy_app.DAO.ProduitIM;
+
 import java.sql.Timestamp;
 
 public class Stock {
@@ -25,4 +27,17 @@ public class Stock {
     public void setQuantite(int quantite) {this.quantite = quantite;}
     public void setSeuilMinimal(int seuilMinimal){this.seuilMinimal=seuilMinimal;}
     public void setReference(int ref) {this.reference =ref;}
+
+    public String getNomProduit(int ref) {
+        ProduitIM produitIM = new ProduitIM();
+        return produitIM.getNomProduitByRef(this.reference);
+    }
+    public String getEtat() {
+        if (quantite >= seuilMinimal) {
+            return "OK";
+        } else {
+            return "LOW";
+        }
+    }
+
 }
