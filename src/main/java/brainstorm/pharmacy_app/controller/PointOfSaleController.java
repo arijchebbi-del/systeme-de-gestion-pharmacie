@@ -24,24 +24,26 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class PointOfSaleController {
+
+    @FXML
     private void chargerPointOfSale(ActionEvent event) {
-        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
+        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource()));
     }
     @FXML
     private void chargerProductControl(ActionEvent event) {
-        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource()));
     }
     @FXML
     private void chargerOrderControl(ActionEvent event) {
-        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
+        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource()));
     }
     @FXML
     private void chargerSuppliersControl(ActionEvent event) {
-        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
+        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource()));
     }
     @FXML
     private void chargerHistory(ActionEvent event) {
-        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
+        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource()));
     }
 
     @FXML private MFXTextField txtSearch;
@@ -62,13 +64,18 @@ public class PointOfSaleController {
 
     @FXML
     public void initialize() {
-        colIdLot.setCellValueFactory(new PropertyValueFactory<>("numLot"));
-        colReference.setCellValueFactory(new PropertyValueFactory<>("reference"));
-        colQuantiteStock.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        // Sécurité contre le NullPointerException (Ligne 46)
+        if (colIdLot != null && colReference != null && colQuantiteStock != null) {
+            colIdLot.setCellValueFactory(new PropertyValueFactory<>("numLot"));
+            colReference.setCellValueFactory(new PropertyValueFactory<>("reference"));
+            colQuantiteStock.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
-        setupActionsColumn();
-        loadStockData();
-        setupSearchFilter();
+            setupActionsColumn();
+            loadStockData();
+            setupSearchFilter();
+        } else {
+            System.err.println("ERREUR : Une ou plusieurs colonnes TableColumn sont nulles. Vérifiez les fx:id dans Scene Builder.");
+        }
     }
 
     private void loadStockData() {
@@ -76,6 +83,8 @@ public class PointOfSaleController {
     }
 
     private void setupSearchFilter() {
+        if (txtSearch == null) return;
+
         FilteredList<Stock> filteredData = new FilteredList<>(masterStockData, p -> true);
 
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -93,6 +102,8 @@ public class PointOfSaleController {
     }
 
     private void setupActionsColumn() {
+        if (colActions == null) return;
+
         colActions.setCellFactory(param -> new TableCell<>() {
             private final MFXTextField txtQty = new MFXTextField();
             private final MFXButton btnAdd = new MFXButton("+");
@@ -114,7 +125,6 @@ public class PointOfSaleController {
                     setGraphic(null);
                 } else {
                     Stock s = getTableView().getItems().get(getIndex());
-
                     btnAdd.setOnAction(event -> {
                         try {
                             int qte = Integer.parseInt(txtQty.getText());
@@ -123,9 +133,7 @@ public class PointOfSaleController {
                             afficherAlerte("Erreur", "Veuillez saisir un nombre entier.", Alert.AlertType.ERROR);
                         }
                     });
-
                     btnDelete.setOnAction(event -> handleSuppression(s));
-
                     setGraphic(container);
                 }
             }
@@ -153,7 +161,7 @@ public class PointOfSaleController {
 
         float prix = stockDAO.getPrixProduitByRef(s.getReference());
         montantTotal += (prix * qte);
-        lblTotal.setText(String.format("%.2f DT", montantTotal));
+        if (lblTotal != null) lblTotal.setText(String.format("%.2f DT", montantTotal));
     }
 
     private void handleSuppression(Stock s) {
