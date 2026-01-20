@@ -6,8 +6,8 @@ public class Stock {
     private Timestamp derniereMiseAJour;
     private int quantite;
     private int seuilMinimal;
-
     private int reference;
+
     public Stock(int numLot, int ref, int quantite,int seuil) {
         this.numLot = numLot;
         this.reference = ref;
