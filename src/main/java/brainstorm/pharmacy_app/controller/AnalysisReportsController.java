@@ -1,6 +1,9 @@
 package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.RapportIM;
+import brainstorm.pharmacy_app.Model.Stock;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +22,10 @@ public class AnalysisReportsController {
     // li bchtkhtar behom date
     @FXML private DatePicker dateDebut;
     @FXML private DatePicker dateFin;
+    // 3 taa stock
+    @FXML private Label lblTotalProducts;
+    @FXML private Label lblLowStockProducts;
+    @FXML private Label lblOutOfStockProducts;
 
     // labelllllls
     @FXML private Label lblTotalRevenue;
@@ -33,6 +40,26 @@ public class AnalysisReportsController {
     @FXML private Button btnFullSuppliersReport;
 
     private RapportIM rapportIM = new RapportIM();
+    private ObservableList<Stock> stockList = FXCollections.observableArrayList();
+    // 3 labels taa stock
+    private void updateStockSummary() {
+        int totalProducts = stockList.size();
+        int lowStockProducts = 0;
+        int outOfStockProducts = 0;
+
+        for (Stock s : stockList) {
+            if (s.getEtat().equals("LOW")) {
+                lowStockProducts++;
+            }
+            if (s.getQuantite() == 0) {
+                outOfStockProducts++;
+            }
+        }
+
+        lblTotalProducts.setText(String.valueOf(totalProducts));
+        lblLowStockProducts.setText(String.valueOf(lowStockProducts));
+        lblOutOfStockProducts.setText(String.valueOf(outOfStockProducts));
+    }
 
     //resume taa revenue heheheh
     @FXML
