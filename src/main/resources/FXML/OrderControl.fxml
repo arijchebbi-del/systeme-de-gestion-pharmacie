@@ -122,7 +122,7 @@
                   </MFXButton>
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/box-solid-svgrepo-com.png" />
+                        <Image url="@../images/supplier.png" />
                      </image>
                      <styleClass>
                         <String fx:value="pos-icon" />

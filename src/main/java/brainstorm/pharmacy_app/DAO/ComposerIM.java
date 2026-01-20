@@ -9,7 +9,7 @@ public class ComposerIM implements ComposerDAO {
 
     @Override
     public void ajouterLigneCommande(int idCommande, int reference, int quantite) {
-        String query = "INSERT INTO composer (Reference, IdCommande, Quantite) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Composer (Reference, IdCommande, Quantite) VALUES (?, ?, ?)";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {

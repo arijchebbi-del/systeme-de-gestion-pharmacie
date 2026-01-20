@@ -125,7 +125,7 @@
                   </MFXButton>
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/box-solid-svgrepo-com.png" />
+                        <Image url="@../images/supplier.png" />
                      </image>
                      <styleClass>
                         <String fx:value="pos-icon" />
@@ -218,12 +218,14 @@
             </HBox>
          </top>
          <left>
-            <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1077.0" styleClass="pos-table" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableStock" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1077.0" styleClass="pos-table" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Reference" />
-                <TableColumn editable="false" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Name" />
-                  <TableColumn editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Category" />
-                  <TableColumn editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Price" />
+                  <TableColumn fx:id="colIdLot" editable="false" maxWidth="150.0" minWidth="114.0" prefWidth="114.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Id Lot" />
+                <TableColumn fx:id="colReference" editable="false" maxWidth="168.0" minWidth="112.0" prefWidth="130.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Reference" />
+                <TableColumn fx:id="colName" editable="false" maxWidth="374.0" minWidth="274.0" prefWidth="288.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Name" />
+                  <TableColumn fx:id="colQuantiteStock" editable="false" maxWidth="282.0" minWidth="146.0" prefWidth="146.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Quantité Stock" />
+                  <TableColumn fx:id="colPrice" editable="false" maxWidth="272.0" minWidth="150.0" prefWidth="186.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Price" />
+                  <TableColumn fx:id="colActions" prefWidth="212.0" styleClass="pos-table-c" text="Actions" />
               </columns>
             </TableView>
          </left>

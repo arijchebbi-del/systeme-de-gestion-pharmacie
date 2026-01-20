@@ -32,25 +32,11 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/FXML/Login.fxml"));
             Parent root = loader.load();
 
-            // --- CONFIGURATION DU ZOOM (REDUCTION A 80%) ---
-            double scaleFactor = 0.8;
-            root.setScaleX(scaleFactor);
-            root.setScaleY(scaleFactor);
-
-            // Pour éviter que le contenu ne flotte au milieu avec du vide autour,
-            // on utilise un StackPane comme conteneur pour forcer le cadrage.
-            StackPane container = new StackPane(root);
-
-            // On calcule la nouvelle taille de la fenêtre basée sur le zoom
-            double width = root.getBoundsInLocal().getWidth() * scaleFactor;
-            double height = root.getBoundsInLocal().getHeight() * scaleFactor;
-
-            // On crée la scène avec les dimensions réduites
-            Scene scene = new Scene(container, width, height);
+            Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
 
             stage.setScene(scene);
-            stage.setTitle("MyPharma - Login");
+            stage.setTitle("MyPharma");
 
             // Supprime le décalage en centrant la fenêtre sur l'écran
             stage.show();

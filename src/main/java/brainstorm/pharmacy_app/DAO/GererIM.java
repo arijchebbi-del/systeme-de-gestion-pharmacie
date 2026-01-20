@@ -12,7 +12,7 @@ public class GererIM implements GererDAO {
 
     @Override
     public void enregistrerAction(int idEmploye, int numLot) {
-        String sql = "INSERT INTO gerer (IdEmploye, NumLot) VALUES (?, ?)";
+        String sql = "INSERT INTO Gerer (IdEmploye, NumLot) VALUES (?, ?)";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
