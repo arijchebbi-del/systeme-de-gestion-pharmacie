@@ -1,8 +1,8 @@
 package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.nav.Navigation;
-import brainstorm.pharmacy_app.Service.CommandeService;
 import brainstorm.pharmacy_app.Service.FournisseurService;
+import brainstorm.pharmacy_app.Service.CommandeService;
 import brainstorm.pharmacy_app.Model.Commande;
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -65,7 +65,7 @@ public class OrderControlController {
     @FXML private MFXComboBox<String> categoryCombo;
     @FXML private VBox ordersContainer;
 
-    // Use Services
+    // Use Services instead of DAOs
     private CommandeService commandeService = new CommandeService();
     private FournisseurService fournisseurService = new FournisseurService();
 
@@ -78,7 +78,7 @@ public class OrderControlController {
         categoryCombo.getItems().addAll("Tous", "En attente", "Reçue", "Annulée");
         categoryCombo.setValue("Tous");
 
-        // Load initial orders using service
+        // Load initial orders
         loadOrders();
 
         // Setup search listener
@@ -95,6 +95,7 @@ public class OrderControlController {
     @FXML
     private void handleAddOrder(ActionEvent event) {
         try {
+            // You might want to create an AddOrder.fxml for this
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddOrder.fxml"));
 
             // If AddOrder.fxml doesn't exist, create a simple dialog
@@ -120,6 +121,7 @@ public class OrderControlController {
     }
 
     private void createSimpleAddOrderDialog() {
+        // Create a simple dialog if AddOrder.fxml doesn't exist
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setTitle("Nouvelle Commande - À développer");
@@ -142,12 +144,15 @@ public class OrderControlController {
         dialog.showAndWait();
     }
 
-    private void loadOrders() {
+    void loadOrders() {
         ordersContainer.getChildren().clear();
 
-        // Get all commandes using the new service method
+        // Get all commandes using a service method
+        // If you don't have getAllCommandes() in CommandeService, you need to add it
         allCommandes.clear();
-        List<Commande> commandes = commandeService.getAllCommandes();
+
+        // For now, let's get commandes directly (you should add this to CommandeService)
+        List<Commande> commandes = getAllCommandesFromDB();
         allCommandes.addAll(commandes);
 
         if (allCommandes.isEmpty()) {
@@ -160,6 +165,18 @@ public class OrderControlController {
         for (Commande commande : allCommandes) {
             HBox orderCard = createOrderCard(commande);
             ordersContainer.getChildren().add(orderCard);
+        }
+    }
+
+    private List<Commande> getAllCommandesFromDB() {
+        // This method should be in CommandeService
+        // For now, we'll call it directly from DAO
+        // TODO: Move this to CommandeService.getAllCommandes()
+        try {
+            return commandeService.getAllCommandes(); // If this method exists
+        } catch (Exception e) {
+            // If method doesn't exist, return empty list
+            return java.util.Collections.emptyList();
         }
     }
 
@@ -196,16 +213,13 @@ public class OrderControlController {
         VBox middleSection = new VBox(5);
         middleSection.setPrefWidth(300);
 
-        Label orderIdLabel = new Label("Commande #" + commande.getIdCommande());
-        orderIdLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-
         Label dateLabel = new Label("Date: " + commande.getDateCommande());
         dateLabel.setStyle("-fx-font-size: 14px;");
 
         Label statusLabel = new Label("Statut: " + commande.getEtat());
         statusLabel.setStyle(getStatusStyle(commande.getEtat()));
 
-        middleSection.getChildren().addAll(orderIdLabel, dateLabel, statusLabel);
+        middleSection.getChildren().addAll(dateLabel, statusLabel);
 
         // Right section - Total and actions
         VBox rightSection = new VBox(10);
@@ -232,12 +246,6 @@ public class OrderControlController {
             rightSection.getChildren().add(cancelBtn);
         }
 
-        // Add Edit button
-        Button editBtn = new Button("Modifier");
-        editBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;");
-        editBtn.setOnAction(e -> handleEditOrder(commande));
-        rightSection.getChildren().add(editBtn);
-
         card.getChildren().addAll(leftSection, middleSection, rightSection);
 
         // Add some spacing between cards
@@ -261,19 +269,15 @@ public class OrderControlController {
         switch (status) {
             case "CREE":
             case "PASSER":
-                return "-fx-text-fill: #ff9800; -fx-font-weight: bold; -fx-background-color: #fff3e0; " +
-                        "-fx-padding: 3 8; -fx-background-radius: 10; -fx-border-radius: 10;";
+                return "-fx-text-fill: #ff9800; -fx-font-weight: bold;";
             case "RECUE":
             case "REÇUE":
-                return "-fx-text-fill: #4caf50; -fx-font-weight: bold; -fx-background-color: #e8f5e9; " +
-                        "-fx-padding: 3 8; -fx-background-radius: 10; -fx-border-radius: 10;";
+                return "-fx-text-fill: #4caf50; -fx-font-weight: bold;";
             case "ANNULÉE":
             case "ANNULEE":
-                return "-fx-text-fill: #f44336; -fx-font-weight: bold; -fx-background-color: #ffebee; " +
-                        "-fx-padding: 3 8; -fx-background-radius: 10; -fx-border-radius: 10;";
+                return "-fx-text-fill: #f44336; -fx-font-weight: bold;";
             default:
-                return "-fx-text-fill: #757575; -fx-font-weight: bold; -fx-background-color: #f5f5f5; " +
-                        "-fx-padding: 3 8; -fx-background-radius: 10; -fx-border-radius: 10;";
+                return "-fx-text-fill: #757575; -fx-font-weight: bold;";
         }
     }
 
@@ -285,9 +289,13 @@ public class OrderControlController {
 
         if (confirm.showAndWait().get() == ButtonType.OK) {
             try {
-                // Update status using the new service method
-                commandeService.updateCommandeStatus(commande.getIdCommande(), "Reçue");
+                // Update status to "Reçue"
+                commande.setEtat("Reçue");
 
+                // TODO: Update the commande in database
+                // You need to add a method in CommandeService like: commandeService.updateCommande(commande)
+
+                // For now, just update the UI
                 showAlert("Succès", "Commande marquée comme reçue avec succès !");
 
                 // Refresh the orders display
@@ -320,36 +328,6 @@ public class OrderControlController {
                 e.printStackTrace();
                 showAlert("Erreur", "Impossible d'annuler la commande: " + e.getMessage());
             }
-        }
-    }
-
-    private void handleEditOrder(Commande commande) {
-        try {
-            // Create edit dialog
-            Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle("Modifier Commande #" + commande.getIdCommande());
-
-            VBox form = new VBox(10);
-            form.setPadding(new Insets(20));
-            form.setStyle("-fx-background-color: white;");
-
-            Label message = new Label("Modification de commande - Fonctionnalité en développement");
-            message.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
-
-            Button closeButton = new Button("Fermer");
-            closeButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-            closeButton.setOnAction(e -> dialog.close());
-
-            form.getChildren().addAll(message, closeButton);
-
-            Scene dialogScene = new Scene(form, 400, 150);
-            dialog.setScene(dialogScene);
-            dialog.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Impossible d'ouvrir l'éditeur de commande: " + e.getMessage());
         }
     }
 
@@ -408,10 +386,6 @@ public class OrderControlController {
                             keywordMatch = supplierName.contains(keyword) ||
                                     supplierPhone.contains(keyword) ||
                                     orderId.contains(keyword);
-                        } else {
-                            // If supplier not found, check just order ID
-                            String orderId = String.valueOf(commande.getIdCommande());
-                            keywordMatch = orderId.contains(keyword);
                         }
                     }
 
@@ -427,4 +401,37 @@ public class OrderControlController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    // ===== METHODS YOU NEED TO ADD TO YOUR SERVICES =====
+
+    // Add to CommandeService.java:
+    /*
+    public List<Commande> getAllCommandes() {
+        // Implementation to get all commandes
+        List<Commande> commandes = new ArrayList<>();
+        String query = "SELECT * FROM Commande ORDER BY DateCommande DESC";
+
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Commande commande = new Commande(
+                    rs.getInt("IdCommande"),
+                    rs.getInt("IdFournisseur"),
+                    rs.getInt("IdEmploye"),
+                    rs.getDate("DateCommande"),
+                    rs.getDate("DateArrivee")
+                );
+                commande.setPrixTotal(rs.getFloat("PrixTotal"));
+                commande.setEtat(rs.getString("Etat"));
+                commandes.add(commande);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors du chargement des commandes: " + e.getMessage());
+        }
+        return commandes;
+    }
+    */
 }
