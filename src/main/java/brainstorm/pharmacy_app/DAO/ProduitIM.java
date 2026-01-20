@@ -147,4 +147,22 @@ public class ProduitIM {
 
         return produits;
     }
+    public String getNomProduitByRef(int reference) {
+        String nom = "Unknown Product"; // default
+        String sql = "SELECT Nom FROM Produit WHERE Reference = ?";
+
+        try (Connection conn = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, reference);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nom = rs.getString("Nom");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nom;
+    }
+
 }
