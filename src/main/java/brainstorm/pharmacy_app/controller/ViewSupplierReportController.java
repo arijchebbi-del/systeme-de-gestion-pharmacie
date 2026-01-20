@@ -10,7 +10,7 @@ public class ViewSupplierReportController {
     @FXML private ListView<String> listSuppliersPerformance;
     private RapportIM rapportIM = new RapportIM();
     public void showReport() {
-        listSuppliersPerformance.getItems().setAll(rapportIM.getSupplierPerformanceSimple());
+        listSuppliersPerformance.getItems().setAll(rapportIM.getSupplierPerformance());
     }
     @FXML private Button btnCancel; // Cancel button in FXML
     @FXML

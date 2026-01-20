@@ -47,7 +47,7 @@ public class StockDetailsController {
     @FXML
     private MFXButton btnRefresh;
     //hedhouma lalbe fehom infos khater azyen
-    
+
 
     private RapportIM rapportIM = new RapportIM();
     private ObservableList<Stock> stockList = FXCollections.observableArrayList();

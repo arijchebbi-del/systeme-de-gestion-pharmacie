@@ -26,6 +26,7 @@ public class AnalysisReportsController {
     @FXML private Label lblTotalProducts;
     @FXML private Label lblLowStockProducts;
     @FXML private Label lblOutOfStockProducts;
+    @FXML private Button btnStockReport; // btn taa stock full report
 
     // labelllllls
     @FXML private Label lblTotalRevenue;
@@ -123,4 +124,24 @@ public class AnalysisReportsController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void openStockReport(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/StockDetails.fxml")); // your FXML for stock table
+            Parent root = loader.load();
+
+            // get controller if you want to pass data
+            StockDetailsController controller = loader.getController();
+            controller.refreshTable(); // load/update stock info
+
+            Stage stage = new Stage();
+            stage.setTitle("Stock State Report");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

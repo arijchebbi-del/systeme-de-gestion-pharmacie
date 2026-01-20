@@ -372,7 +372,7 @@ public class RapportIM {
 
         return list;
     }
-    public List<String> getSupplierPerformanceEnhanced() {
+    public List<String> getSupplierPerformance() {
 
         List<String> list = new ArrayList<>();
 
