@@ -18,7 +18,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class SuppliersControlController {
 
@@ -117,16 +119,18 @@ public class SuppliersControlController {
     // ---------------- Add Supplier ----------------
     private void openAddSupplier() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/add_fournisseur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddSupplierPopUp.fxml"));
             Parent root = loader.load();
 
             AddSupplierController controller = loader.getController();
             controller.setParentController(this);
 
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Ajouter Fournisseur");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait();
 
         } catch (Exception e) {
             e.printStackTrace();

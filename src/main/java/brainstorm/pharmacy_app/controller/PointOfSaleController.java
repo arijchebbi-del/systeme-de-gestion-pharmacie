@@ -3,9 +3,11 @@ package brainstorm.pharmacy_app.controller;
 import brainstorm.pharmacy_app.DAO.VenteIM;
 import brainstorm.pharmacy_app.DAO.ConstituerIM;
 import brainstorm.pharmacy_app.DAO.StockIM;
+import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.Vente;
 import brainstorm.pharmacy_app.Model.Constituer;
+import brainstorm.pharmacy_app.Service.ProduitService;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -53,16 +55,23 @@ public class PointOfSaleController {
     @FXML private TableView<Stock> tableStock;
     @FXML private TableColumn<Stock, Integer> colIdLot;
     @FXML private TableColumn<Stock, Integer> colReference;
+    @FXML private TableColumn<Produit, String> colName;
+
     @FXML private TableColumn<Stock, Integer> colQuantiteStock;
+    @FXML private TableColumn<Produit, Float> colPrice;
+
     @FXML private TableColumn<Stock, Void> colActions;
     @FXML private Label lblTotal;
 
     private VenteIM venteDAO = new VenteIM();
     private ConstituerIM constituerDAO = new ConstituerIM();
     private StockIM stockDAO = new StockIM();
+    private ProduitService produitService = new ProduitService();
 
     private Vente venteActuelle = null;
     private ObservableList<Stock> masterStockData = FXCollections.observableArrayList();
+    private ObservableList<Produit> masterProduitData = FXCollections.observableArrayList();
+
     private float montantTotal = 0.0f;
 
     @FXML
@@ -72,6 +81,8 @@ public class PointOfSaleController {
             colIdLot.setCellValueFactory(new PropertyValueFactory<>("numLot"));
             colReference.setCellValueFactory(new PropertyValueFactory<>("reference"));
             colQuantiteStock.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+            colPrice.setCellValueFactory(new PropertyValueFactory<>("prixVente"));
+            colName.setCellValueFactory(new PropertyValueFactory<>("nomProduit"));
 
             setupActionsColumn();
             loadStockData();
@@ -83,6 +94,8 @@ public class PointOfSaleController {
 
     private void loadStockData() {
         masterStockData.setAll(stockDAO.getToutLeStock());
+        masterProduitData.setAll(produitService.getAllProduits());
+
     }
 
     private void setupSearchFilter() {
@@ -142,7 +155,6 @@ public class PointOfSaleController {
             }
         });
     }
-
     private void handleVente(Stock s, int qte) {
         if (qte <= 0) {
             afficherAlerte("Quantité", "La quantité doit être supérieure à 0.", Alert.AlertType.WARNING);

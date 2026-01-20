@@ -11,7 +11,7 @@ public class ConstituerIM implements ConstituerDAO {
 
     public void ajouterLigneVente(Constituer c) {
         // Ajout de la colonne PrixVente pour respecter la 3FN
-        String query = "INSERT INTO constituer (NumFacture, Référence, QuantitéVendu, PrixVente) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Constituer (NumFacture, Reference, QuantiteVendu, PrixVente) VALUES (?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -32,7 +32,7 @@ public class ConstituerIM implements ConstituerDAO {
     public boolean verifierPresenceProduit(int numFacture, int reference) {
         boolean existe = false;
         // Requête pour compter si la paire (facture, produit) existe dans la table constituer
-        String sql = "SELECT COUNT(*) FROM constituer WHERE NumFacture = ? AND Reference = ?";
+        String sql = "SELECT COUNT(*) FROM Constituer WHERE NumFacture = ? AND Reference = ?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -59,7 +59,7 @@ public class ConstituerIM implements ConstituerDAO {
 
     public void supprimerLigneVente(int numFacture, int reference) {
 
-        String sql = "DELETE FROM constituer WHERE NumFacture = ? AND Reference = ?";
+        String sql = "DELETE FROM Constituer WHERE NumFacture = ? AND Reference = ?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

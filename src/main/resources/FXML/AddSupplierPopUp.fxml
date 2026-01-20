@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" styleClass="white-background" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.AddSupplierController">
+   <children>
+      <MFXTextField fx:id="nomField" layoutX="32.0" layoutY="87.0" prefWidth="250.0" />
+      <Text layoutX="32.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Supplier Name:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <MFXTextField fx:id="telephoneField" layoutX="320.0" layoutY="87.0" prefWidth="250.0" />
+      <Text layoutX="320.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Supplier Number:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <MFXTextField fx:id="emailField" layoutX="32.0" layoutY="181.0" prefWidth="250.0" />
+      <Text layoutX="32.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Supplier Email:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <MFXTextField fx:id="adresseField" layoutX="319.0" layoutY="181.0" prefWidth="250.0" />
+      <Text layoutX="319.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Supplier Address:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <MFXTextField fx:id="productTypeField" layoutX="32.0" layoutY="271.0" prefWidth="250.0" />
+      <Text layoutX="32.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Supplier Products Type:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <MFXButton layoutX="388.0" layoutY="266.0" onAction="#handleSaveSupplier" text="Submit">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </MFXButton>
+   </children>
+</AnchorPane>

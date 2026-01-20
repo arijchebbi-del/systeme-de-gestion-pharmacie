@@ -2,6 +2,7 @@ package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Service.FournisseurService;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -11,10 +12,11 @@ import javafx.scene.control.Alert;
 
 
 public class AddSupplierController {
-    @FXML private TextField nomField;
-    @FXML private TextField telephoneField;
-    @FXML private TextField emailField;
-    @FXML private TextField adresseField;
+    @FXML private MFXTextField nomField;
+    @FXML private MFXTextField telephoneField;
+    @FXML private MFXTextField emailField;
+    @FXML private MFXTextField adresseField;
+    @FXML private MFXTextField productTypeField;
 
     private FournisseurService fournisseurService = new FournisseurService();
     private SuppliersControlController parentController;
@@ -31,8 +33,9 @@ public class AddSupplierController {
             f.setNumTelephone(telephoneField.getText());
             f.setEmail(emailField.getText());
             f.setAdresse(adresseField.getText());
-
+            f.setTypeProduits(productTypeField.getText());
             fournisseurService.ajouterFournisseur(f);
+            parentController.refreshTable();
 
             ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 

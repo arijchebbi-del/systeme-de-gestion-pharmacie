@@ -127,7 +127,7 @@ public class StockIM implements StockDAO {
     }
     public List<Stock> getToutLeStock() {
         List<Stock> listeStock = new ArrayList<>();
-        String query = "SELECT * FROM stock"; // La variable 'query' utilisée dans votre capture
+        String query = "SELECT * FROM Stock"; // La variable 'query' utilisée dans votre capture
 
         // Utilisation du bloc try-with-resources selon votre image
         try (Connection con = DBConnection.getEmployeeConnection();
@@ -157,7 +157,7 @@ public class StockIM implements StockDAO {
 
     public float getPrixProduitByRef(int ref) {
         float prix = 0.0f;
-        String sql = "SELECT PrixVente FROM produit WHERE Reference = ?";
+        String sql = "SELECT PrixVente FROM Produit WHERE Reference = ?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
