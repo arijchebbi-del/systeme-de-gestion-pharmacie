@@ -401,11 +401,49 @@ public class RapportIM {
 
         return list;
     }
+    public String getTotalSupplierOrders() {
+        String sql = "SELECT COUNT(*) AS totalOrders FROM Commande";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("totalOrders"));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+    public String getSuppliersOnTime() {
+        String sql = "SELECT COUNT(*) AS onTimeOrders FROM Commande WHERE DateArrivee <= DateCommande";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("onTimeOrders"));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+    public String getSuppliersLate() {
+        String sql = "SELECT COUNT(*) AS lateOrders FROM Commande WHERE DateArrivee > DateCommande";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("lateOrders"));
+            }
 
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
 }
