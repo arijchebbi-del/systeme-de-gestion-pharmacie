@@ -11,12 +11,10 @@ import javafx.scene.control.Alert;
 
 
 public class AddSupplierController {
-
-    @FXML private TextField txtNom;
-    @FXML private TextField txtTel;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtAdresse;
-    @FXML private TextField txtType;
+    @FXML private TextField nomField;
+    @FXML private TextField telephoneField;
+    @FXML private TextField emailField;
+    @FXML private TextField adresseField;
 
     private FournisseurService fournisseurService = new FournisseurService();
     private SuppliersControlController parentController;
@@ -24,12 +22,6 @@ public class AddSupplierController {
     public void setParentController(SuppliersControlController parent) {
         this.parentController = parent;
     }
-
-
-    @FXML private TextField nomField;
-    @FXML private TextField telephoneField;
-    @FXML private TextField emailField;
-    @FXML private TextField adresseField;
 
     @FXML
     private void handleSaveSupplier(ActionEvent event) {
@@ -39,7 +31,7 @@ public class AddSupplierController {
             f.setNumTelephone(telephoneField.getText());
             f.setEmail(emailField.getText());
             f.setAdresse(adresseField.getText());
-            
+
             fournisseurService.ajouterFournisseur(f);
 
             ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();

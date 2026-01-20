@@ -16,7 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import brainstorm.pharmacy_app.nav.Navigation;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
+
 
 public class SuppliersControlController {
 

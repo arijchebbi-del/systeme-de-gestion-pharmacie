@@ -1,8 +1,10 @@
 package brainstorm.pharmacy_app.controller;
-
 import brainstorm.pharmacy_app.Model.Fournisseur;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class ViewSupplierController {
 
@@ -21,5 +23,10 @@ public class ViewSupplierController {
         lblEmail.setText(f.getEmail());
         lblAdresse.setText(f.getAdresse());
     }
+    @FXML
+    private void handleCancel(ActionEvent event) {
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+    }
+
 }
 
