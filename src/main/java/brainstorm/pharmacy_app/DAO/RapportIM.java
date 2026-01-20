@@ -4,7 +4,9 @@ import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RapportIM {
 
@@ -192,15 +194,6 @@ public class RapportIM {
         }
         return null;
     }
-
-
-
-
-
-
-
-
-
     public void Historique() {
         String sql = "SELECT v.NumFacture, v.DateVente, p.NomProduit, c.Quantite " +
                 "FROM vente v " +
@@ -379,14 +372,18 @@ public class RapportIM {
 
         return list;
     }
-    public List<String> getSupplierPerformanceSimple() {
+    public List<String> getSupplierPerformance() {
 
         List<String> list = new ArrayList<>();
 
-        String sql = "SELECT f.Nom, COUNT(c.IdCommande) AS nbCommandes, " +
+        String sql = "SELECT f.Nom, " +
+                "COUNT(c.IdCommande) AS nbCommandes, " +
                 "SUM(CASE WHEN c.DateArrivee <= c.DateCommande THEN 1 ELSE 0 END) AS commandesATemps, " +
-                "SUM(CASE WHEN c.DateArrivee > c.DateCommande THEN 1 ELSE 0 END) AS commandesEnRetard " +
-                "FROM Fournisseur f LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur " +
+                "SUM(CASE WHEN c.DateArrivee > c.DateCommande THEN 1 ELSE 0 END) AS commandesEnRetard, " +
+                "COALESCE(SUM(c.PrixTotal), 0) AS valeurTotale, " +
+                "COALESCE(AVG(DATEDIFF(c.DateArrivee, c.DateCommande)), 0) AS delaiMoyen " +
+                "FROM Fournisseur f " +
+                "LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur " +
                 "GROUP BY f.IdFournisseur, f.Nom";
 
         try (Connection con = DBConnection.getAdminConnection();
@@ -394,10 +391,21 @@ public class RapportIM {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                String line = rs.getString("Nom") +
-                        " | Cmd: " + rs.getInt("nbCommandes") +
-                        " | On time: " + rs.getInt("commandesATemps") +
-                        " | Late: " + rs.getInt("commandesEnRetard");
+                String nom = rs.getString("Nom");
+                int nbCmd = rs.getInt("nbCommandes");
+                int onTime = rs.getInt("commandesATemps");
+                int late = rs.getInt("commandesEnRetard");
+                double totalValue = rs.getDouble("valeurTotale");
+                double avgDelay = rs.getDouble("delaiMoyen");
+                double pctOnTime = nbCmd > 0 ? (onTime * 100.0 / nbCmd) : 0;
+
+                String line = nom +
+                        " | Cmd: " + nbCmd +
+                        " | On time: " + onTime +
+                        " | Late: " + late +
+                        " | Total Value: " + String.format("%.2f", totalValue) + " DT" +
+                        " | Avg Delay: " + String.format("%.2f", avgDelay) + " days" +
+                        " | % On Time: " + String.format("%.2f", pctOnTime) + "%";
 
                 list.add(line);
             }
@@ -409,10 +417,49 @@ public class RapportIM {
         return list;
     }
 
+    public String getTotalSupplierOrders() {
+        String sql = "SELECT COUNT(*) AS totalOrders FROM Commande";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("totalOrders"));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+    public String getSuppliersOnTime() {
+        String sql = "SELECT COUNT(*) AS onTimeOrders FROM Commande WHERE DateArrivee <= DateCommande";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("onTimeOrders"));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+    public String getSuppliersLate() {
+        String sql = "SELECT COUNT(*) AS lateOrders FROM Commande WHERE DateArrivee > DateCommande";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
+            if (rs.next()) {
+                return String.valueOf(rs.getInt("lateOrders"));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
 }

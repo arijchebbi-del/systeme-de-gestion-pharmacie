@@ -46,6 +46,8 @@ public class StockDetailsController {
     private MFXComboBox<String> filterCombo;
     @FXML
     private MFXButton btnRefresh;
+    //hedhouma lalbe fehom infos khater azyen
+
 
     private RapportIM rapportIM = new RapportIM();
     private ObservableList<Stock> stockList = FXCollections.observableArrayList();
@@ -79,9 +81,7 @@ public class StockDetailsController {
                     setStyle("");
                 } else {
                     setText(item);
-                    if (item.equals("OK")) {
-                        setStyle("-fx-background-color: lightgreen; -fx-alignment: CENTER;");
-                    } else if (item.equals("LOW")) {
+                    if (item.equals("LOW")) {
                         setStyle("-fx-background-color: lightcoral; -fx-alignment: CENTER;");
                     }
                 }
