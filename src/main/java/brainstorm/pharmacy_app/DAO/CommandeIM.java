@@ -5,6 +5,7 @@ import brainstorm.pharmacy_app.Utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CommandeIM implements CommandeDAO{
@@ -68,6 +69,20 @@ public class CommandeIM implements CommandeDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public String getNomFournisseur(int idFournisseur) {
+        String query = "SELECT Nom FROM Fournisseur WHERE IdFournisseur = ?";
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, idFournisseur);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Nom");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération du fournisseur: " + e.getMessage());
+        }
+        return "Inconnu";
     }
 
 }
