@@ -1,5 +1,5 @@
 package brainstorm.pharmacy_app.controller;
-
+/*
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Service.FournisseurService;
 import javafx.event.ActionEvent;
@@ -46,4 +46,4 @@ public class AddSupplierController {
         alert.setContentText(msg);
         alert.showAndWait();
     }
-}
+}*/

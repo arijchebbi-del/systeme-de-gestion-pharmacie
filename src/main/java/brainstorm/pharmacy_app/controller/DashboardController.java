@@ -7,8 +7,19 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import javafx.fxml.FXML;
+import  io.github.palexdev.materialfx.controls.MFXPasswordField;
+import  io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.scene.control.Label;
+import javafx.event.ActionEvent;
+import brainstorm.pharmacy_app.DAO.EmployeIM;
+import brainstorm.pharmacy_app.Model.Employe;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import brainstorm.pharmacy_app.nav.Navigation;
 
 public class DashboardController {
     @FXML
@@ -78,4 +89,3 @@ public class DashboardController {
 
 
 }}
-  

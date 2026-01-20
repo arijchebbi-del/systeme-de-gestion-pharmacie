@@ -1,5 +1,5 @@
 package brainstorm.pharmacy_app.controller;
-
+/*
 
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Service.ProduitService;
@@ -55,4 +55,4 @@ public class AddProductController {
         }
     }
 
-
+*/

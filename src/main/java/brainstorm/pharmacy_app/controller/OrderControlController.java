@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-
+/*
 public class OrderControlController {
     @FXML private TextField searchField;
     @FXML private ComboBox<String> categoryCombo;
@@ -122,3 +122,4 @@ public class OrderControlController {
         Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
     }
 }
+*/
