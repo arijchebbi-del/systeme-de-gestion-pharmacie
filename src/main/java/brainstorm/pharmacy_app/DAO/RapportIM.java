@@ -256,4 +256,163 @@ public class RapportIM {
             System.err.println("Erreur lors de la génération du rapport : " + e.getMessage());
         }
     }
+    public float getTotalRevenue(Date debut, Date fin) {
+
+        String sql = "SELECT SUM(PrixTotal) AS total FROM Vente WHERE DateVente BETWEEN ? AND ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getFloat("total");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    public int getNumberOfSales(Date debut, Date fin) {
+
+        String sql = "SELECT COUNT(*) AS nbVentes FROM Vente WHERE DateVente BETWEEN ? AND ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("nbVentes");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    public float getAverageBasket(Date debut, Date fin) {
+
+        String sql = "SELECT AVG(PrixTotal) AS panier FROM Vente WHERE DateVente BETWEEN ? AND ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getFloat("panier");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    public List<String> getTopEmployees(Date debut, Date fin) {
+
+        List<String> list = new ArrayList<>();
+
+        String sql = "SELECT e.Nom, e.Prenom, SUM(v.PrixTotal) AS ca " +
+                "FROM Vente v JOIN Employe e ON v.IdEmploye = e.IdEmploye " +
+                "WHERE v.DateVente BETWEEN ? AND ? " +
+                "GROUP BY e.IdEmploye ORDER BY ca DESC LIMIT 5";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String line = rs.getString("Nom") + " " +
+                        rs.getString("Prenom") + " : " +
+                        rs.getFloat("ca") + " DT";
+                list.add(line);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public List<String> getTopProducts(Date debut, Date fin) {
+
+        List<String> list = new ArrayList<>();
+
+        String sql = "SELECT p.NomProduit, SUM(c.Quantite) AS qte, " +
+                "SUM(c.Quantite * p.PrixVente) AS ca " +
+                "FROM Constituer c JOIN Produit p ON c.Reference = p.Reference " +
+                "JOIN Vente v ON c.NumFacture = v.NumFacture " +
+                "WHERE v.DateVente BETWEEN ? AND ? " +
+                "GROUP BY p.Reference, p.NomProduit ORDER BY qte DESC LIMIT 5";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String line = rs.getString("NomProduit") +
+                        " | Qte: " + rs.getInt("qte") +
+                        " | CA: " + rs.getFloat("ca") + " DT";
+                list.add(line);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public List<String> getSupplierPerformanceSimple() {
+
+        List<String> list = new ArrayList<>();
+
+        String sql = "SELECT f.Nom, COUNT(c.IdCommande) AS nbCommandes, " +
+                "SUM(CASE WHEN c.DateArrivee <= c.DateCommande THEN 1 ELSE 0 END) AS commandesATemps, " +
+                "SUM(CASE WHEN c.DateArrivee > c.DateCommande THEN 1 ELSE 0 END) AS commandesEnRetard " +
+                "FROM Fournisseur f LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur " +
+                "GROUP BY f.IdFournisseur, f.Nom";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String line = rs.getString("Nom") +
+                        " | Cmd: " + rs.getInt("nbCommandes") +
+                        " | On time: " + rs.getInt("commandesATemps") +
+                        " | Late: " + rs.getInt("commandesEnRetard");
+
+                list.add(line);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
+
+
+
+
+
 }
