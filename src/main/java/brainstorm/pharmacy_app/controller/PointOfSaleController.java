@@ -9,8 +9,10 @@ import brainstorm.pharmacy_app.Model.Vente;
 import brainstorm.pharmacy_app.Model.Constituer;
 import brainstorm.pharmacy_app.Service.ProduitService;
 import brainstorm.pharmacy_app.nav.Navigation;
+import brainstorm.pharmacy_app.Utils.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -52,6 +54,7 @@ public class PointOfSaleController {
     }
 
     @FXML private MFXTextField txtSearch;
+    @FXML private MFXComboBox<String> comboCategory;
     @FXML private TableView<Stock> tableStock;
     @FXML private TableColumn<Stock, Integer> colIdLot;
     @FXML private TableColumn<Stock, Integer> colReference;
@@ -76,12 +79,12 @@ public class PointOfSaleController {
 
     @FXML
     public void initialize() {
-        // Sécurité contre le NullPointerException (Ligne 46)
+        // hedhi mtaa erreur mtaa attribut null erreur ligne 46 ya taz
         if (colIdLot != null && colReference != null && colQuantiteStock != null) {
             colIdLot.setCellValueFactory(new PropertyValueFactory<>("numLot"));
             colReference.setCellValueFactory(new PropertyValueFactory<>("reference"));
             colQuantiteStock.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-            colPrice.setCellValueFactory(new PropertyValueFactory<>("prixVente"));
+            colPrice.setCellValueFactory(new PropertyValueFactory<>("prixVente"));// hawka zedet ll prix ma todhrebnich
             colName.setCellValueFactory(new PropertyValueFactory<>("nomProduit"));
 
             setupActionsColumn();
@@ -96,6 +99,11 @@ public class PointOfSaleController {
         masterStockData.setAll(stockDAO.getToutLeStock());
         masterProduitData.setAll(produitService.getAllProduits());
 
+        // tazz hedhi categorie ken thebni nbdadel chnowa yodhher badel wahdek hhahahhaahaha
+        if (comboCategory != null) {
+            comboCategory.setItems(FXCollections.observableArrayList("Toutes", "Médicament", "Parapharmacie", "Hygiène"));
+            comboCategory.getSelectionModel().selectFirst();
+        }
     }
 
     private void setupSearchFilter() {
@@ -103,20 +111,37 @@ public class PointOfSaleController {
 
         FilteredList<Stock> filteredData = new FilteredList<>(masterStockData, p -> true);
 
+        // hedhi bch tkhalik des que tenzel aal categorie yetbadel ll affichage
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(stock -> {
-                if (newValue == null || newValue.isEmpty()) return true;
-                String filter = newValue.toLowerCase();
-                return String.valueOf(stock.getReference()).contains(filter) ||
-                        String.valueOf(stock.getNumLot()).contains(filter);
-            });
+            updatePredicate(filteredData);
         });
 
+        if (comboCategory != null) {
+            comboCategory.valueProperty().addListener((obs, old, newValue) -> {
+                updatePredicate(filteredData);
+            });
+        }
+        //bch yodhhrou mnadhmin
         SortedList<Stock> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableStock.comparatorProperty());
         tableStock.setItems(sortedData);
     }
 
+    //  filtrage mtaa barre de recherche w categorie
+    private void updatePredicate(FilteredList<Stock> filteredData) {
+        filteredData.setPredicate(stock -> {
+            String filter = txtSearch.getText() == null ? "" : txtSearch.getText().toLowerCase();
+            String cat = comboCategory.getValue();
+
+            boolean matchesSearch = String.valueOf(stock.getReference()).contains(filter) ||
+                    String.valueOf(stock.getNumLot()).contains(filter);
+
+            boolean matchesCategory = cat == null || cat.equals("Toutes");
+
+            return matchesSearch && matchesCategory;
+        });
+    }
+    // ll fonction illi watretnii
     private void setupActionsColumn() {
         if (colActions == null) return;
 
@@ -144,7 +169,17 @@ public class PointOfSaleController {
                     btnAdd.setOnAction(event -> {
                         try {
                             int qte = Integer.parseInt(txtQty.getText());
-                            handleVente(s, qte);
+
+                            // hedhi mtaa ll quantité
+                            if (qte > s.getQuantite()) {
+                                afficherAlerte("Stock Insuffisant",
+                                        "Il ne reste que " + s.getQuantite() + " articles.", Alert.AlertType.ERROR);
+                            } else {
+                                handleVente(s, qte);
+                                // hedhi des que yetaada ligne de commande tonkess ll quantite toul
+                                s.setQuantite(s.getQuantite() - qte);
+                                getTableView().refresh();
+                            }
                         } catch (NumberFormatException e) {
                             afficherAlerte("Erreur", "Veuillez saisir un nombre entier.", Alert.AlertType.ERROR);
                         }
@@ -155,6 +190,7 @@ public class PointOfSaleController {
             }
         });
     }
+
     private void handleVente(Stock s, int qte) {
         if (qte <= 0) {
             afficherAlerte("Quantité", "La quantité doit être supérieure à 0.", Alert.AlertType.WARNING);
@@ -164,6 +200,12 @@ public class PointOfSaleController {
         if (venteActuelle == null) {
             venteActuelle = new Vente();
             venteActuelle.setDateVente(Date.valueOf(LocalDate.now()));
+
+            // billehi ken khatfet farahni
+            if (User.getInstance() != null) {
+                venteActuelle.setIdEmploye(User.getInstance().getUser().getIdEmploye());
+            }
+
             venteActuelle.setPrixTotal(0.0);
             venteDAO.creation_v(venteActuelle);
         }

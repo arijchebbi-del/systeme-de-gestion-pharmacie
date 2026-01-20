@@ -1,5 +1,6 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.Utils.User;
 import javafx.fxml.FXML;
 import  io.github.palexdev.materialfx.controls.MFXPasswordField;
 import  io.github.palexdev.materialfx.controls.MFXTextField;
@@ -34,6 +35,7 @@ public class LoginController {
 
         if (emp != null) {
             System.out.println("Connexion réussie : " + emp.getNom());
+            User.getInstace(emp);
             Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
         } else {
             lblError.setText("Identifiants incorrects.");
