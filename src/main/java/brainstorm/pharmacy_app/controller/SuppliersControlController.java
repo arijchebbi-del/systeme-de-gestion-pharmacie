@@ -2,10 +2,15 @@ package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Service.FournisseurService;
+import brainstorm.pharmacy_app.nav.Navigation;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,11 +19,33 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import brainstorm.pharmacy_app.nav.Navigation;
-import javafx.event.ActionEvent;
-
 
 public class SuppliersControlController {
+
+    @FXML
+    private void chargerDashboard(ActionEvent event) {
+        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerPointOfSale(ActionEvent event) {
+        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerProductControl(ActionEvent event) {
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerOrderControl(ActionEvent event) {
+        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerSuppliersControl(ActionEvent event) {
+        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerHistory(ActionEvent event) {
+        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
+    }
 
     @FXML private TableView<Fournisseur> tableFournisseurs;
     @FXML private TableColumn<Fournisseur, Integer> colId;
@@ -28,14 +55,13 @@ public class SuppliersControlController {
     @FXML private TableColumn<Fournisseur, Void> colView;
     @FXML private TableColumn<Fournisseur, Void> colDelete;
 
-    @FXML private TextField searchField;
-    @FXML private ComboBox<String> filterCombo;
-    @FXML private Button btnAdd;
+    @FXML private MFXTextField searchField;
+    @FXML private MFXComboBox<String> filterCombo;
+    @FXML private MFXButton btnAdd;
 
     private FournisseurService fournisseurService = new FournisseurService();
     private ObservableList<Fournisseur> fournisseurList = FXCollections.observableArrayList();
     private FilteredList<Fournisseur> filteredData;
-
     @FXML
     public void initialize() {
 
@@ -65,7 +91,7 @@ public class SuppliersControlController {
 
         btnAdd.setOnAction(e -> openAddSupplier());
     }
-
+    @FXML
     private void loadFournisseurs() {
         fournisseurList.clear();
         fournisseurList.addAll(fournisseurService.getAllFournisseurs());
@@ -182,29 +208,6 @@ public class SuppliersControlController {
             info.setContentText("Fournisseur supprimé avec succès !");
             info.show();
         }
-    }
-    private void chargerDashboard(ActionEvent event) {
-        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerPointOfSale(ActionEvent event) {
-        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerProductControl(ActionEvent event) {
-        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerOrderControl(ActionEvent event) {
-        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerSuppliersControl(ActionEvent event) {
-        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerHistory(ActionEvent event) {
-        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
     }
 
 }

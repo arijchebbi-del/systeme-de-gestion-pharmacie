@@ -2,9 +2,10 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -199,7 +200,7 @@
                <children>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.14" prefWidth="1077.0" styleClass="white-background" translateY="-20.0">
                      <children>
-                        <MFXTextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Supplier..." style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
+                        <MFXTextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Supplier..." style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
                            <font>
                               <Font name="Poppins Light" size="24.0" />
                            </font>
@@ -208,16 +209,25 @@
                               <String fx:value="search-bar" />
                            </styleClass>
                         </MFXTextField>
-                        <MFXComboBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="290.0" styleClass="selected-field" translateX="40.0" translateY="15.0" />
+                        <MFXComboBox fx:id="filterCombo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="290.0" styleClass="selected-field" translateX="40.0" translateY="15.0" />
                      </children>
                   </HBox>
-                  <MFXButton depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="280.0" rippleColor="WHITE" styleClass="add-supplier-button" text="Add Supplier        +" translateX="20.0" translateY="-20.0" />
+                  <MFXButton fx:id="btnAdd" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="280.0" rippleColor="WHITE" styleClass="add-supplier-button" text="Add Supplier        +" translateX="20.0" translateY="-20.0" />
                </children>
             </HBox>
          </top>
-         <center>
-            <MFXPaginatedTableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1379.0" styleClass="white-background" BorderPane.alignment="CENTER" />
-         </center>
+         <left>
+            <TableView fx:id="tableFournisseurs" prefHeight="200.0" prefWidth="1375.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="colId" prefWidth="270.0" text="C1" />
+                <TableColumn fx:id="colNom" minWidth="0.0" prefWidth="176.0" text="C2" />
+                  <TableColumn fx:id="colTel" prefWidth="246.0" text="Column X" />
+                  <TableColumn fx:id="colType" prefWidth="213.0" text="Column X" />
+                  <TableColumn fx:id="colView" prefWidth="75.0" text="Column X" />
+                  <TableColumn fx:id="colDelete" prefWidth="75.0" text="Column X" />
+              </columns>
+            </TableView>
+         </left>
       </BorderPane>
    </center>
 </BorderPane>

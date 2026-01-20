@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.fxml.FXML;
 
 public class AddProductController {
 

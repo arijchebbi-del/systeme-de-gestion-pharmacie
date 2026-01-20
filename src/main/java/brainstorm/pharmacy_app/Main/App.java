@@ -29,7 +29,7 @@ public class App extends Application {
                     .build()
                     .setGlobal();
 
-            FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/FXML/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(MFXResourcesLoader.loadURL("/FXML/SuppliersControl.fxml"));
             Parent root = loader.load();
 
             // --- CONFIGURATION DU ZOOM (REDUCTION A 80%) ---

@@ -24,7 +24,10 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class PointOfSaleController {
-
+    @FXML
+    private void chargerDashboard(ActionEvent event) {
+        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
+    }
     @FXML
     private void chargerPointOfSale(ActionEvent event) {
         Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource()));

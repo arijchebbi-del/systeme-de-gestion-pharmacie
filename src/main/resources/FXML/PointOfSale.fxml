@@ -2,11 +2,12 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -201,7 +202,7 @@
                <children>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.14" prefWidth="1077.0" styleClass="white-background" translateY="-20.0">
                      <children>
-                        <MFXTextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Product" style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
+                        <MFXTextField fx:id="txtSearch" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Product" style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
                            <font>
                               <Font name="Poppins Light" size="24.0" />
                            </font>
@@ -217,7 +218,14 @@
             </HBox>
          </top>
          <left>
-            <MFXPaginatedTableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1077.0" styleClass="white-background" BorderPane.alignment="CENTER" />
+            <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1077.0" styleClass="pos-table" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Reference" />
+                <TableColumn editable="false" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Name" />
+                  <TableColumn editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Category" />
+                  <TableColumn editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" sortable="false" styleClass="pos-table-c" text="Price" />
+              </columns>
+            </TableView>
          </left>
       </BorderPane>
    </center>
@@ -249,7 +257,7 @@
                               <Font name="Poppins Medium" size="26.0" />
                            </font>
                         </Text>
-                        <Label text="00.00DT" textFill="#eb6464" translateX="100.0" translateY="25.0">
+                        <Label fx:id="lblTotal" text="00.00DT" textFill="#eb6464" translateX="100.0" translateY="25.0">
                            <font>
                               <Font name="Poppins Medium" size="24.0" />
                            </font>
