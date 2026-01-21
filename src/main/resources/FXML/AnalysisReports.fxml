@@ -398,7 +398,7 @@
                               </VBox>
                               <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
                                  <image>
-                                    <Image url="@../images/truck.png" />
+                                    <Image url="@../images/factory.png" />
                                  </image>
                               </ImageView>
                            </children>

@@ -4,6 +4,7 @@ import brainstorm.pharmacy_app.Model.Commande;
 import brainstorm.pharmacy_app.Service.CommandeService;
 import brainstorm.pharmacy_app.Service.FournisseurService;
 import brainstorm.pharmacy_app.Model.Fournisseur;
+import brainstorm.pharmacy_app.Utils.User;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
@@ -79,7 +80,7 @@ public class AddOrderController {
             }
 
             float prixTotal = Float.parseFloat(prixTotalField.getText());
-            int idEmploye = 1; // TODO: Get the actual logged-in employee ID
+            int idEmploye = User.getInstance().getUser().getIdEmploye();
             int tempId = 0; // Temporary ID, will be set by database
 
             // Create the commande using the correct constructor

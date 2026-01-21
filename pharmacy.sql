@@ -4,6 +4,7 @@ use pharmacy_db;
 
 CREATE TABLE Employe(
 	IdEmploye INT PRIMARY KEY auto_increment,
+    Username VARCHAR(30),
 	MotDePasse VARCHAR(30),
 	Role VARCHAR(15),
 	HoraireDeTravail VARCHAR(20),
@@ -37,14 +38,13 @@ CREATE TABLE Commande(
 	PrixTotal DECIMAL(10,2),
 	DateCommande DATETIME,
 	DateArrivee DATETIME,
-	Quantite INT,
 	IdEmploye INT,
 	IdFournisseur INT,
 	Etat VARCHAR(10),
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye),
 	FOREIGN KEY (IdFournisseur) REFERENCES Fournisseur(IdFournisseur),
 	CONSTRAINT CHK_Commande 
-	CHECK (Etat in ('cree','modifie','annulee','recue') AND PrixTotal>=0 AND Quantite>=0)
+	CHECK (Etat in ('cree','modifie','annulee','recue') AND PrixTotal>=0)
 );
 CREATE TABLE Stock(
 	NumLot INT PRIMARY KEY auto_increment,

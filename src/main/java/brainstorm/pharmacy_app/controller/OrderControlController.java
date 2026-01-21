@@ -104,52 +104,21 @@ public class OrderControlController {
         try {
             // You might want to create an AddOrder.fxml for this
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddOrderPopUp.fxml"));
-
-            // If AddOrder.fxml doesn't exist, create a simple dialog
-            if (loader.getLocation() == null) {
-                createSimpleAddOrderDialog();
-            } else {
-                Scene scene = new Scene(loader.load());
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Nouvelle Commande");
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(((Node) event.getSource()).getScene().getWindow());
-                stage.showAndWait();
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Nouvelle Commande");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            stage.showAndWait();
 
                 // Refresh after adding
                 loadOrders();
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
-            createSimpleAddOrderDialog();
         }
     }
 
-    private void createSimpleAddOrderDialog() {
-        // Create a simple dialog if AddOrder.fxml doesn't exist
-        Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setTitle("Nouvelle Commande - À développer");
-
-        VBox form = new VBox(10);
-        form.setPadding(new Insets(20));
-        form.setStyle("-fx-background-color: white;");
-
-        Label message = new Label("Cette fonctionnalité est en cours de développement.");
-        message.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
-
-        Button closeButton = new Button("Fermer");
-        closeButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-        closeButton.setOnAction(e -> dialog.close());
-
-        form.getChildren().addAll(message, closeButton);
-
-        Scene dialogScene = new Scene(form, 400, 150);
-        dialog.setScene(dialogScene);
-        dialog.showAndWait();
-    }
 
     void loadOrders() {
         ordersContainer.getChildren().clear();

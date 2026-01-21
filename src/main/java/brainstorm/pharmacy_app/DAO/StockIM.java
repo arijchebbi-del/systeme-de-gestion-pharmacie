@@ -211,7 +211,7 @@ public class StockIM implements StockDAO {
 
     public void updateQuantiteStock(int numLot, int nouvelleQuantite) {
 
-        String sql = "UPDATE stock SET Quantite = ? WHERE NumLot = ?";
+        String sql = "UPDATE Stock SET Quantite = ? WHERE NumLot = ?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

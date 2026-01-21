@@ -60,7 +60,7 @@ public class StockDetailsController {
     }
     @FXML
     private void chargerEmployeesControl(ActionEvent event) {
-        Navigation.navTo("/FXML/Employee\uD83D\uDDD8\uD83D\uDDD8sControl.fxml",((Node) event.getSource())); //charger dashboard
+        Navigation.navTo("/FXML/EmployeesControl.fxml",((Node) event.getSource())); //charger dashboard
     }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {

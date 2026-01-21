@@ -18,9 +18,9 @@ GRANT SELECT ON pharmacy_db.Fournisseur TO 'employee'@'localhost';
 GRANT SELECT ON pharmacy_db.Employe TO 'employee'@'localhost';
 
 INSERT INTO Employe
-(IdEmploye, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,MotDePasse)
+(IdEmploye,Username, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,MotDePasse)
 VALUES
-    (1234, 'admin', '09:00-17:00', 12345678, 'YourPrenom', 'ahmedmohsen', 'youremail@example.com','arouja');
+    (1234,'ahmedmohsen','admin', '09:00-17:00', 12345678, 'Ahmed', 'Mohsen', 'youremail@example.com','arouja');
 
 # Apply Changes
 FLUSH PRIVILEGES;

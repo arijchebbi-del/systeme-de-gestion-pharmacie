@@ -1,7 +1,9 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.Model.VenteHistoryDTO;
 import brainstorm.pharmacy_app.nav.Navigation;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -92,7 +94,13 @@ public class HistoryController {
                 int nbr = constituerDAO.getNombreProduitsParFacture(v.getNumFacture());
                 historyList.add(new VenteHistoryDTO(v, nbr));
             }
-            tableHistory.setItems(historyList);
+
+            SortedList<VenteHistoryDTO> sortedData = new SortedList<>(historyList);
+            sortedData.comparatorProperty().bind(tableHistory.comparatorProperty());
+
+            tableHistory.setItems(sortedData);
+            tableHistory.getSortOrder().add(colActionID);
+            colActionID.setSortType(TableColumn.SortType.DESCENDING);
         }
     }
 
