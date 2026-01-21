@@ -158,6 +158,10 @@ public class PointOfSaleController {
                                 handleVente(sp.getStock(), qte);
                                 // hedhi des que yetaada ligne de commande tonkess ll quantite toul
                                 sp.getStock().setQuantite(sp.getStock().getQuantite() - qte);
+
+                                // hna zedt update mtaa el base de donnee bch ton9os mel stock
+                                stockDAO.updateQuantiteStock(sp.getStock().getNumLot(), sp.getStock().getQuantite());
+
                                 getTableView().refresh();
                             }
                         } catch (NumberFormatException e) {
@@ -205,7 +209,7 @@ public class PointOfSaleController {
         updateTotalLabel();
     }
 
-    // PARTIE MODIFIÉE : Supprime la ligne et réduit le total
+    // Supprime la ligne et réduit le total hatta fi stock
     private void handleSuppression(Stock s) {
         if (venteActuelle == null) return;
 
@@ -224,13 +228,16 @@ public class PointOfSaleController {
             // nrajaa ll quantité ll tableaau kif ma kenet
             s.setQuantite(s.getQuantite() + qteVendu);
 
+            // hna zedt update mtaa el base de donnee bch tarja3 el quantite fil stock
+            stockDAO.updateQuantiteStock(s.getNumLot(), s.getQuantite());
+
             afficherAlerte("Succès", "Produit retiré de la facture.", Alert.AlertType.INFORMATION);
         } else {
             afficherAlerte("Erreur", "Ce produit n'est pas dans la vente en cours.", Alert.AlertType.ERROR);
         }
     }
 
-    // PARTIE AJOUTÉE : Finalise la facture et l'ajoute à l'historique
+    // ykamel ll fatura
     private void handlePayment() {
         if (montantTotal <= 0 || venteActuelle == null) {
             afficherAlerte("Erreur", "Le total est nul ou aucune vente en cours.", Alert.AlertType.ERROR);
