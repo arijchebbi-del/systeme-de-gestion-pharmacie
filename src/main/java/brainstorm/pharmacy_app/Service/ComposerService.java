@@ -20,7 +20,7 @@ public class ComposerService {
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, composer.getIdCommande());
-            ps.setInt(2, composer.getIdProduit());
+            ps.setInt(2, composer.getReference());
             ps.setInt(3, composer.getQuantiteComposer());
 
             ps.executeUpdate();
