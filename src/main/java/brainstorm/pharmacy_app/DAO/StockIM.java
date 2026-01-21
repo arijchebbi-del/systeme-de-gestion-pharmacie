@@ -125,7 +125,7 @@ public class StockIM implements StockDAO {
         }
         return 0;
     }
-    public List<Stock> getToutLeStock() {
+    public static List<Stock> getToutLeStock() {
         List<Stock> listeStock = new ArrayList<>();
         String query = "SELECT * FROM Stock"; // La variable 'query' utilisée dans votre capture
 
