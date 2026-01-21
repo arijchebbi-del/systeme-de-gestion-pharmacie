@@ -19,4 +19,6 @@ public class Composer {
     public void setIdCommande( int idCommande){this.idCommande=idCommande;}
     public void setProduit(int ref){reference=ref;}
 
+    public int getQuantitec() {
+    }
 }
