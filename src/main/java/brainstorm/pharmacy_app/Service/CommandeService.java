@@ -26,7 +26,7 @@ public class CommandeService {
     private ProduitIM produitDAO = new ProduitIM();
     private GererIM gererDAO = new GererIM();
 
-    public void passerCommande(Commande c) throws QuantiteNegativeException {
+    /*public void passerCommande(Commande c) throws QuantiteNegativeException {
         if (c.getQuantiteComposer() <= 0) {
             throw new QuantiteNegativeException("La quantité commandée doit être positive");
         }
@@ -34,7 +34,7 @@ public class CommandeService {
         c.setEtat("passer");
         commandeDAO.creation_c(c);
         System.out.println("Commande enregistrée avec l'état : " + c.getEtat());
-    }
+    }*/
 
     public void annulerCommande(int idCommande) {
         if (idCommande > 0) {
@@ -43,7 +43,7 @@ public class CommandeService {
         }
     }
 
-    public void receptionnerEtMettreAJourStock(Commande c, Produit p, Stock s, int idEmployeConnecte) throws QuantiteNegativeException {
+    /*public void receptionnerEtMettreAJourStock(Commande c, Produit p, Stock s, int idEmployeConnecte) throws QuantiteNegativeException {
         try {
             c.setEtat("Reçue");
             commandeDAO.modification_c(c);
@@ -85,7 +85,7 @@ public class CommandeService {
         } catch (Exception e) {
             System.err.println("Erreur critique lors de la réception de commande : " + e.getMessage());
         }
-    }
+    }*/
 
     // ===== NEW METHODS FOR ORDER CONTROL =====
 
@@ -340,5 +340,8 @@ public class CommandeService {
         }
 
         return commandes;
+    }
+    public void createCommande(Commande commande) {
+        commandeDAO.creation_c(commande);
     }
 }

@@ -10,18 +10,22 @@ public class Stock {
     private int seuilMinimal;
     private int reference;
 
+    public Stock(){}
     public Stock(int numLot, int ref, int quantite,int seuil) {
         this.numLot = numLot;
         this.reference = ref;
         this.quantite = quantite;
         this.seuilMinimal=seuil;
         this.derniereMiseAJour = new Timestamp(System.currentTimeMillis());}
+
+
     public int getNumLot() {return numLot;}
     public Timestamp getDerniereMiseAJour() {return derniereMiseAJour;}
     public int getQuantite() {return quantite;}
-
     public int getReference() {return reference;}
     public int getSeuilMinimal() {return seuilMinimal;}
+    public int getDecalage(){return quantite-seuilMinimal;}
+    public String getEtat() { return (quantite>=seuilMinimal) ? "OK": "LOW";}
     public void setNumLot(int numLot) {this.numLot = numLot;}
     public void setDerniereMiseAJour(Timestamp derniereMiseAJour) {this.derniereMiseAJour = derniereMiseAJour;}
     public void setQuantite(int quantite) {this.quantite = quantite;}
@@ -32,12 +36,6 @@ public class Stock {
         ProduitIM produitIM = new ProduitIM();
         return produitIM.getNomProduitByRef(this.reference);
     }
-    public String getEtat() {
-        if (quantite >= seuilMinimal) {
-            return "OK";
-        } else {
-            return "LOW";
-        }
-    }
+
 
 }

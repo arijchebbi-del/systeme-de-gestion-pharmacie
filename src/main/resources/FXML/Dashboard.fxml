@@ -2,9 +2,10 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -91,7 +92,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerOrderControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerStockDetails" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Stock Details" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -103,6 +104,24 @@
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
                      <image>
                         <Image url="@../images/box-solid-svgrepo-com.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerOrderControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/Layer.png" />
                      </image>
                   </ImageView>
                </children>
@@ -149,7 +168,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" onAction="#chargerEmployeesControl" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -169,9 +188,9 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis reports" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerAnalysisReports" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis Reports" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -180,10 +199,14 @@
                         <Font name="Poppins Light" size="20.0" />
                      </font>
                   </MFXButton>
-                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/analysis.png" />
                      </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
                   </ImageView>
                </children>
             </HBox>
@@ -195,13 +218,103 @@
          <top>
             <HBox prefHeight="150.0" prefWidth="300.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="291.0" styleClass="white-background" translateY="5.0">
+                     <children>
+                        <Text fill="#5d5d5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Low Stock" translateX="20.0" translateY="10.0">
+                           <font>
+                              <Font name="Poppins Light" size="26.0" />
+                           </font>
+                        </Text>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="0" textFill="#ea4b3d" translateX="20.0" translateY="20.0">
+                                 <font>
+                                    <Font name="Poppins Regular" size="48.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="47.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" translateX="190.0" translateY="25.0">
+                                 <image>
+                                    <Image url="@../images/alert.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="291.0" styleClass="white-background" translateX="35.0" translateY="5.0">
+                     <children>
+                        <Text fill="#5d5d5d" strokeType="OUTSIDE" strokeWidth="0.0" text="Low Stock" translateX="20.0" translateY="10.0">
+                           <font>
+                              <Font name="Poppins Light" size="26.0" />
+                           </font>
+                        </Text>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="0" textFill="#35a0b8" translateX="20.0" translateY="20.0">
+                                 <font>
+                                    <Font name="Poppins Regular" size="48.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="45.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" translateX="190.0" translateY="25.0">
+                                 <image>
+                                    <Image url="@../images/Vector.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerPointOfSaleim" pickOnBounds="true" preserveRatio="true" translateX="65.0" translateY="5.0">
+                     <image>
+                        <Image url="@../images/POS.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerProductControlim" pickOnBounds="true" preserveRatio="true" translateX="90.0" translateY="5.0">
+                     <image>
+                        <Image url="@../images/Products%20Control.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerStockDetailsim" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="5.0">
+                     <image>
+                        <Image url="@../images/Commands%20Control.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#chargerHistoryim" pickOnBounds="true" preserveRatio="true" translateX="130.0" translateY="5.0">
+                     <image>
+                        <Image url="@../images/History.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </HBox>
          </top>
-         <center>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="692.0" prefWidth="1269.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" styleClass="white-background" BorderPane.alignment="CENTER" />
-         </center>
+         <left>
+            <VBox prefHeight="200.0" prefWidth="320.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#chargerAddProduct" prefHeight="81.0" prefWidth="291.0" styleClass="add-product-button" text="Add Product          +">
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#chargerAddSupplier" prefHeight="81.0" prefWidth="291.0" styleClass="add-supplier-button" text="Add Supplier          +" translateY="15.0">
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </MFXButton>
+               </children>
+            </VBox>
+         </left>
       </BorderPane>
    </center>
 </BorderPane>

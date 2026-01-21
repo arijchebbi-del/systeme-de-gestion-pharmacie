@@ -4,6 +4,7 @@ package brainstorm.pharmacy_app.DAO;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
+import javafx.collections.ObservableList;
 
 
 import java.sql.*;
@@ -125,25 +126,24 @@ public class StockIM implements StockDAO {
         }
         return 0;
     }
-    public List<Stock> getToutLeStock() {
+    public static List<Stock> getToutLeStock() {
         List<Stock> listeStock = new ArrayList<>();
-        String query = "SELECT * FROM Stock"; // La variable 'query' utilisée dans votre capture
+        String query = "SELECT * FROM Stock";
 
-        // Utilisation du bloc try-with-resources selon votre image
+
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                // Utilisation du constructeur de votre classe Stock
+
                 Stock s = new Stock(
-                        rs.getInt("numLot"),        // correspond à numLot
-                        rs.getInt("Reference"),     // correspond à reference
-                        rs.getInt("Quantite"),      // correspond à quantite
-                        rs.getInt("SeuilMinimal")   // correspond à seuilMinimal
+                        rs.getInt("numLot"),
+                        rs.getInt("Reference"),
+                        rs.getInt("Quantite"),
+                        rs.getInt("SeuilMinimal")
                 );
 
-                // Récupération du timestamp (dernière ligne de votre capture)
                 s.setDerniereMiseAJour(rs.getTimestamp("derniereMiseAJour"));
 
                 listeStock.add(s);
@@ -173,5 +173,67 @@ public class StockIM implements StockDAO {
         }
         return prix;
     }
+    public static List<Stock> getStockByPeriod(Date debut, Date fin) {
+
+        List<Stock> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM Stock WHERE DerniereMiseAJour BETWEEN ? AND ?";
+
+        try (
+                Connection cnx = DBConnection.getEmployeeConnection();
+                PreparedStatement ps = cnx.prepareStatement(sql);
+        ) {
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Stock s = new Stock(
+                        rs.getInt("NumLot"),
+                        rs.getInt("Reference"),
+                        rs.getInt("Quantite"),
+                        rs.getInt("SeuilMinimal")
+                );
+
+
+                s.setDerniereMiseAJour(rs.getTimestamp("DerniereMiseAJour"));
+
+                list.add(s);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public void updateQuantiteStock(int numLot, int nouvelleQuantite) {
+
+        String sql = "UPDATE Stock SET Quantite = ? WHERE NumLot = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+
+            ps.setInt(1, nouvelleQuantite);
+            ps.setInt(2, numLot);
+
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Stock mis a jour avec succes pour le lot : " + numLot);
+            }
+
+        } catch (SQLException e) {
+
+            System.err.println("Erreur lors de la mise a jour de la quantite du stock : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

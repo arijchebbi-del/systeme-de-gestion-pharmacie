@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConstituerIM implements ConstituerDAO {
 
@@ -77,5 +79,55 @@ public class ConstituerIM implements ConstituerDAO {
             System.err.println("Erreur lors de la suppression de la ligne de vente : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    public int getQuantiteVendu(int numFacture, int reference) {
+        int qte = 0;
+        String sql = "SELECT QuantiteVendu FROM Constituer WHERE NumFacture = ? AND Reference = ?";
+
+        try (Connection con = DBConnection.getAdminConnection(); // Ou votre méthode de connexion
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, numFacture);
+            ps.setInt(2, reference);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    qte = rs.getInt("QuantiteVendu");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return qte;
+    }
+
+    public int getNombreProduitsParFacture(int numFacture) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM Constituer WHERE NumFacture = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, numFacture);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) count = rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return count;
+    }
+
+    // ll bouton view history controller
+    public List<Constituer> getLignesParFacture(int numFacture) {
+        List<Constituer> liste = new ArrayList<>();
+        String sql = "SELECT * FROM Constituer WHERE NumFacture = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, numFacture);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Constituer c = new Constituer();
+                c.setReference(rs.getInt("Reference"));
+                c.setQuantiteVendu(rs.getInt("QuantiteVendu"));
+                liste.add(c);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return liste;
     }
 }

@@ -1,6 +1,8 @@
 package brainstorm.pharmacy_app.DAO;
 
+import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Model.Stock;
+import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -160,40 +162,7 @@ public class RapportIM {
     }
 
     //rapport etat stock
-    public Stock rapportEtatStock() {
-        String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, " +
-                " s.DerniereMiseAJour " +
-                "FROM Stock s "+
-                "JOIN Produit p ON s.Reference = p.Reference ";
-
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
-
-            System.out.println("Rapport d'état des stocks");
-            while (rs.next()) {
-                String produit = rs.getString("NomProduit");
-                int quantite = rs.getInt("Quantite");
-                int seuil = rs.getInt("SeuilMinimal");
-                java.sql.Timestamp maj = rs.getTimestamp("DerniereMiseAJour");
-
-                String etat = (quantite >= seuil) ? "Supérieur ou égal au seuil" : "Inférieur au seuil";
-                int decalage = (quantite >= seuil) ? quantite - seuil : seuil - quantite;
-
-                System.out.println("Produit : " + produit);
-                System.out.println("Quantité actuelle : " + quantite);
-                System.out.println("Seuil minimal : " + seuil);
-                System.out.println("État : " + etat);
-                System.out.println("Décalage : " + decalage);
-                System.out.println("Dernière mise à jour : " + maj);
-                System.out.println("fin rapport");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
-        }
-        return null;
-    }
+    public List<StockProduit> rapportEtatStock() {return new StockProduitIM().getAll();}
     public void Historique() {
         String sql = "SELECT v.NumFacture, v.DateVente, p.NomProduit, c.Quantite " +
                 "FROM vente v " +
@@ -416,50 +385,89 @@ public class RapportIM {
 
         return list;
     }
+    public int getTotalSupplierOrders(Date debut, Date fin) {
 
-    public String getTotalSupplierOrders() {
-        String sql = "SELECT COUNT(*) AS totalOrders FROM Commande";
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        int total = 0;
 
-            if (rs.next()) {
-                return String.valueOf(rs.getInt("totalOrders"));
-            }
+        String sql = "SELECT COUNT(*) FROM Commande " +
+                "WHERE DateCommande BETWEEN ? AND ?";
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return "0";
-    }
-    public String getSuppliersOnTime() {
-        String sql = "SELECT COUNT(*) AS onTimeOrders FROM Commande WHERE DateArrivee <= DateCommande";
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (
+                Connection cnx = DBConnection.getEmployeeConnection();
+                PreparedStatement ps = cnx.prepareStatement(sql);
+        ) {
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return String.valueOf(rs.getInt("onTimeOrders"));
+                total = rs.getInt(1);
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return "0";
+
+        return total;
     }
-    public String getSuppliersLate() {
-        String sql = "SELECT COUNT(*) AS lateOrders FROM Commande WHERE DateArrivee > DateCommande";
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+    public int getSuppliersOnTime(Date debut, Date fin) {
+
+        int total = 0;
+
+        String sql = "SELECT COUNT(*) FROM Commande " +
+                "WHERE Etat = 'recue' " +  // "recue" = on time
+                "AND DateCommande BETWEEN ? AND ?";
+
+        try (
+                Connection cnx = DBConnection.getEmployeeConnection();
+                PreparedStatement ps = cnx.prepareStatement(sql);
+        ) {
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return String.valueOf(rs.getInt("lateOrders"));
+                total = rs.getInt(1);
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return "0";
+
+        return total;
     }
+    public int getSuppliersLate(Date debut, Date fin) {
+
+        int total = 0;
+
+        String sql = "SELECT COUNT(*) FROM Commande " +
+                "WHERE Etat = 'annulee' " +  // "annulee" = late
+                "AND DateCommande BETWEEN ? AND ?";
+
+        try (
+                Connection cnx = DBConnection.getEmployeeConnection();
+                PreparedStatement ps = cnx.prepareStatement(sql);
+        ) {
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+
+
+
+
 }

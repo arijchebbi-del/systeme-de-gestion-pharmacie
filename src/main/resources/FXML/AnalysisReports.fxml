@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.AnalysisReportsController">
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="64.46" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" styleClass="dashboard-logo">
+               <image>
+                  <Image url="@../images/DashbordAppLogo.png" />
+               </image>
+            </ImageView>
+            <MFXDatePicker fx:id="dateDebut" />
+            <MFXDatePicker fx:id="dateFin" />
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="291.0" BorderPane.alignment="CENTER">
+         <styleClass>
+            <String fx:value="white-background" />
+            <String fx:value="dashboard-menu" />
+         </styleClass>
+         <children>
+            <Text fill="#5d5d5d" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-x: 18px; -fx-translate-y: 15px;" text="Menu" textAlignment="CENTER">
+               <font>
+                  <Font name="Poppins Light" size="26.0" />
+               </font>
+            </Text>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerDashboard" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Dashboard" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="dashboard-icon">
+                     <image>
+                        <Image url="@../images/dashboard-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerPointOfSale" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Point of Sale" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/add-to-cart-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerProductControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Product Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/pill_medicine_dragee_medicament_drug.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerStockDetails" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Stock Details" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/box-solid-svgrepo-com.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerOrderControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/Layer.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerSuppliersControl" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Suppliers Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/supplier.png" />
+                     </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerHistory" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="History" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/history-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" onAction="#chargerEmployeesControl" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/person-18.png" />
+                     </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" onAction="#chargerAnalysisReports" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis Reports" textFill="#078f0c" textOverrun="CLIP">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="dashboard-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Ganalysis.png" />
+                     </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
+         <left>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="860.0" prefWidth="1400.0" translateX="25.0" translateY="-10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="856.0" prefWidth="450.0" style="-fx-background-color: E4FFE5; -fx-background-radius: 20px;">
+                     <children>
+                        <HBox prefHeight="120.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Revenue :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblTotalRevenue" textFill="#135909">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
+                                 <image>
+                                    <Image url="@../images/money.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="120.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Sales :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblNbSales" textFill="#135909">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="530.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Basket :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblAverageBasket" textFill="#135909">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="80.0" prefWidth="200.0">
+                           <children>
+                              <MFXButton fx:id="btnFullRevenueReport" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #135909; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" text="Full Revenue Report 📥">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="30.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="CLOSED_HAND" />
+                                 </cursor>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="856.0" prefWidth="450.0" style="-fx-background-color: #E4EAFF; -fx-background-radius: 20px;" translateX="25.0">
+                     <children>
+                        <HBox prefHeight="120.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#091c59" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Products Quantity:">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblTotalProducts" textFill="#091c59">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
+                                 <image>
+                                    <Image url="@../images/box.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#5d52ba" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="120.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#091c59" strokeType="OUTSIDE" strokeWidth="0.0" text="Low Stock Products :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblLowStockProducts" textFill="#091c59">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#5d52ba" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="530.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#091c59" strokeType="OUTSIDE" strokeWidth="0.0" text="Out Of Stock Products :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblOutOfStockProducts" textFill="#091c59">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#5d52ba" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="80.0" prefWidth="200.0">
+                           <children>
+                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #091C59; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Stock Report 📥">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="30.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="CLOSED_HAND" />
+                                 </cursor>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="856.0" prefWidth="450.0" style="-fx-background-color: E4D3F9; -fx-background-radius: 20px;" translateX="50.0">
+                     <children>
+                        <HBox prefHeight="120.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#400959" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Orders :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblTotalSuppliersOrders" textFill="#400959">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
+                                 <image>
+                                    <Image url="@../images/factory.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#8152ba" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="120.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#400959" strokeType="OUTSIDE" strokeWidth="0.0" text="On-Time Orders :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblSuppliersOnTime" textFill="#400959">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#8152ba" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="530.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                                 <children>
+                                    <Text fill="#400959" strokeType="OUTSIDE" strokeWidth="0.0" text="Late Orders :">
+                                       <font>
+                                          <Font name="Poppins Medium" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="lblSuppliersLate" textFill="#400959">
+                                       <font>
+                                          <Font name="Poppins SemiBold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#8152ba" strokeWidth="1.2" translateX="20.0" />
+                        <HBox prefHeight="80.0" prefWidth="200.0">
+                           <children>
+                              <MFXButton fx:id="btnFullSuppliersReport" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #400959; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" text="Full Suppliers Report 📥">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="30.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="CLOSED_HAND" />
+                                 </cursor>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </left>
+      </BorderPane>
+   </center>
+</BorderPane>

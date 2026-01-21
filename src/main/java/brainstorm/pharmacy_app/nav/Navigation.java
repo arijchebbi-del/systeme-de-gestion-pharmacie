@@ -12,8 +12,12 @@ public class Navigation {
             // Chargement de la scène Dashboard
             FXMLLoader loader = new FXMLLoader(Navigation.class.getResource(path));
             Scene scene = new Scene(loader.load());
-
+            double scaleX = 0.88;
+            double scaleY = 0.86;
+            scene.getRoot().setScaleX(scaleX);
+            scene.getRoot().setScaleY(scaleY);
             Stage stage = (Stage) source.getScene().getWindow();
+
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();

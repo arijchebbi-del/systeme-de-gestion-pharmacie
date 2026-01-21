@@ -5,13 +5,13 @@ public class Composer {
     private int reference;
     private int idCommande;
     private int quantite;
-    Composer(int idCo, int ref, int Quant){
+    public Composer(int idCo, int ref, int Quant){
         this.reference=ref;
         this.quantite=Quant;
         this.idCommande=idCo;
     }
-    int getIdCommande(){return idCommande;}
-    int getIdProduit(){
+    public int getIdCommande(){return idCommande;}
+    public int getIdProduit(){
         return reference;
     }
     public int getQuantiteComposer(){return quantite;}
