@@ -1,131 +1,184 @@
 package brainstorm.pharmacy_app.controller;
 
-import brainstorm.pharmacy_app.Model.Commande;
-import brainstorm.pharmacy_app.Service.CommandeService;
-import brainstorm.pharmacy_app.Service.FournisseurService;
-import brainstorm.pharmacy_app.Model.Fournisseur;
+import brainstorm.pharmacy_app.DAO.*;
+import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Utils.User;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import javafx.fxml.FXML;
-import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 
 public class AddOrderController {
-    @FXML private MFXComboBox<String> fournisseurCombo;
-    @FXML private MFXTextField prixTotalField;
-    @FXML private MFXTextField dateArriveeField;
 
-    private CommandeService commandeService = new CommandeService();
-    private FournisseurService fournisseurService = new FournisseurService();
-    private OrderControlController parentController;
+    @FXML private MFXTextField txtRef;
+    @FXML private MFXTextField txtQty;
+    @FXML private MFXTextField txtFournisseurId; // MA yefreghch wakt wakt tenzel aala add
+    @FXML private Label lblProductName;
+    @FXML private Label lblError;
+    @FXML private Label lblTotalPrix;
+    @FXML private MFXButton btnSubmit;
+    @FXML private MFXButton btnCancel;
+
+    @FXML private TableView<Composer> tableTempItems;
+    @FXML private TableColumn<Composer, Integer> colRef;
+    @FXML private TableColumn<Composer, Integer> colQty;
+
+    private ObservableList<Composer> tempItems = FXCollections.observableArrayList();
+    private float montantTotalCommande = 0.0f;
+
+    private StockIM stockDAO = new StockIM();
+    private CommandeIM commandeDAO = new CommandeIM();
+    private ComposerIM composerDAO = new ComposerIM();
 
     @FXML
     public void initialize() {
-        loadFournisseurs();
-    }
+        colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        tableTempItems.setItems(tempItems);
 
-    public void setParentController(OrderControlController parent) {
-        this.parentController = parent;
-    }
+        lblTotalPrix.setText("0.00 DT");
 
-    private void loadFournisseurs() {
-        List<Fournisseur> fournisseurs = fournisseurService.getAllFournisseurs();
-        ObservableList<String> fournisseurNames = FXCollections.observableArrayList();
-
-        for (Fournisseur f : fournisseurs) {
-            fournisseurNames.add(f.getNom() + " (ID: " + f.getId_Fournisseur() + ")");
-        }
-
-        fournisseurCombo.setItems(fournisseurNames);
+        txtRef.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) verifierProduit();
+            else lblProductName.setText("");
+        });
     }
 
     @FXML
-    private void handleSaveOrder(ActionEvent event) {
+    private void verifierProduit() {
         try {
-            if (fournisseurCombo.getValue() == null || fournisseurCombo.getValue().isEmpty()) {
-                showError("Erreur", "Veuillez sélectionner un fournisseur");
+            int ref = Integer.parseInt(txtRef.getText());
+            String nom = stockDAO.getNomProduit(ref);
+
+            if (nom != null) {
+                lblProductName.setText(nom);
+                lblProductName.setStyle("-fx-text-fill: #27ae60;");
+                lblError.setText("");
+            } else {
+                lblProductName.setText("Produit inexistant");
+                lblProductName.setStyle("-fx-text-fill: #e74c3c;");
+            }
+        } catch (NumberFormatException e) {
+            lblProductName.setText("Référence invalide");
+            lblProductName.setStyle("-fx-text-fill: #e74c3c;");
+        }
+    }
+
+
+    @FXML
+    private void handleAddItem(ActionEvent event) {
+        try {
+            // nthabet illi kteb fournisseur mi lowel
+            if (txtFournisseurId.getText().isEmpty()) {
+                lblError.setText("Veuillez saisir l'ID du fournisseur d'abord.");
                 return;
             }
 
-            if (prixTotalField.getText() == null || prixTotalField.getText().isEmpty()) {
-                showError("Erreur", "Veuillez entrer un prix total");
+            if (txtRef.getText().isEmpty() || txtQty.getText().isEmpty()) {
+                lblError.setText("Saisissez une référence et une quantité.");
                 return;
             }
 
-            // Parse the supplier ID from the combo box value
-            String selectedValue = fournisseurCombo.getValue();
-            int idFournisseur = extractFournisseurId(selectedValue);
+            int ref = Integer.parseInt(txtRef.getText());
+            int qte = Integer.parseInt(txtQty.getText());
 
-            // Get current date as order date
-            java.sql.Date dateCommande = new java.sql.Date(System.currentTimeMillis());
-
-            // Parse arrival date if provided, otherwise use null
-            java.sql.Date dateArrivee = null;
-            if (dateArriveeField.getText() != null && !dateArriveeField.getText().isEmpty()) {
-                try {
-                    LocalDate arrivalDate = LocalDate.parse(dateArriveeField.getText());
-                    dateArrivee = java.sql.Date.valueOf(arrivalDate);
-                } catch (Exception e) {
-                    showError("Format de date incorrect", "Veuillez utiliser le format YYYY-MM-DD");
-                    return;
-                }
+            if (stockDAO.getNomProduit(ref) == null) {
+                lblError.setText("Référence produit invalide.");
+                return;
             }
 
-            float prixTotal = Float.parseFloat(prixTotalField.getText());
-            int idEmploye = User.getInstance().getUser().getIdEmploye();
-            int tempId = 0; // Temporary ID, will be set by database
 
-            // Create the commande using the correct constructor
-            Commande commande = new Commande(tempId, idFournisseur, idEmploye, dateCommande, dateArrivee);
-            commande.setPrixTotal(prixTotal);
-            commande.setEtat("CREE");
+            float prixUnitaire = stockDAO.getPrixProduitByRef(ref);
+            montantTotalCommande += (prixUnitaire * qte);
+            lblTotalPrix.setText(String.format("Total : %.2f DT", montantTotalCommande));
 
-            // Save the commande using the service (you need to add createCommande method)
-            // For now, let's use the DAO directly
-            commandeService.createCommande(commande);
+            // yzid fi lista
+            tempItems.add(new Composer(ref, 0, qte));
 
-            if (parentController != null) {
-                parentController.loadOrders(); // Refresh the order list
-            }
+            // ma nfasskhou ken champ mtaa produit
+            txtRef.clear();
+            txtQty.clear();
+            lblProductName.setText("");
+            lblError.setText("");
 
-            ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+
+            txtFournisseurId.setDisable(true);
 
         } catch (NumberFormatException e) {
-            showError("Erreur de format", "Veuillez entrer un prix total valide (ex: 150.50)");
-        } catch (Exception e) {
-            showError("Erreur", e.getMessage());
-        }
-    }
-
-    private int extractFournisseurId(String selectedValue) {
-        try {
-            // Extract ID from string like "Supplier Name (ID: 123)"
-            int startIndex = selectedValue.indexOf("ID: ") + 4;
-            int endIndex = selectedValue.indexOf(")", startIndex);
-            String idStr = selectedValue.substring(startIndex, endIndex);
-            return Integer.parseInt(idStr.trim());
-        } catch (Exception e) {
-            throw new RuntimeException("Impossible de lire l'ID du fournisseur: " + selectedValue);
+            lblError.setText("Format invalide.");
         }
     }
 
     @FXML
-    private void handleCancel(ActionEvent event) {
-        ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+    private void handleRemoveItem() {
+        Composer selected = tableTempItems.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            float prixUnitaire = stockDAO.getPrixProduitByRef(selected.getReference());
+            montantTotalCommande -= (prixUnitaire * selected.getQuantiteComposer());
+            lblTotalPrix.setText(String.format("Total : %.2f DT", montantTotalCommande));
+            tempItems.remove(selected);
+
+            // ki tefregh ll lista nraj3ou najmou nbadlou fll fournisseur
+            if (tempItems.isEmpty()) {
+                txtFournisseurId.setDisable(false);
+            }
+        }
     }
 
-    private void showError(String title, String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(msg);
-        alert.showAndWait();
+    @FXML
+    private void handleConfirmOrder() {
+        try {
+            if (tempItems.isEmpty()) {
+                lblError.setText("Erreur : Ajoutez au moins un produit.");
+                return;
+            }
+
+
+            int idFournisseur = Integer.parseInt(txtFournisseurId.getText());
+            int idEmploye = User.getInstance().getUser().getIdEmploye();
+
+            Date dateCmd = Date.valueOf(LocalDate.now());
+            Date dateArr = Date.valueOf(LocalDate.now().plusDays(3));
+
+            Commande cmd = new Commande(0, idFournisseur, idEmploye, dateCmd, dateArr);
+            cmd.setPrixTotal(montantTotalCommande);
+            cmd.setEtat("CREE");
+
+            commandeDAO.creation_c(cmd);
+
+            for (Composer item : tempItems) {
+                composerDAO.ajouterLigneCommande(cmd.getIdCommande(), item.getReference(), item.getQuantiteComposer());
+            }
+
+            Stage stage = (Stage) btnSubmit.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception e) {
+            lblError.setText("Erreur technique : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleCancel() {
+        if (!tempItems.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Annuler la commande en cours ?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.YES) {
+                    Stage stage = (Stage) btnCancel.getScene().getWindow();
+                    stage.close();
+                }
+            });
+        } else {
+            Stage stage = (Stage) btnCancel.getScene().getWindow();
+            stage.close();
+        }
     }
 }

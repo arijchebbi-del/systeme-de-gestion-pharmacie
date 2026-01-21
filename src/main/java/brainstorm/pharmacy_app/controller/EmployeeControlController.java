@@ -1,12 +1,11 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.DAO.EmployeIM;
 import brainstorm.pharmacy_app.Model.Employe;
-import brainstorm.pharmacy_app.Model.Fournisseur;
-import brainstorm.pharmacy_app.Service.FournisseurService;
+import brainstorm.pharmacy_app.Service.EmployeService;
 import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,9 +21,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-public class SuppliersControlController {
+
+public class EmployeeControlController {
     @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
     @FXML private void chargerPointOfSale(ActionEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
     @FXML private void chargerProductControl(ActionEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }
@@ -64,110 +63,105 @@ public class SuppliersControlController {
         }
     }
 
-    @FXML private TableView<Fournisseur> tableFournisseurs;
-    @FXML private TableColumn<Fournisseur, Integer> colId;
-    @FXML private TableColumn<Fournisseur, String> colNom;
-    @FXML private TableColumn<Fournisseur, String> colTel;
-    @FXML private TableColumn<Fournisseur, String> colType;
-    @FXML private TableColumn<Fournisseur, Void> colView;
-    @FXML private TableColumn<Fournisseur, Void> colDelete;
+
+    @FXML private TableView<Employe> tableEmployes;
+    @FXML private TableColumn<Employe, Integer> colId;
+    @FXML private TableColumn<Employe, String> colNom;
+    @FXML private TableColumn<Employe, String> colPrenom;
+    @FXML private TableColumn<Employe, String> colTel;
+    @FXML private TableColumn<Employe, String> colEmail;
+    @FXML private TableColumn<Employe, String> colHoraire;
+    @FXML private TableColumn<Employe, Void> colView;
+    @FXML private TableColumn<Employe, Void> colDelete;
 
     @FXML private MFXTextField searchField;
-    @FXML private MFXComboBox<String> filterCombo;
     @FXML private MFXButton btnAdd;
 
-    private FournisseurService fournisseurService = new FournisseurService();
-    private ObservableList<Fournisseur> fournisseurList = FXCollections.observableArrayList();
-    private FilteredList<Fournisseur> filteredData;
+    private EmployeService employeService = new EmployeService();
+    private EmployeIM employeDAO= new EmployeIM();
+    private ObservableList<Employe> employeList = FXCollections.observableArrayList();
+    private FilteredList<Employe> filteredData;
+
     @FXML
     public void initialize() {
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("id_Fournisseur"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("idEmploye"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        colTel.setCellValueFactory(new PropertyValueFactory<>("numTelephone"));
-        colType.setCellValueFactory(new PropertyValueFactory<>("typeProduits"));
+        colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        colTel.setCellValueFactory(new PropertyValueFactory<>("numTelephoneEmploye"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colHoraire.setCellValueFactory(new PropertyValueFactory<>("horaire"));
 
-        loadFournisseurs();
+        loadEmployes();
 
-        filterCombo.getItems().clear();
-        filterCombo.getItems().add("Tous");
-        filterCombo.getItems().addAll(fournisseurService.getAllCategories());
-        filterCombo.setValue("Tous");
+        filteredData = new FilteredList<>(employeList, p -> true);
+        searchField.textProperty().addListener((obs, o, n) -> applyFilter());
 
-        filteredData = new FilteredList<>(fournisseurList, p -> true);
-
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
-        filterCombo.valueProperty().addListener((obs, oldVal, newVal) -> applyFilter());
-
-        SortedList<Fournisseur> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tableFournisseurs.comparatorProperty());
-        tableFournisseurs.setItems(sortedData);
+        SortedList<Employe> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableEmployes.comparatorProperty());
+        tableEmployes.setItems(sortedData);
 
         addViewButtonToTable();
         addDeleteButtonToTable();
 
-        btnAdd.setOnAction(e -> openAddSupplier());
-    }
-    @FXML
-    private void loadFournisseurs() {
-        fournisseurList.clear();
-        fournisseurList.addAll(fournisseurService.getAllFournisseurs());
+        btnAdd.setOnAction(e -> openAddEmploye());
     }
 
-    private void applyFilter() {
-        String searchText = searchField.getText().toLowerCase();
-        String selectedType = filterCombo.getValue();
-
-        filteredData.setPredicate(f -> {
-            boolean matchesSearch =
-                    f.getNom().toLowerCase().contains(searchText) ||
-                            f.getNumTelephone().contains(searchText) ||
-                            f.getTypeProduits().toLowerCase().contains(searchText);
-
-            boolean matchesType =
-                    selectedType.equals("Tous") || f.getTypeProduits().equalsIgnoreCase(selectedType);
-
-            return matchesSearch && matchesType;
-        });
-    }
-
-    // ---------------- Add Supplier ----------------
-    void openAddSupplier() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddSupplierPopUp.fxml"));
-            Parent root = loader.load();
-
-            AddSupplierController controller = loader.getController();
-            controller.setParentController(this);
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.setTitle("Ajouter Fournisseur");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void loadEmployes() {
+        employeList.clear();
+        refreshTable();
     }
 
     public void refreshTable() {
-        loadFournisseurs();
+        employeList.setAll(employeDAO.getAll());
+        if (tableEmployes != null) {
+            tableEmployes.refresh();
+        }
     }
 
-    // ---------------- View Button ----------------
+    private void applyFilter() {
+        String s = searchField.getText().toLowerCase();
+        filteredData.setPredicate(e ->
+                e.getNom().toLowerCase().contains(s) ||
+                        e.getPrenom().toLowerCase().contains(s) ||
+                        e.getEmail().toLowerCase().contains(s) ||
+                        String.valueOf(e.getNumTelephoneEmploye()).contains(s) ||
+                        e.getHoraire().toLowerCase().contains(s)
+        );
+    }
+
+    // ---------- Add ----------
+    private void openAddEmploye() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddEmployeePopUp.fxml"));
+            Parent root = loader.load();
+
+            AddEmployeeController c = loader.getController();
+            c.setParentController(this);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Ajouter Employé");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+    // ---------- View ----------
     private void addViewButtonToTable() {
-        colView.setCellFactory(param -> new TableCell<>() {
+        colView.setCellFactory(p -> new TableCell<>() {
             private final Button btn = new Button("View");
             {
-                btn.setOnAction(event -> {
-                    Fournisseur f = getTableView().getItems().get(getIndex());
-                    openViewSupplier(f);
+                btn.setOnAction(e -> {
+                    Employe emp = getTableView().getItems().get(getIndex());
+                    openViewEmploye(emp);
                 });
             }
-
-            @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : btn);
@@ -175,36 +169,35 @@ public class SuppliersControlController {
         });
     }
 
-    private void openViewSupplier(Fournisseur f) {
+    private void openViewEmploye(Employe e) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/view_fournisseur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ViewEmploye.fxml"));
             Parent root = loader.load();
 
-            ViewSupplierController controller = loader.getController();
-            controller.setSupplier(f);
+            ViewEmployeeController c = loader.getController();
+            c.setEmploye(e);
+            c.setParentController(this);
 
             Stage stage = new Stage();
-            stage.setTitle("Fournisseur Details");
+            stage.setTitle("Employé");
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
-    // ---------------- Delete Button ----------------
+    // ---------- Delete ----------
     private void addDeleteButtonToTable() {
-        colDelete.setCellFactory(param -> new TableCell<>() {
+        colDelete.setCellFactory(p -> new TableCell<>() {
             private final Button btn = new Button("Delete");
             {
-                btn.setOnAction(event -> {
-                    Fournisseur f = getTableView().getItems().get(getIndex());
-                    deleteSupplier(f);
+                btn.setOnAction(e -> {
+                    Employe emp = getTableView().getItems().get(getIndex());
+                    deleteEmploye(emp);
                 });
             }
-
-            @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : btn);
@@ -212,24 +205,16 @@ public class SuppliersControlController {
         });
     }
 
-    private void deleteSupplier(Fournisseur f) {
+    private void deleteEmploye(Employe e) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirmation");
-        confirm.setHeaderText("Supprimer Fournisseur");
-        confirm.setContentText("Voulez-vous vraiment supprimer ce fournisseur ?");
-
+        confirm.setHeaderText("Supprimer Employé ?");
         if (confirm.showAndWait().get() == ButtonType.OK) {
-            fournisseurService.supprimerFournisseur(f.getId_Fournisseur());
-            loadFournisseurs();
-
-            Alert info = new Alert(Alert.AlertType.INFORMATION);
-            info.setTitle("Succès");
-            info.setContentText("Fournisseur supprimé avec succès !");
-            info.show();
+            try {
+                employeService.supprimerEmploye(e.getIdEmploye());
+                loadEmployes();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
-
 }
-
-
-

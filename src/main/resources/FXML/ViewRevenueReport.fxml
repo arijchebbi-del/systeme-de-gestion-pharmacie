@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXListView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.ViewRevenueReportController">
+   <center>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="856.0" prefWidth="450.0" style="-fx-background-color: E4FFE5; -fx-background-radius: 20px;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Revenue :">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblTotalRevenue" textFill="#135909">
+                           <font>
+                              <Font name="Poppins SemiBold" size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
+                     <image>
+                        <Image url="@../images/money.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Sales :">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblNbSales" textFill="#135909">
+                           <font>
+                              <Font name="Poppins SemiBold" size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Basket :">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblAverageBasket" textFill="#135909">
+                           <font>
+                              <Font name="Poppins SemiBold" size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <HBox>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Employees :">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <MFXListView fx:id="listTopEmployees" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="410.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <HBox>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Products :">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <MFXListView fx:id="listTopProducts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="410.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCancel" prefHeight="80.0" prefWidth="410.0" rippleAnimateBackground="false" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleRadius="0.0" style="-fx-background-color: E94040; -fx-background-radius: 40px;" styleClass="add-product-button" text="X" translateX="20.0" translateY="5.0">
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </MFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

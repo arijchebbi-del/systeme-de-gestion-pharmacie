@@ -4,10 +4,10 @@ import brainstorm.pharmacy_app.Model.Employe;
 
 public class User{
     private static User instance;
-    private Employe loggedUser;
+    private static Employe loggedUser;
 
     private User(Employe user) {
-        this.loggedUser = user;
+        loggedUser = user;
     }
 
     // ll jot3a illi naaytoulha fll login

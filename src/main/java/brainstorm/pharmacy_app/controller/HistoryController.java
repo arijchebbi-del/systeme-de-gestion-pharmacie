@@ -1,7 +1,7 @@
 package brainstorm.pharmacy_app.controller;
 
-import brainstorm.pharmacy_app.Model.StockProduit;
-import brainstorm.pharmacy_app.Model.VenteHistoryDTO;
+import brainstorm.pharmacy_app.Model.*;
+import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -9,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import brainstorm.pharmacy_app.DAO.VenteIM;
 import brainstorm.pharmacy_app.DAO.ConstituerIM;
-import brainstorm.pharmacy_app.Model.Vente;
-import brainstorm.pharmacy_app.Model.Constituer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -30,8 +28,37 @@ public class HistoryController {
     @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
-    @FXML private void chargerEmployeesControl(ActionEvent event) { Navigation.navTo("/FXML/EmployeesControl.fxml",((Node) event.getSource())); }
-    @FXML private void chargerAnalysisReports(ActionEvent event) { Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); }
+    @FXML private void chargerEmployeesControl(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        } }
+    @FXML
+    private void chargerAnalysisReports(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+        if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        }
+    }
 
 // zedet fll modele class VenteHistory bch nzidou nobre de produit vendu
     @FXML private TableView<VenteHistoryDTO> tableHistory;

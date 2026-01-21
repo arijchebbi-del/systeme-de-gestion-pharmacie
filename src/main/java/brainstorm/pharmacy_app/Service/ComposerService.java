@@ -1,5 +1,5 @@
 package brainstorm.pharmacy_app.Service;
-
+/*
 
 import brainstorm.pharmacy_app.Model.Composer;
 import brainstorm.pharmacy_app.Utils.DBConnection;
@@ -20,7 +20,7 @@ public class ComposerService {
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, composer.getIdCommande());
-            ps.setInt(2, composer.getIdProduit());
+            ps.setInt(2, composer.getReference());
             ps.setInt(3, composer.getQuantiteComposer());
 
             ps.executeUpdate();
@@ -80,7 +80,7 @@ public class ComposerService {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, composer.getQuantiteComposer());
             ps.setInt(2, composer.getIdCommande());
-            ps.setInt(3, composer.getIdProduit());
+            ps.setInt(3, composer.getReference());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -121,4 +121,4 @@ public class ComposerService {
 
         return false;
     }
-}
+}*/

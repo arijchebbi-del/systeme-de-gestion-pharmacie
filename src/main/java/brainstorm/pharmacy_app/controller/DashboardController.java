@@ -1,10 +1,12 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,41 +25,43 @@ import javafx.scene.Node;
 import brainstorm.pharmacy_app.nav.Navigation;
 
 public class DashboardController {
-    @FXML
-    private void chargerDashboard(ActionEvent event) {
-        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerPointOfSale(ActionEvent event) {
-        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerProductControl(ActionEvent event) {
-        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerStockDetails(ActionEvent event) {
-        Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerOrderControl(ActionEvent event) {
-        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerSuppliersControl(ActionEvent event) {
-        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerHistory(ActionEvent event) {
-        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerEmployeesControl(ActionEvent event) {
-        Navigation.navTo("/FXML/EmployeesControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
+    @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
+    @FXML private void chargerPointOfSale(ActionEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
+    @FXML private void chargerProductControl(ActionEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerStockDetails(ActionEvent event) { Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); }
+    @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
+    @FXML private void chargerEmployeesControl(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        } }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
-        Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); //charger dashboard
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+        if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        }
     }
 
     @FXML

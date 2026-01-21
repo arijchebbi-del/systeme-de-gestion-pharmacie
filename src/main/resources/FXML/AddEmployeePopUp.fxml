@@ -6,60 +6,65 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" styleClass="white-background" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.EmployeeFormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" styleClass="white-background" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.AddEmployeeController">
    <children>
-      <MFXTextField fx:id="txtNom" layoutX="32.0" layoutY="87.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtPrenom" layoutX="32.0" layoutY="87.0" prefWidth="250.0" />
       <Text layoutX="32.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee First Name:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXTextField fx:id="txtCategorie" layoutX="320.0" layoutY="87.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtNom" layoutX="320.0" layoutY="87.0" prefWidth="250.0" />
       <Text layoutX="320.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee Last Name:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXTextField fx:id="txtType" layoutX="32.0" layoutY="181.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtUsername" layoutX="32.0" layoutY="181.0" prefWidth="250.0" />
       <Text layoutX="32.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee Username:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXTextField fx:id="txtMode" layoutX="320.0" layoutY="181.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtRole" layoutX="320.0" layoutY="181.0" prefWidth="250.0" />
       <Text layoutX="320.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee Role:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXTextField fx:id="txtPrixAchat" layoutX="32.0" layoutY="277.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtHoraire" layoutX="32.0" layoutY="277.0" prefWidth="250.0" />
       <Text layoutX="32.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee Shift:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXTextField fx:id="txtPrixVente" layoutX="320.0" layoutY="277.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtTel" layoutX="320.0" layoutY="277.0" prefWidth="250.0" />
       <Text layoutX="320.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Phone Number:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXButton layoutX="244.0" layoutY="464.0" onAction="#handleSave" text="Submit">
+      <MFXButton fx:id="btnConfirm" layoutX="304.0" layoutY="485.0" onAction="#handleConfirm" styleClass="add-product-button" text="Submit">
          <font>
             <Font size="24.0" />
          </font>
       </MFXButton>
-      <MFXTextField fx:id="txtPrixAchat1" layoutX="31.0" layoutY="373.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtEmail" layoutX="31.0" layoutY="373.0" prefWidth="250.0" />
       <Text layoutX="31.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee Email:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <MFXTextField fx:id="txtPrixVente1" layoutX="319.0" layoutY="373.0" prefWidth="250.0" />
+      <MFXTextField fx:id="txtMDP" layoutX="319.0" layoutY="373.0" prefWidth="250.0" />
       <Text layoutX="319.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Password:">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
+      <MFXButton fx:id="btnCancel" layoutX="174.0" layoutY="485.0" onAction="#handleCancel" styleClass="add-supplier-button" text="Cancel">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </MFXButton>
    </children>
 </AnchorPane>

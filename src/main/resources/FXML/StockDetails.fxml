@@ -172,7 +172,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" onAction="#chargerEmployeesControl" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -194,7 +194,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis reports" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerAnalysisReports" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis reports" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
