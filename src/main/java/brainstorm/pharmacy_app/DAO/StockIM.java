@@ -206,7 +206,7 @@ public class StockIM implements StockDAO {
         return -1; // yaanetha mouch mawjoud
     }
 
-    // pour addorder
+
     public String getNomProduit(int ref) {
         String query = "SELECT NomProduit FROM Produit WHERE Reference = ?";
         try (Connection con = DBConnection.getAdminConnection();

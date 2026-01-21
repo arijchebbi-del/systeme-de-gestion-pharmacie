@@ -37,6 +37,7 @@ public class OrderControlController {
     @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
+
     @FXML private void chargerEmployeesControl(ActionEvent event) {
         // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
@@ -52,15 +53,15 @@ public class OrderControlController {
             alert.setContentText("Seul un administrateur peut accéder à cette page.");
             alert.show();
         } }
+
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
+
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
-            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
+
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource()));
         } else {
-            // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -83,7 +84,7 @@ public class OrderControlController {
 
     private ObservableList<Commande> masterOrderData = FXCollections.observableArrayList();
 
-    // --- DAO ---
+
     private CommandeIM commandeDAO = new CommandeIM();
     private ComposerIM composerDAO = new ComposerIM();
     private StockIM stockDAO = new StockIM();
@@ -93,7 +94,6 @@ public class OrderControlController {
         setupColumns();
         loadOrders();
         setupSearchFilter();
-
     }
 
     private void setupColumns() {
@@ -132,7 +132,6 @@ public class OrderControlController {
         tableOrders.setItems(sortedData);
     }
 
-    // filtrage mtaa barre de recherche w categorie
     private void updatePredicate(FilteredList<Commande> filteredData) {
         filteredData.setPredicate(commande -> {
             String filter = txtSearch.getText() == null ? "" : txtSearch.getText().toLowerCase();
@@ -143,6 +142,7 @@ public class OrderControlController {
             return matchesSearch && matchesCategory;
         });
     }
+
     private void setupActionsColumn() {
         colActions.setCellFactory(param -> new TableCell<>() {
             private final Button btnReceive = new Button("Receive");
@@ -165,8 +165,9 @@ public class OrderControlController {
                 } else {
                     Commande cmd = getTableView().getItems().get(getIndex());
 
-                    // nssaker ll bouton ki deja recieved
-                    btnReceive.setDisable("Received".equalsIgnoreCase(cmd.getEtat()));
+                    // nssaker ll bouton ki deja recieved (Correction : On vérifie RECUE et Received)
+                    boolean isReceived = "RECUE".equalsIgnoreCase(cmd.getEtat()) || "Received".equalsIgnoreCase(cmd.getEtat());
+                    btnReceive.setDisable(isReceived);
 
                     btnReceive.setOnAction(e -> handleReceive(cmd));
                     btnDelete.setOnAction(e -> handleDelete(cmd));
@@ -181,14 +182,13 @@ public class OrderControlController {
     private void loadOrders() {
         masterOrderData.setAll(commandeDAO.getAllCommandes());
         if (comboCategory != null) {
-            comboCategory.setItems(FXCollections.observableArrayList("Toutes", "CREE", "MODIFIE", "ANNULEE","RECUE"));
+            comboCategory.setItems(FXCollections.observableArrayList("Toutes", "CREE", "MODIFIE", "ANNULEE", "RECUE"));
             comboCategory.getSelectionModel().selectFirst();
         }
     }
 
-    // mise a jour mtaa stock
+    // mise a jour mtaa stock (Correction faite pour getQuantite)
     private void handleReceive(Commande cmd) {
-
         List<Composer> produitsCommandes = composerDAO.getProduitsParCommande(cmd.getIdCommande());
 
         for (Composer ligne : produitsCommandes) {
@@ -198,17 +198,19 @@ public class OrderControlController {
             if (numLotExistant != -1) {
                 // ken ey nzidou quantité
                 int qteActuelle = stockDAO.getQuantiteByProduit(ligne.getReference());
-                stockDAO.updateQuantiteStock(numLotExistant, qteActuelle + ligne.getQuantiteComposer());
+                // CHANGEMENT : ligne.getQuantite() au lieu de getQuantiteComposer()
+                stockDAO.updateQuantiteStock(numLotExistant, qteActuelle + ligne.getQuantite());
             } else {
                 // makench nzidou ll produit
-                Stock nouveauStock = new Stock(0, ligne.getReference(), ligne.getQuantiteComposer());
+                // CHANGEMENT : ligne.getQuantite() au lieu de getQuantiteComposer()
+                Stock nouveauStock = new Stock(0, ligne.getReference(), ligne.getQuantite());
                 nouveauStock.setDerniereMiseAJour(Timestamp.valueOf(LocalDateTime.now()));
                 stockDAO.creation_s(nouveauStock);
             }
         }
 
-        // nbadlou received fll etat
-        commandeDAO.updateEtat(cmd.getIdCommande(), "Received");
+        // nbadlou RECUE fll etat pour matcher avec comboCategory
+        commandeDAO.updateEtat(cmd.getIdCommande(), "RECUE");
 
         loadOrders(); // nrefrichi ll tableau
         afficherAlerte("Réception validée", "Le stock a été mis à jour avec succès.");
@@ -231,8 +233,8 @@ public class OrderControlController {
         colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
 
         TableColumn<Composer, Integer> colQte = new TableColumn<>("Qté Commandée");
+        // CHANGEMENT : PropertyValueFactory doit être "quantite" pour matcher avec getQuantite()
         colQte.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-
 
         detailTable.getColumns().addAll(colRef, colQte);
         detailTable.setItems(FXCollections.observableArrayList(composerDAO.getProduitsParCommande(cmd.getIdCommande())));
@@ -252,7 +254,7 @@ public class OrderControlController {
     @FXML
     private void chargerAddOrder(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddOrderPopUp.fxml"));//zid thabettt
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddOrderPopUp.fxml"));
             Parent root = loader.load();
 
             // scene jdida
@@ -261,7 +263,7 @@ public class OrderControlController {
 
             // paramétrage mtaa ll pop
             stage.setTitle("Passer une nouvelle commande");
-            stage.setResizable(false); // Empêche de redimensionner
+            stage.setResizable(false);
 
             // bch neblouki nestaamel ll fenetre ll principal
             stage.initModality(Modality.APPLICATION_MODAL);

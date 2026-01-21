@@ -21,6 +21,7 @@ public class AddOrderController {
     @FXML private MFXTextField txtQty;
     @FXML private MFXTextField txtFournisseurId; // MA yefreghch wakt wakt tenzel aala add
     @FXML private Label lblProductName;
+    @FXML private Label lblFournisseurName; // ahawa ya taz zetou houni
     @FXML private Label lblError;
     @FXML private Label lblTotalPrix;
     @FXML private MFXButton btnSubmit;
@@ -36,11 +37,12 @@ public class AddOrderController {
     private StockIM stockDAO = new StockIM();
     private CommandeIM commandeDAO = new CommandeIM();
     private ComposerIM composerDAO = new ComposerIM();
+    private FournisseurIM fournisseurDAO = new FournisseurIM();
 
     @FXML
     public void initialize() {
         colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
-        colQty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("quantiteComposer"));
         tableTempItems.setItems(tempItems);
 
         lblTotalPrix.setText("0.00 DT");
@@ -49,6 +51,32 @@ public class AddOrderController {
             if (!newValue.isEmpty()) verifierProduit();
             else lblProductName.setText("");
         });
+
+
+        txtFournisseurId.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) verifierFournisseur();
+            else lblFournisseurName.setText("");
+        });
+    }
+
+
+    @FXML
+    private void verifierFournisseur() {
+        try {
+            int idF = Integer.parseInt(txtFournisseurId.getText());
+            String nomF = fournisseurDAO.getNomFournisseur(idF);
+
+            if (nomF != null) {
+                lblFournisseurName.setText(nomF);
+                lblFournisseurName.setStyle("-fx-text-fill: #27ae60;");
+                lblError.setText("");
+            } else {
+                lblFournisseurName.setText("Fournisseur inconnu");
+                lblFournisseurName.setStyle("-fx-text-fill: #e74c3c;");
+            }
+        } catch (NumberFormatException e) {
+            lblFournisseurName.setText("ID Invalide");
+        }
     }
 
     @FXML
@@ -76,8 +104,9 @@ public class AddOrderController {
     private void handleAddItem(ActionEvent event) {
         try {
             // nthabet illi kteb fournisseur mi lowel
-            if (txtFournisseurId.getText().isEmpty()) {
-                lblError.setText("Veuillez saisir l'ID du fournisseur d'abord.");
+            // AJOUT : On verifie aussi que le fournisseur existe bien
+            if (txtFournisseurId.getText().isEmpty() || lblFournisseurName.getText().equals("Fournisseur inconnu")) {
+                lblError.setText("Veuillez saisir un fournisseur valide.");
                 return;
             }
 
@@ -97,7 +126,7 @@ public class AddOrderController {
 
             float prixUnitaire = stockDAO.getPrixProduitByRef(ref);
             montantTotalCommande += (prixUnitaire * qte);
-            lblTotalPrix.setText(String.format("Total : %.2f DT", montantTotalCommande));
+            lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
 
             // yzid fi lista
             tempItems.add(new Composer(ref, 0, qte));
@@ -111,6 +140,7 @@ public class AddOrderController {
 
             txtFournisseurId.setDisable(true);
 
+
         } catch (NumberFormatException e) {
             lblError.setText("Format invalide.");
         }
@@ -121,8 +151,8 @@ public class AddOrderController {
         Composer selected = tableTempItems.getSelectionModel().getSelectedItem();
         if (selected != null) {
             float prixUnitaire = stockDAO.getPrixProduitByRef(selected.getReference());
-            montantTotalCommande -= (prixUnitaire * selected.getQuantiteComposer());
-            lblTotalPrix.setText(String.format("Total : %.2f DT", montantTotalCommande));
+            montantTotalCommande -= (prixUnitaire * selected.getQuantite());
+            lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
             tempItems.remove(selected);
 
             // ki tefregh ll lista nraj3ou najmou nbadlou fll fournisseur
@@ -154,7 +184,7 @@ public class AddOrderController {
             commandeDAO.creation_c(cmd);
 
             for (Composer item : tempItems) {
-                composerDAO.ajouterLigneCommande(cmd.getIdCommande(), item.getReference(), item.getQuantiteComposer());
+                composerDAO.ajouterLigneCommande(cmd.getIdCommande(), item.getReference(), item.getQuantite());
             }
 
             Stage stage = (Stage) btnSubmit.getScene().getWindow();
