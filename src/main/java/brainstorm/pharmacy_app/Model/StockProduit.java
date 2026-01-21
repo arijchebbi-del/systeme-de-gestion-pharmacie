@@ -12,6 +12,7 @@ public class StockProduit {
     }
     public Stock getStock(){return s;}
     public Produit getProduit(){return p;}
-
+    public int getDecalage(){return s.getQuantite()-p.getSeuilMinimal();}
+    public String getEtat() { return (s.getQuantite()>=p.getSeuilMinimal()) ? "OK": "LOW";}
 
 }

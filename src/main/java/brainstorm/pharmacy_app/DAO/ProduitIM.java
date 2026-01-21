@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ProduitIM {
     public void creation_p(Produit p){
-        String query = "INSERT INTO Produit (NomProduit, Categorie, Type, ModeUtilisation, Ordonnance, PrixAchat, PrixVente) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Produit (NomProduit, Categorie, Type, ModeUtilisation, Ordonnance, PrixAchat, PrixVente,SeuilMinimal) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1,p.getNomProduit());
@@ -22,6 +22,8 @@ public class ProduitIM {
             ps.setBoolean(5,p.getOrdonnance());
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
+            ps.setInt(8,p.getSeuilMinimal());
+
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -35,8 +37,7 @@ public class ProduitIM {
     }
 
     public void modification_p(Produit p) {
-        String query = "UPDATE Produit SET NomProduit=?, Categorie=?, Type=?, ModeUtilisation=?, Ordonnance=?, PrixAchat=?, PrixVente=? " +
-                "WHERE Reference=?";;
+        String query = "UPDATE Produit SET NomProduit=?, Categorie=?, Type=?, ModeUtilisation=?, Ordonnance=?, PrixAchat=?, PrixVente=?, SeuilMinimal=? WHERE Reference=?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -47,7 +48,8 @@ public class ProduitIM {
             ps.setBoolean(5,p.getOrdonnance());
             ps.setFloat(6,p.getPrixAchat());
             ps.setFloat(7,p.getPrixVente());
-            ps.setInt(8, p.getReference());
+            ps.setInt(8,p.getSeuilMinimal());
+            ps.setInt(9, p.getReference());
 
             int rows = ps.executeUpdate();
 
@@ -112,6 +114,8 @@ public class ProduitIM {
                     p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
                     p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
                     p.setPrixVente(rs.getFloat("PrixVente"));     // Mapping float
+                    p.setSeuilMinimal(rs.getInt("SeuilMinimal")); // Mapping Int
+
                     return p;
                 }
             }
@@ -137,7 +141,9 @@ public class ProduitIM {
                 p.setModeUtilisation(rs.getString("ModeUtilisation"));
                 p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
                 p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
-                p.setPrixVente(rs.getFloat("PrixVente"));
+                p.setPrixVente(rs.getFloat("PrixVente"));     // Mapping float
+                p.setSeuilMinimal(rs.getInt("SeuilMinimal")); // Mapping Int
+
                 produits.add(p);
             }
 
@@ -149,7 +155,7 @@ public class ProduitIM {
     }
     public String getNomProduitByRef(int reference) {
         String nom = "Unknown Product"; // default
-        String sql = "SELECT Nom FROM Produit WHERE Reference = ?";
+        String sql = "SELECT NomProduit FROM Produit WHERE Reference = ?";
 
         try (Connection conn = DBConnection.getEmployeeConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -163,6 +169,24 @@ public class ProduitIM {
         }
 
         return nom;
+    }
+
+    public int getRefByNom(String nom) {
+        int ref = -1; // default
+        String sql = "SELECT Reference FROM Produit WHERE NomProduit = ?";
+
+        try (Connection conn = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nom);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ref = rs.getInt("Reference");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ref;
     }
 
 

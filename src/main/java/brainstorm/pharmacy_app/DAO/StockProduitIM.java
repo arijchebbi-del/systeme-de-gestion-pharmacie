@@ -5,10 +5,7 @@ import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +32,11 @@ public class StockProduitIM {
                 p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
                 p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
                 p.setPrixVente(rs.getFloat("PrixVente"));
+                p.setSeuilMinimal(rs.getInt("SeuilMinimal")); // correspond à seuilMinimal
                 Stock s = new Stock(
                         rs.getInt("NumLot"),        // correspond à numLot
                         rs.getInt("s.Reference"),     // correspond à reference
-                        rs.getInt("Quantite"),      // correspond à quantite
-                        rs.getInt("SeuilMinimal")   // correspond à seuilMinimal
+                        rs.getInt("Quantite")     // correspond à quantite
                 );
 
                 // Récupération du timestamp (dernière ligne de votre capture)
@@ -58,4 +55,45 @@ public class StockProduitIM {
         return StockProduits;
     }
 
+    public static List<StockProduit> getStockByPeriod(Date debut, Date fin) {
+
+        List<StockProduit> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM Stock s,Produit p WHERE p.Reference=s.Reference AND  DerniereMiseAJour BETWEEN ? AND ?";
+
+        try (Connection cnx = DBConnection.getEmployeeConnection(); PreparedStatement ps = cnx.prepareStatement(sql);) {
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+
+            StockProduit sp = new StockProduit();
+            Produit p = new Produit();
+
+            p.setReference(rs.getInt("p.Reference"));
+            p.setNomProduit(rs.getString("NomProduit"));
+            p.setCategorie(rs.getString("Categorie"));
+            p.setType(rs.getString("Type"));
+            p.setModeUtilisation(rs.getString("ModeUtilisation"));
+            p.setOrdonnance(rs.getBoolean("Ordonnance")); // Mapping boolean
+            p.setPrixAchat(rs.getFloat("PrixAchat"));     // Mapping float
+            p.setPrixVente(rs.getFloat("PrixVente"));
+            p.setSeuilMinimal(rs.getInt("SeuilMinimal")); // correspond à seuilMinimal
+            Stock s = new Stock(rs.getInt("NumLot"),        // correspond à numLot
+                    rs.getInt("s.Reference"),     // correspond à reference
+                    rs.getInt("Quantite")     // correspond à quantite
+            );
+
+            // Récupération du timestamp (dernière ligne de votre capture)
+            s.setDerniereMiseAJour(rs.getTimestamp("derniereMiseAJour"));
+
+            sp.setStock(s);
+            sp.setProduit(p);
+            list.add(sp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

@@ -1,7 +1,9 @@
 package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.ProduitIM;
+import brainstorm.pharmacy_app.DAO.StockIM;
 import brainstorm.pharmacy_app.Model.Produit;
+import brainstorm.pharmacy_app.Model.Stock;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.event.ActionEvent;
@@ -9,13 +11,13 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 public class ProductFormController {
-    @FXML private MFXTextField txtNom, txtCategorie, txtType, txtMode, txtPrixAchat, txtPrixVente;
+    @FXML private MFXTextField txtNom, txtCategorie, txtType, txtMode, txtPrixAchat, txtPrixVente, txtSeuilMinimal;
     @FXML private MFXCheckbox checkOrdonnance;
 
     private Produit currentProduit;
     private ProductControlController parent;
     private ProduitIM dao = new ProduitIM();
-
+    private StockIM sdao = new StockIM();
     public void initData(Produit p, ProductControlController parentController) {
         this.parent = parentController;
         this.currentProduit = p;
@@ -27,6 +29,7 @@ public class ProductFormController {
             txtMode.setText(p.getModeUtilisation());
             txtPrixAchat.setText(String.valueOf(p.getPrixAchat()));
             txtPrixVente.setText(String.valueOf(p.getPrixVente()));
+            txtSeuilMinimal.setText(String.valueOf(p.getSeuilMinimal()));
             checkOrdonnance.setSelected(p.getOrdonnance());
         }
     }
@@ -42,9 +45,12 @@ public class ProductFormController {
         currentProduit.setOrdonnance(checkOrdonnance.isSelected());
         currentProduit.setPrixAchat(Float.parseFloat(txtPrixAchat.getText()));
         currentProduit.setPrixVente(Float.parseFloat(txtPrixVente.getText()));
+        currentProduit.setSeuilMinimal(Integer.parseInt(txtSeuilMinimal.getText()));
 
         if (currentProduit.getReference() == 0) {
             dao.creation_p(currentProduit); // Ajout
+            sdao.creation_s(new Stock(0,dao.getRefByNom(currentProduit.getNomProduit()),0));
+
         } else {
             dao.modification_p(currentProduit); // Modif
         }

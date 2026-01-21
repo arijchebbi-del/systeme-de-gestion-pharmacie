@@ -19,10 +19,10 @@ public class StockService {
         s.setDerniereMiseAJour(new Timestamp(System.currentTimeMillis()));
         stockDAO.creation_s(s);
 
-        if (s.getQuantite() <= s.getSeuilMinimal()) {
-            System.out.println(
-                    "ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
-        }
+//        if (s.getQuantite() <= s.getSeuilMinimal()) {
+//            System.out.println(
+//                    "ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
+//        }
 
         System.out.println("Stock ajouté via le service");
     }
@@ -39,10 +39,10 @@ public class StockService {
         //Verification needed after modification (who said the modification was successful)?
         //You can verify by comparing s with chercherStockParNumLot(s.NumLot)
 
-        if (s.getQuantite() <= s.getSeuilMinimal()) {
-            System.out.println(
-                    " ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
-        }
+//        if (s.getQuantite() <= s.getSeuilMinimal()) {
+//            System.out.println(
+//                    " ALERTE STOCK : le lot " + s.getNumLot() + " a atteint le seuil minimal (" + s.getSeuilMinimal() + "). Quantité actuelle : " + s.getQuantite());
+//        }
 
         System.out.println("Stock modifié via le service !");
     }
@@ -64,14 +64,12 @@ public class StockService {
             throw new NumLotNegativeException("Numéro de lot invalide pour la recherche");
         }
 
-        Stock s = stockDAO.chercherParNumLot(numLot);
+        //        if (s == null) {
+//            System.out.println("Aucun stock trouvé pour le lot : " + numLot);
+//        } else {
+//            System.out.println("Stock trouvé : Lot " + s.getNumLot() + " | Quantité : " + s.getQuantite() + " | Seuil minimal : " + s.getSeuilMinimal());
+//        }
 
-        if (s == null) {
-            System.out.println("Aucun stock trouvé pour le lot : " + numLot);
-        } else {
-            System.out.println("Stock trouvé : Lot " + s.getNumLot() + " | Quantité : " + s.getQuantite() + " | Seuil minimal : " + s.getSeuilMinimal());
-        }
-
-        return s;
+        return stockDAO.chercherParNumLot(numLot);
     }
 }

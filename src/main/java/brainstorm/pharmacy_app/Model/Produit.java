@@ -5,6 +5,8 @@ public class Produit {
     private String nomProduit,categorie,type,modeUtilisation;
     private boolean ordonnance;
     private float prixAchat,prixVente;
+    private int seuilMinimal;
+
 
     //Setters
     public void setReference(int r) {reference=r;}
@@ -15,7 +17,9 @@ public class Produit {
     public void setPrixAchat(float pa) {prixAchat=pa;}
     public void setPrixVente(float pv) {prixVente=pv;}
     public void setOrdonnance(boolean o) {ordonnance=o;}
-    
+    public void setSeuilMinimal(int seuilMinimal){this.seuilMinimal=seuilMinimal;}
+
+
     //Getters
     public int getReference() {return reference;}
     public String getNomProduit() {return nomProduit;}
@@ -25,5 +29,7 @@ public class Produit {
     public float getPrixAchat() {return prixAchat;}
     public float getPrixVente() {return prixVente;}
     public boolean getOrdonnance() {return ordonnance;}
-    
+    public int getSeuilMinimal() {return seuilMinimal;}
+
+
 }
