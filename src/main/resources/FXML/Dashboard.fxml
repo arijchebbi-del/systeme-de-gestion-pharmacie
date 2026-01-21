@@ -264,7 +264,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerPointOfSale" pickOnBounds="true" preserveRatio="true" translateX="65.0" translateY="5.0">
+                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerPointOfSaleim" pickOnBounds="true" preserveRatio="true" translateX="65.0" translateY="5.0">
                      <image>
                         <Image url="@../images/POS.png" />
                      </image>
@@ -272,7 +272,7 @@
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerProductControl" pickOnBounds="true" preserveRatio="true" translateX="90.0" translateY="5.0">
+                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerProductControlim" pickOnBounds="true" preserveRatio="true" translateX="90.0" translateY="5.0">
                      <image>
                         <Image url="@../images/Products%20Control.png" />
                      </image>
@@ -280,7 +280,7 @@
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerStockDetails" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="5.0">
+                  <ImageView fitHeight="133.0" fitWidth="133.0" onMouseClicked="#chargerStockDetailsim" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="5.0">
                      <image>
                         <Image url="@../images/Commands%20Control.png" />
                      </image>
@@ -288,7 +288,7 @@
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#chargerHistory" pickOnBounds="true" preserveRatio="true" translateX="130.0" translateY="5.0">
+                  <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#chargerHistoryim" pickOnBounds="true" preserveRatio="true" translateX="130.0" translateY="5.0">
                      <image>
                         <Image url="@../images/History.png" />
                      </image>
@@ -302,12 +302,12 @@
          <left>
             <VBox prefHeight="200.0" prefWidth="320.0" BorderPane.alignment="CENTER">
                <children>
-                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="291.0" styleClass="add-product-button" text="Add Product          +">
+                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#chargerAddProduct" prefHeight="81.0" prefWidth="291.0" styleClass="add-product-button" text="Add Product          +">
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="291.0" styleClass="add-supplier-button" text="Add Supplier          +" translateY="15.0">
+                  <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#chargerAddSupplier" prefHeight="81.0" prefWidth="291.0" styleClass="add-supplier-button" text="Add Supplier          +" translateY="15.0">
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>

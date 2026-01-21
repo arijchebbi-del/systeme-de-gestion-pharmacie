@@ -3,11 +3,15 @@ package brainstorm.pharmacy_app.controller;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.DAO.RapportIM;
 import brainstorm.pharmacy_app.DAO.ProduitIM;
+import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXButton;
 
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -19,6 +23,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.SimpleTimeZone;
 
 public class StockDetailsController {
 
@@ -61,22 +69,22 @@ public class StockDetailsController {
 
 
     @FXML
-    private TableView<Stock> tableStock;
+    private TableView<StockProduit> tableStock;
 
     @FXML
-    private TableColumn<Stock, Integer> colNumLot;
+    private TableColumn<StockProduit, Integer> colNumLot;
     @FXML
-    private TableColumn<Stock, String> colProduit;
+    private TableColumn<StockProduit, String> colProduit;
     @FXML
-    private TableColumn<Stock, Integer> colQuantite;
+    private TableColumn<StockProduit, Integer> colQuantite;
     @FXML
-    private TableColumn<Stock, Integer> colSeuil;
+    private TableColumn<StockProduit, Integer> colSeuil;
     @FXML
-    private TableColumn<Stock, String> colEtat;
+    private TableColumn<StockProduit, String> colEtat;
     @FXML
-    private TableColumn<Stock, Integer> colDecalage;
+    private TableColumn<StockProduit, Integer> colDecalage;
     @FXML
-    private TableColumn<Stock, String> colDerniereMAJ;
+    private TableColumn<StockProduit, String> colDerniereMAJ;
 
     @FXML
     private MFXTextField searchField;
@@ -88,8 +96,8 @@ public class StockDetailsController {
 
 
     private RapportIM rapportIM = new RapportIM();
-    private ObservableList<Stock> stockList = FXCollections.observableArrayList();
-    private FilteredList<Stock> filteredData;
+    private ObservableList<StockProduit> stockList = FXCollections.observableArrayList();
+    private FilteredList<StockProduit> filteredData;
 
     private ProduitIM produitIM = new ProduitIM(); // to fetch product names
 
@@ -97,57 +105,75 @@ public class StockDetailsController {
     public void initialize() {
 
         // map col
-        colNumLot.setCellValueFactory(new PropertyValueFactory<>("numLot"));
-        colProduit.setCellValueFactory(cellData -> {
-            // Display product name using ProduitIM
-            String nomProduit = produitIM.getNomProduitByRef(cellData.getValue().getReference());
-            return new javafx.beans.property.SimpleStringProperty(nomProduit);
-        });
-        colQuantite.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-        colSeuil.setCellValueFactory(new PropertyValueFactory<>("seuilMinimal"));
-        colEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-        colDecalage.setCellValueFactory(new PropertyValueFactory<>("decalage"));
-        colDerniereMAJ.setCellValueFactory(new PropertyValueFactory<>("derniereMAJ"));
+        if (colNumLot != null && colProduit != null && colQuantite != null) {
+            colNumLot.setCellValueFactory(cd ->
+                    new SimpleIntegerProperty(cd.getValue().getStock().getNumLot()).asObject()
+            );
 
-        // ycolori l etat hasb low wala ok
-        colEtat.setCellFactory(column -> new TableCell<Stock, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(item);
-                    if (item.equals("LOW")) {
-                        setStyle("-fx-background-color: lightcoral; -fx-alignment: CENTER;");
+            colProduit.setCellValueFactory(cd ->
+                    new SimpleStringProperty(cd.getValue().getProduit().getNomProduit())
+            );
+
+            colQuantite.setCellValueFactory(cd ->
+                    new SimpleIntegerProperty(cd.getValue().getStock().getQuantite()).asObject()
+            );
+
+            colSeuil.setCellValueFactory(cd ->
+                    new SimpleIntegerProperty(cd.getValue().getStock().getSeuilMinimal()).asObject()
+            );
+
+            colEtat.setCellValueFactory(cd ->
+                    new SimpleStringProperty(cd.getValue().getStock().getEtat())
+            );
+            colDecalage.setCellValueFactory(cd ->
+                    new SimpleIntegerProperty(cd.getValue().getStock().getDecalage()).asObject()
+            );
+            colDerniereMAJ.setCellValueFactory(cd -> {
+                Timestamp ts = cd.getValue().getStock().getDerniereMiseAJour();
+                String str = (ts == null) ? "" : ts.toString();  // format as needed
+                return new SimpleStringProperty(str);
+            });
+
+            // ycolori l etat hasb low wala ok
+            colEtat.setCellFactory(column -> new TableCell<StockProduit, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+                        if (item.equals("LOW")) {
+                            setStyle("-fx-background-color: lightcoral; -fx-alignment: CENTER;");
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // charg donnes
-        loadStock();
+            // charg donnes
+            loadStock();
 
-        // combo mfalter
-        filterCombo.getItems().clear();
-        filterCombo.getItems().addAll("Tous", "OK", "LOW");
-        filterCombo.setValue("Tous");
+            // combo mfalter
+            filterCombo.getItems().clear();
+            filterCombo.getItems().addAll("Tous", "OK", "LOW");
+            filterCombo.setValue("Tous");
 
-        // list mfaltra
-        filteredData = new FilteredList<>(stockList, p -> true);
+            // list mfaltra
+            filteredData = new FilteredList<>(stockList, p -> true);
 
-        // Listeners for search and filter
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
-        filterCombo.valueProperty().addListener((obs, oldVal, newVal) -> applyFilter());
+            // Listeners for search and filter
+            searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
+            filterCombo.valueProperty().addListener((obs, oldVal, newVal) -> applyFilter());
 
-        // Sorted list for column sorting
-        SortedList<Stock> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tableStock.comparatorProperty());
-        tableStock.setItems(sortedData);
+            // Sorted list for column sorting
+            SortedList<StockProduit> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(tableStock.comparatorProperty());
+            tableStock.setItems(sortedData);
 
-        // Refresh button
-        btnRefresh.setOnAction(e -> loadStock());
+            // Refresh button
+            btnRefresh.setOnAction(e -> loadStock());
+        }
     }
 
     // load stock ml rapportetat stokc
@@ -161,7 +187,8 @@ public class StockDetailsController {
         String searchText = searchField.getText().toLowerCase();
         String selectedEtat = filterCombo.getValue();
 
-        filteredData.setPredicate(stock -> {
+        filteredData.setPredicate(stockProduit -> {
+            Stock stock = stockProduit.getStock();
             // Search matches reference or product name
             boolean matchesReference = String.valueOf(stock.getReference()).contains(searchText);
             boolean matchesNom = produitIM.getNomProduitByRef(stock.getReference()).toLowerCase().contains(searchText);

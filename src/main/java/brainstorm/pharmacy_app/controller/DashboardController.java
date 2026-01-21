@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -60,45 +61,32 @@ public class DashboardController {
     }
 
     @FXML
-    private void handleAddProduct(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddProductPopUp.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Ajouter Nouveau Produit");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
-
-            stage.showAndWait();
-
-            // OPTIONAL: refresh dashboard stats here
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    private void chargerPointOfSaleim(MouseEvent event) {
+        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
     }
-    private void handleAddSupplier(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddSupplierPopUp.fxml"));
-            Scene scene = new Scene(loader.load());
+    @FXML
+    private void chargerProductControlim(MouseEvent event) {
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerStockDetailsim(MouseEvent event) {
+        Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerHistoryim(MouseEvent event) {
+        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerAddProduct(ActionEvent event){
+        ProductControlController pcc = new ProductControlController();
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+        pcc.handleOpenAddPopup(event);
+    }
+    @FXML
+    private void chargerAddSupplier(ActionEvent event){
+        SuppliersControlController scc = new SuppliersControlController();
+        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
+        scc.openAddSupplier();
+    }
 
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Ajouter Nouveau Produit");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
-
-            stage.showAndWait();
-
-            // OPTIONAL: refresh dashboard stats here
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-}}
+}

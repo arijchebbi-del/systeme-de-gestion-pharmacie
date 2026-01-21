@@ -128,7 +128,7 @@ public class SuppliersControlController {
     }
 
     // ---------------- Add Supplier ----------------
-    private void openAddSupplier() {
+    void openAddSupplier() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddSupplierPopUp.fxml"));
             Parent root = loader.load();

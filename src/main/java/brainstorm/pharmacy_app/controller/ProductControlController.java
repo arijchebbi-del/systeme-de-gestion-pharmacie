@@ -130,7 +130,7 @@ public class ProductControlController {
     }
 
     @FXML
-    private void handleOpenAddPopup(ActionEvent event) {
+    void handleOpenAddPopup(ActionEvent event) {
         openProductDialog(null);
     }
 

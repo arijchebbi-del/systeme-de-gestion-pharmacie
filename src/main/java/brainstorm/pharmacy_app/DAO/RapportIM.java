@@ -1,6 +1,8 @@
 package brainstorm.pharmacy_app.DAO;
 
+import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Model.Stock;
+import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -160,40 +162,7 @@ public class RapportIM {
     }
 
     //rapport etat stock
-    public Stock rapportEtatStock() {
-        String query = "SELECT s.NumLot, p.NomProduit, s.Quantite, s.SeuilMinimal, " +
-                " s.DerniereMiseAJour " +
-                "FROM Stock s "+
-                "JOIN Produit p ON s.Reference = p.Reference ";
-
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
-
-            System.out.println("Rapport d'état des stocks");
-            while (rs.next()) {
-                String produit = rs.getString("NomProduit");
-                int quantite = rs.getInt("Quantite");
-                int seuil = rs.getInt("SeuilMinimal");
-                java.sql.Timestamp maj = rs.getTimestamp("DerniereMiseAJour");
-
-                String etat = (quantite >= seuil) ? "Supérieur ou égal au seuil" : "Inférieur au seuil";
-                int decalage = (quantite >= seuil) ? quantite - seuil : seuil - quantite;
-
-                System.out.println("Produit : " + produit);
-                System.out.println("Quantité actuelle : " + quantite);
-                System.out.println("Seuil minimal : " + seuil);
-                System.out.println("État : " + etat);
-                System.out.println("Décalage : " + decalage);
-                System.out.println("Dernière mise à jour : " + maj);
-                System.out.println("fin rapport");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
-        }
-        return null;
-    }
+    public List<StockProduit> rapportEtatStock() {return new StockProduitIM().getAll();}
     public void Historique() {
         String sql = "SELECT v.NumFacture, v.DateVente, p.NomProduit, c.Quantite " +
                 "FROM vente v " +

@@ -220,7 +220,7 @@
                <children>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.14" prefWidth="1280.0" styleClass="white-background" translateY="-20.0">
                      <children>
-                        <MFXTextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="930.0" promptText="🔍 Search Product" style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
+                        <MFXTextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="930.0" promptText="🔍 Search Product..." style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
                            <font>
                               <Font name="Poppins Light" size="24.0" />
                            </font>
@@ -241,7 +241,7 @@
             </HBox>
          </top>
          <left>
-            <TableView fx:id="tableProducts" centerShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" scaleShape="false" styleClass="pos-table" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableStock" centerShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" scaleShape="false" styleClass="pos-table" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="colNumLot" editable="false" prefWidth="133.66665649414062" resizable="false" text="LotNumber" />
                 <TableColumn fx:id="colProduit" editable="false" minWidth="0.0" prefWidth="136.33331298828125" resizable="false" text="ProductRef" />
