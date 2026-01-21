@@ -3,41 +3,48 @@ package brainstorm.pharmacy_app.DAO;
 import brainstorm.pharmacy_app.Model.Commande;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*; // Import modifié pour inclure Statement et List
+import java.util.ArrayList;
+import java.util.List;
 
-public class CommandeIM implements CommandeDAO{
-    public void creation_c(Commande c){
+public class CommandeIM implements CommandeDAO {
+    public void creation_c(Commande c) {
+        // Ajout de RETURN_GENERATED_KEYS pour récupérer l'ID auto-incrémenté
         String query = "INSERT INTO Commande(PrixTotal,DateCommande,DateArrivee,IdEmploye,IdFournisseur,Etat) VALUES (?,?,?,?,?,?)";
         try (Connection con = DBConnection.getEmployeeConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setDouble(1,c.getPrixTotal());
-            ps.setDate(2,c.getDateCommande());
-            ps.setDate(3,c.getDateArrivee());
-            ps.setInt(4,c.getIdEmploye());
-            ps.setInt(5,c.getIdFournisseur());
-            ps.setString(6,c.getEtat());
+             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) { // Ajout paramètre keys
+            ps.setDouble(1, c.getPrixTotal());
+            ps.setDate(2, c.getDateCommande());
+            ps.setDate(3, c.getDateArrivee());
+            ps.setInt(4, c.getIdEmploye());
+            ps.setInt(5, c.getIdFournisseur());
+            ps.setString(6, c.getEtat());
             ps.executeUpdate();
+
+            // Ajout : Récupération de l'ID généré pour l'objet Commande
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                c.setIdCommande(rs.getInt(1));
+            }
+
             System.out.println("Commande bien ajoutée");
         } catch (SQLException e) {
             System.err.println("Erreur SQL: " + e.getMessage());
         }
     }
-    public void modification_c(Commande c){
+
+    public void modification_c(Commande c) {
         String query = "UPDATE Commande SET PrixTotal = ?,DateCommande = ?,DateArrivee = ?,IdEmploye = ?,IdFournisseur = ?,Etat = ? WHERE IdCommande = ?";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setFloat(1,c.getPrixTotal());
-            ps.setDate(2,c.getDateCommande());
-            ps.setDate(3,c.getDateArrivee());
-            ps.setInt(4,c.getIdEmploye());
-            ps.setInt(5,c.getIdFournisseur());
-            ps.setString(6,c.getEtat());
-
-
+            ps.setFloat(1, c.getPrixTotal());
+            ps.setDate(2, c.getDateCommande());
+            ps.setDate(3, c.getDateArrivee());
+            ps.setInt(4, c.getIdEmploye());
+            ps.setInt(5, c.getIdFournisseur());
+            ps.setString(6, c.getEtat());
+            ps.setInt(7, c.getIdCommande()); // Ajout du paramètre pour le WHERE
 
             int rows = ps.executeUpdate();
 
@@ -52,10 +59,7 @@ public class CommandeIM implements CommandeDAO{
         }
     }
 
-
-
-
-    public void annulation_c(int idCommande){
+    public void annulation_c(int idCommande) {
 
         String sql = "DELETE FROM Commande WHERE IdCommande = ?";
 
@@ -70,6 +74,7 @@ public class CommandeIM implements CommandeDAO{
             e.printStackTrace();
         }
     }
+
     public String getNomFournisseur(int idFournisseur) {
         String query = "SELECT Nom FROM Fournisseur WHERE IdFournisseur = ?";
         try (Connection con = DBConnection.getEmployeeConnection();
@@ -85,4 +90,57 @@ public class CommandeIM implements CommandeDAO{
         return "Inconnu";
     }
 
+    // Ajout : Récupérer table view
+    public List<Commande> getAllCommandes() {
+        List<Commande> liste = new ArrayList<>();
+        String query = "SELECT * FROM Commande ORDER BY DateCommande DESC";
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Commande c = new Commande(
+                        rs.getInt("IdCommande"),
+                        rs.getInt("IdFournisseur"),
+                        rs.getInt("IdEmploye"),
+                        rs.getDate("DateCommande"),
+                        rs.getDate("DateArrivee")
+                );
+                c.setPrixTotal(rs.getFloat("PrixTotal"));
+                c.setEtat(rs.getString("Etat"));
+                liste.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return liste;
+    }
+
+    // bouton recieve
+    public void updateEtat(int idCommande, String nouvelEtat) {
+        String query = "UPDATE Commande SET Etat = ? WHERE IdCommande = ?";
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, nouvelEtat);
+            ps.setInt(2, idCommande);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public String getNomEmploye(int idEmploye) {
+        String query = "SELECT Nom, Prenom FROM Employe WHERE IdEmploye = ?";
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, idEmploye);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Nom") + " " + rs.getString("Prenom");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "ID: " + idEmploye;
+    }
 }

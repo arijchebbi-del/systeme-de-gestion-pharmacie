@@ -11,7 +11,7 @@ public class Composer {
         this.idCommande=idCo;
     }
     public int getIdCommande(){return idCommande;}
-    public int getIdProduit(){
+    public int getReference(){
         return reference;
     }
     public int getQuantiteComposer(){return quantite;}
