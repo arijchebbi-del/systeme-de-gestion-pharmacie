@@ -14,8 +14,8 @@ public class Composer {
     public int getReference(){
         return reference;
     }
-    public int getQuantiteComposer(){return quantite;}
-    public void setQuantiteComposer(int q){quantite=q;}
+    public int getQuantite(){return quantite;}
+    public void setQuantite(int q){quantite=q;}
     public void setIdCommande( int idCommande){this.idCommande=idCommande;}
     public void setProduit(int ref){reference=ref;}
 

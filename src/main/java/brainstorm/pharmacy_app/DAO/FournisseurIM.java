@@ -133,6 +133,28 @@ public class FournisseurIM implements FournisseurDAO{
 
         return fournisseurs;
     }
+    public String getNomFournisseur(int id) {
+        String nom = null;
+
+        String query = "SELECT NomFournisseur FROM Fournisseur WHERE IdFournisseur = ?";
+
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    nom = rs.getString("NomFournisseur");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération du nom du fournisseur : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return nom;
+    }
 
 
 }
