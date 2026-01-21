@@ -2,11 +2,15 @@ package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.RapportIM;
 import brainstorm.pharmacy_app.Model.Stock;
+import brainstorm.pharmacy_app.nav.Navigation;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,10 +22,46 @@ import java.io.IOException;
 import java.sql.Date;
 
 public class AnalysisReportsController {
+    @FXML
+    private void chargerDashboard(ActionEvent event) {
+        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerPointOfSale(ActionEvent event) {
+        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerProductControl(ActionEvent event) {
+        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerStockDetails(ActionEvent event) {
+        Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerOrderControl(ActionEvent event) {
+        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerSuppliersControl(ActionEvent event) {
+        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerHistory(ActionEvent event) {
+        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerEmployeesControl(ActionEvent event) {
+        Navigation.navTo("/FXML/EmployeesControl.fxml",((Node) event.getSource())); //charger dashboard
+    }
+    @FXML
+    private void chargerAnalysisReports(ActionEvent event) {
+        Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); //charger dashboard
+    }
 
     // li bchtkhtar behom date
-    @FXML private DatePicker dateDebut;
-    @FXML private DatePicker dateFin;
+    @FXML private MFXDatePicker dateDebut;
+    @FXML private MFXDatePicker dateFin;
     // 3 taa stock
     @FXML private Label lblTotalProducts;
     @FXML private Label lblLowStockProducts;
@@ -32,13 +72,13 @@ public class AnalysisReportsController {
     @FXML private Label lblTotalRevenue;
     @FXML private Label lblNbSales;
     @FXML private Label lblAverageBasket;
-    @FXML private Button btnFullRevenueReport;
+    @FXML private MFXButton btnFullRevenueReport;
 
     // labelsss agaain
     @FXML private Label lblTotalSuppliersOrders;
     @FXML private Label lblSuppliersOnTime;
     @FXML private Label lblSuppliersLate;
-    @FXML private Button btnFullSuppliersReport;
+    @FXML private MFXButton btnFullSuppliersReport;
 
     private RapportIM rapportIM = new RapportIM();
     private ObservableList<Stock> stockList = FXCollections.observableArrayList();
@@ -106,24 +146,24 @@ public class AnalysisReportsController {
     }
 
     // hedha bch tunlocki l full potential
-    @FXML
-    private void openFullSuppliersReport(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ViewSupplierReport.fxml"));
-            Parent root = loader.load();
-
-            ViewSupplierReportController controller = loader.getController();
-            controller.showReport();
-
-            Stage stage = new Stage();
-            stage.setTitle("Full Suppliers Report");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @FXML
+//    private void openFullSuppliersReport(ActionEvent event) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ViewSupplierReport.fxml"));
+//            Parent root = loader.load();
+//
+//            ViewSupplierReportController controller = loader.getController();
+//            controller.showReport();
+//
+//            Stage stage = new Stage();
+//            stage.setTitle("Full Suppliers Report");
+//            stage.setScene(new Scene(root));
+//            stage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     @FXML
     private void openStockReport(ActionEvent event) {
         try {

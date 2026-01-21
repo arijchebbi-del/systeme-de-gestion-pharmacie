@@ -94,7 +94,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerOrderControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerStockDetails" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Stock Details" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -106,6 +106,24 @@
                   <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
                      <image>
                         <Image url="@../images/box-solid-svgrepo-com.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerOrderControl" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Order Control" textAlignment="CENTER" textFill="#5d5d5d">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                     <image>
+                        <Image url="@../images/Layer.png" />
                      </image>
                   </ImageView>
                </children>
@@ -152,7 +170,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" ellipsisString="" onAction="#chargerEmployeesControl" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Employees Control" textFill="#5d5d5d" textOverrun="CLIP">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -172,9 +190,9 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="254.0">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
                <children>
-                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" prefHeight="46.0" prefWidth="254.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis reports" textAlignment="CENTER" textFill="#5d5d5d">
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#chargerAnalysisReports" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Analysis Reports" textAlignment="CENTER" textFill="#5d5d5d">
                      <styleClass>
                         <String fx:value="dashboard-buttons" />
                         <String fx:value="pos-button" />
@@ -183,10 +201,14 @@
                         <Font name="Poppins Light" size="20.0" />
                      </font>
                   </MFXButton>
-                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" styleClass="pos-icon">
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/analysis.png" />
                      </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
                   </ImageView>
                </children>
             </HBox>
@@ -217,14 +239,14 @@
             </HBox>
          </top>
          <left>
-            <TableView fx:id="tableFournisseurs" prefHeight="200.0" prefWidth="1375.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableFournisseurs" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1375.0" styleClass="pos-table" BorderPane.alignment="CENTER">
                <columns>
-                  <TableColumn fx:id="colId" prefWidth="270.0" text="C1" />
-                  <TableColumn fx:id="colNom" minWidth="0.0" prefWidth="176.0" text="C2" />
-                  <TableColumn fx:id="colTel" prefWidth="246.0" text="Column X" />
-                  <TableColumn fx:id="colType" prefWidth="213.0" text="Column X" />
-                  <TableColumn fx:id="colView" prefWidth="75.0" text="Column X" />
-                  <TableColumn fx:id="colDelete" prefWidth="75.0" text="Column X" />
+                  <TableColumn fx:id="colId" prefWidth="157.33331298828125" resizable="false" text="SupplierId" />
+                  <TableColumn fx:id="colNom" minWidth="0.0" prefWidth="368.0" resizable="false" text="SupplierName" />
+                  <TableColumn fx:id="colType" prefWidth="334.0" resizable="false" text="Products Type" />
+                  <TableColumn fx:id="colTel" prefWidth="292.0" resizable="false" text="Phone Number" />
+                  <TableColumn fx:id="colView" minWidth="7.0" prefWidth="113.6666259765625" resizable="false" />
+                  <TableColumn fx:id="colDelete" prefWidth="112.6666259765625" resizable="false" />
                </columns>
             </TableView>
          </left>

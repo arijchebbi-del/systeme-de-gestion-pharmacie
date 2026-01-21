@@ -10,6 +10,7 @@ public class Stock {
     private int seuilMinimal;
     private int reference;
 
+    public Stock(){}
     public Stock(int numLot, int ref, int quantite,int seuil) {
         this.numLot = numLot;
         this.reference = ref;
