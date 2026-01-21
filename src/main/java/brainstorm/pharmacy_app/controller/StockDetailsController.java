@@ -160,7 +160,7 @@ public class StockDetailsController {
             filterCombo.setValue("Tous");
 
             // list mfaltra
-            filteredData = new FilteredList<>(stockList, p -> true);
+            filteredData = new FilteredList<>(stockList, sp -> true);
 
             // Listeners for search and filter
             searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
@@ -184,18 +184,18 @@ public class StockDetailsController {
 
     // recherche et filre
     private void applyFilter() {
-        String searchText = searchField.getText().toLowerCase();
-        String selectedEtat = filterCombo.getValue();
-
         filteredData.setPredicate(stockProduit -> {
             Stock stock = stockProduit.getStock();
+            String searchText = searchField.getText() == null ? "" : searchField.getText().toLowerCase();
+            String selectedEtat = filterCombo.getValue();
+
             // Search matches reference or product name
             boolean matchesReference = String.valueOf(stock.getReference()).contains(searchText);
-            boolean matchesNom = produitIM.getNomProduitByRef(stock.getReference()).toLowerCase().contains(searchText);
+            boolean matchesNom = stockProduit.getProduit().getNomProduit().toLowerCase().contains(searchText);
             boolean matchesSearch = matchesReference || matchesNom;
 
             // Etat filter
-            boolean matchesEtat = selectedEtat.equals("Tous") || stock.getEtat().equals(selectedEtat);
+            boolean matchesEtat = selectedEtat == null || selectedEtat.equals("Tous") || stock.getEtat().equals(selectedEtat);
 
             return matchesSearch && matchesEtat;
         });

@@ -87,15 +87,16 @@
     -fx-font-size: 16px;
 }
 .pos-table-c{
-    -fx-background-color: #ffffff;
     -fx-text-fill: black;
-    -fx-border-color: white;
-    -fx-alignment: center;
 
 }
 .table-column{
     -fx-background-color: #f4f4f4;
     -fx-border-color: #f4f4f4;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
+    -fx-border-color: white;
+    -fx-alignment: center;
 }
 .pos-table{
     -fx-background-radius: 20px;
