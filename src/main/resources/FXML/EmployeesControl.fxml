@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.ProductControlController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1025.0" prefWidth="1822.0" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.EmployeeControlController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -224,7 +224,7 @@
                <children>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.14" prefWidth="1077.0" styleClass="white-background" translateY="-20.0">
                      <children>
-                        <MFXTextField fx:id="txtSearch" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Employee..." style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
+                        <MFXTextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="725.0" promptText="🔍 Search Employee..." style="-fx-font-size: 24px;" translateX="20.0" translateY="15.0">
                            <font>
                               <Font name="Poppins Light" size="24.0" />
                            </font>
@@ -236,7 +236,7 @@
                         <MFXComboBox fx:id="comboCategory" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.25" prefWidth="290.0" styleClass="selected-field" translateX="40.0" translateY="15.0" />
                      </children>
                   </HBox>
-                  <MFXButton depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleOpenAddPopup" prefHeight="81.0" prefWidth="280.0" rippleColor="WHITE" styleClass="add-product-button" text="Add Employee        +" translateX="20.0" translateY="-20.0">
+                  <MFXButton fx:id="btnAdd" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="280.0" rippleColor="WHITE" styleClass="add-product-button" text="Add Employee        +" translateX="20.0" translateY="-20.0">
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor></MFXButton>
@@ -244,15 +244,16 @@
             </HBox>
          </top>
          <left>
-            <TableView fx:id="tableProducts" centerShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" scaleShape="false" styleClass="pos-table" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableEmployes" centerShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" scaleShape="false" styleClass="pos-table" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="colRef" editable="false" prefWidth="93.0" resizable="false" text="EmployeeID" />
-                <TableColumn fx:id="colName" editable="false" minWidth="0.0" prefWidth="174.0" resizable="false" text="First Name" />
-                  <TableColumn fx:id="colCategory" editable="false" minWidth="0.0" prefWidth="210.0" resizable="false" text="Last Name" />
-                  <TableColumn fx:id="colPrice" editable="false" minWidth="0.0" prefWidth="184.0" resizable="false" text="Phone Number" />
-                  <TableColumn fx:id="colActions" editable="false" minWidth="0.0" prefWidth="280.0" resizable="false" sortable="false" text="E-mail" />
-                  <TableColumn fx:id="colActions1" editable="false" minWidth="0.0" prefWidth="222.0" resizable="false" sortable="false" text="Shift" />
-                  <TableColumn fx:id="colActions2" editable="false" minWidth="0.0" prefWidth="216.0" resizable="false" sortable="false" text="Actions" />
+                <TableColumn fx:id="colId" editable="false" prefWidth="93.0" resizable="false" text="EmployeeID" />
+                <TableColumn fx:id="colPrenom" editable="false" minWidth="0.0" prefWidth="174.0" resizable="false" text="First Name" />
+                  <TableColumn fx:id="colNom" editable="false" minWidth="0.0" prefWidth="210.0" resizable="false" text="Last Name" />
+                  <TableColumn fx:id="colTel" editable="false" minWidth="0.0" prefWidth="184.0" resizable="false" text="Phone Number" />
+                  <TableColumn fx:id="colEmail" editable="false" minWidth="0.0" prefWidth="280.0" resizable="false" sortable="false" text="E-mail" />
+                  <TableColumn fx:id="colHoraire" editable="false" minWidth="0.0" prefWidth="222.0" resizable="false" sortable="false" text="Shift" />
+                  <TableColumn fx:id="colView" editable="false" minWidth="0.0" prefWidth="112.0" resizable="false" sortable="false" />
+                  <TableColumn fx:id="colDelete" editable="false" minWidth="0.0" prefWidth="104.0" resizable="false" sortable="false" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

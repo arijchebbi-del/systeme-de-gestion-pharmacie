@@ -3,8 +3,11 @@ package brainstorm.pharmacy_app.controller;
 import brainstorm.pharmacy_app.DAO.*;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Utils.User;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,14 +17,14 @@ import java.time.LocalDate;
 
 public class AddOrderController {
 
-    @FXML private TextField txtRef;
-    @FXML private TextField txtQty;
-    @FXML private TextField txtFournisseurId; // MA yefreghch wakt wakt tenzel aala add
+    @FXML private MFXTextField txtRef;
+    @FXML private MFXTextField txtQty;
+    @FXML private MFXTextField txtFournisseurId; // MA yefreghch wakt wakt tenzel aala add
     @FXML private Label lblProductName;
     @FXML private Label lblError;
     @FXML private Label lblTotalPrix;
-    @FXML private Button btnSubmit;
-    @FXML private Button btnCancel;
+    @FXML private MFXButton btnSubmit;
+    @FXML private MFXButton btnCancel;
 
     @FXML private TableView<Composer> tableTempItems;
     @FXML private TableColumn<Composer, Integer> colRef;
@@ -40,7 +43,7 @@ public class AddOrderController {
         colQty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
         tableTempItems.setItems(tempItems);
 
-        lblTotalPrix.setText("Total : 0.00 DT");
+        lblTotalPrix.setText("0.00 DT");
 
         txtRef.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) verifierProduit();
@@ -55,11 +58,11 @@ public class AddOrderController {
             String nom = stockDAO.getNomProduit(ref);
 
             if (nom != null) {
-                lblProductName.setText("Produit : " + nom);
+                lblProductName.setText(nom);
                 lblProductName.setStyle("-fx-text-fill: #27ae60;");
                 lblError.setText("");
             } else {
-                lblProductName.setText("Erreur : Produit inexistant");
+                lblProductName.setText("Produit inexistant");
                 lblProductName.setStyle("-fx-text-fill: #e74c3c;");
             }
         } catch (NumberFormatException e) {
@@ -70,7 +73,7 @@ public class AddOrderController {
 
 
     @FXML
-    private void handleAddItem() {
+    private void handleAddItem(ActionEvent event) {
         try {
             // nthabet illi kteb fournisseur mi lowel
             if (txtFournisseurId.getText().isEmpty()) {

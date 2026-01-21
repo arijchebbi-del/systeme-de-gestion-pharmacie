@@ -1,16 +1,19 @@
 package brainstorm.pharmacy_app.DAO;
 import brainstorm.pharmacy_app.Model.Employe;
+import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeIM implements EmployeDAO{
     public void creation_e(Employe e) {
 
-        String query = "INSERT INTO Employe(MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Employe(MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,Username) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -22,6 +25,7 @@ public class EmployeIM implements EmployeDAO{
             ps.setString(5, e.getPrenom());
             ps.setString(6, e.getNom());
             ps.setString(7, e.getEmail());
+            ps.setString(8,e.getUsername());
 
             ps.executeUpdate();
             System.out.println("Employé ajouté");
@@ -131,14 +135,14 @@ public class EmployeIM implements EmployeDAO{
     }
 
     // Ajoutez cette méthode à la fin de votre classe EmployeIM
-    public Employe authentifier(String nom, String motDePasse) {
+    public Employe authentifier(String username, String motDePasse) {
         // La requête cherche un employé par son nom ET son mot de passe
-        String sql = "SELECT * FROM Employe WHERE Nom = ? AND MotDePasse = ?";
+        String sql = "SELECT * FROM Employe WHERE Username = ? AND MotDePasse = ?";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, nom);
+            ps.setString(1, username);
             ps.setString(2, motDePasse);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -158,4 +162,33 @@ public class EmployeIM implements EmployeDAO{
         return null; // Retourne null si aucun utilisateur n'est trouvé
     }
 
+    public List<Employe> getAll() {
+
+        List<Employe> employes = new ArrayList<>();
+        String sql = "SELECT * FROM Employe";
+
+        try (Connection conn = DBConnection.getAdminConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Employe e = new Employe();
+                e.setIdemploye(rs.getInt("IdEmploye"));
+                e.setNom(rs.getString("Nom"));
+                e.setPrenom(rs.getString("Prenom"));
+                e.setEmail(rs.getString("Email"));
+                e.setRole(rs.getString("Role"));
+                e.setHoraire(rs.getString("HoraireDeTravail"));
+                e.setNumTelephone(rs.getInt("NumTel"));
+                e.setMotdepasse(rs.getString("MotDePasse"));
+
+                employes.add(e);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employes;
+    }
 }

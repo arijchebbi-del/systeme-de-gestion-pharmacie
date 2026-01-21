@@ -8,9 +8,11 @@ public class Employe {
     private String motDePasse;
     private String role;
     private String horaire;
+    private String username;
 
 
     //getter
+    public int getIdEmploye(){return idEmploye;}
     public String getNom (){return nom;}
     public String getPrenom (){return prenom;}
     public int getNumTelephoneEmploye (){return numTel;}
@@ -18,17 +20,19 @@ public class Employe {
     public String getMotdePasse() {return motDePasse;}
     public String getRole (){return role;}
     public String getHoraire (){return horaire;}
-    public int getIdEmploye(){return idEmploye;}
+    public String getUsername(){return username;}
 
     //setters
 
     public void setIdEmploye(int idEmploye) {this.idEmploye = idEmploye;}
     public void setNom (String nom){this.nom=nom;}
-    public void setPrenom (String prenom){prenom=prenom;}
+    public void setPrenom (String prenom){this.prenom=prenom;}
     public void setNumTelephone (int num){numTel=num;}
     public void setEmail (String mail){email=mail;}
     public void setMotdepasse(String mdp) {motDePasse=mdp;}
-    public void setRole(String role){role=role;}
+    public void setRole(String role){this.role=role;}
     public void setHoraire (String horaire ){this.horaire=horaire;}
     public void setIdemploye(int idEmploye) {this.idEmploye=idEmploye;}
+    public void setUsername (String username ){this.username=username;}
+
 }

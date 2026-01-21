@@ -25,42 +25,35 @@ import javafx.scene.Node;
 import brainstorm.pharmacy_app.nav.Navigation;
 
 public class DashboardController {
-    @FXML
-    private void chargerDashboard(ActionEvent event) {
-        Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerPointOfSale(ActionEvent event) {
-        Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerProductControl(ActionEvent event) {
-        Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerStockDetails(ActionEvent event) {
-        Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerOrderControl(ActionEvent event) {
-        Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerSuppliersControl(ActionEvent event) {
-        Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerHistory(ActionEvent event) {
-        Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); //charger dashboard
-    }
-    @FXML
-    private void chargerEmployeesControl(ActionEvent event) {
+    @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
+    @FXML private void chargerPointOfSale(ActionEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
+    @FXML private void chargerProductControl(ActionEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerStockDetails(ActionEvent event) { Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); }
+    @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
+    @FXML private void chargerEmployeesControl(ActionEvent event) {
         // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
             // يسمح بالوصول
-            Navigation.navTo("/FXML/EmployeeControl.fxml", ((Node) event.getSource()));
+            Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        } }
+    @FXML
+    private void chargerAnalysisReports(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+        if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
         } else {
             // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -69,10 +62,6 @@ public class DashboardController {
             alert.setContentText("Seul un administrateur peut accéder à cette page.");
             alert.show();
         }
-    }
-    @FXML
-    private void chargerAnalysisReports(ActionEvent event) {
-        Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); //charger dashboard
     }
 
     @FXML

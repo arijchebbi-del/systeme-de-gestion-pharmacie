@@ -16,6 +16,9 @@ public class AddEmployeeController {
     @FXML private MFXTextField txtEmail;
     @FXML private MFXTextField txtTel;
     @FXML private MFXTextField txtHoraire;
+    @FXML private MFXTextField txtMDP;
+    @FXML private MFXTextField txtUsername;
+    @FXML private MFXTextField txtRole;
 
     @FXML private MFXButton btnConfirm;
     @FXML private MFXButton btnCancel;
@@ -36,6 +39,9 @@ public class AddEmployeeController {
             emp.setEmail(txtEmail.getText());
             emp.setHoraire(txtHoraire.getText());
             emp.setNumTelephone(Integer.parseInt(txtTel.getText()));
+            emp.setMotdepasse(txtMDP.getText());
+            emp.setUsername(txtUsername.getText());
+            emp.setRole(txtRole.getText());
 
             employeService.ajouterEmploye(emp);
 

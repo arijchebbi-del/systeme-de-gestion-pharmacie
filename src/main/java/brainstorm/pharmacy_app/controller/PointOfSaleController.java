@@ -42,7 +42,7 @@ public class PointOfSaleController {
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
             // يسمح بالوصول
-            Navigation.navTo("/FXML/EmployeeControl.fxml", ((Node) event.getSource()));
+            Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
         } else {
             // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -51,7 +51,22 @@ public class PointOfSaleController {
             alert.setContentText("Seul un administrateur peut accéder à cette page.");
             alert.show();
         } }
-    @FXML private void chargerAnalysisReports(ActionEvent event) { Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); }
+    @FXML
+    private void chargerAnalysisReports(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+        if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        }
+    }
 
     @FXML private MFXTextField txtSearch;
     @FXML private MFXComboBox<String> comboCategory;

@@ -1,15 +1,20 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.DAO.EmployeIM;
 import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Service.EmployeService;
+import brainstorm.pharmacy_app.Utils.User;
+import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,6 +24,45 @@ import javafx.stage.Stage;
 
 
 public class EmployeeControlController {
+    @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
+    @FXML private void chargerPointOfSale(ActionEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
+    @FXML private void chargerProductControl(ActionEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerStockDetails(ActionEvent event) { Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); }
+    @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
+    @FXML private void chargerEmployeesControl(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        } }
+    @FXML
+    private void chargerAnalysisReports(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+        if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        }
+    }
+
 
     @FXML private TableView<Employe> tableEmployes;
     @FXML private TableColumn<Employe, Integer> colId;
@@ -34,6 +78,7 @@ public class EmployeeControlController {
     @FXML private MFXButton btnAdd;
 
     private EmployeService employeService = new EmployeService();
+    private EmployeIM employeDAO= new EmployeIM();
     private ObservableList<Employe> employeList = FXCollections.observableArrayList();
     private FilteredList<Employe> filteredData;
 
@@ -64,7 +109,14 @@ public class EmployeeControlController {
 
     private void loadEmployes() {
         employeList.clear();
-        // تنجم تزيد getAllEmployes بعد
+        refreshTable();
+    }
+
+    public void refreshTable() {
+        employeList.setAll(employeDAO.getAll());
+        if (tableEmployes != null) {
+            tableEmployes.refresh();
+        }
     }
 
     private void applyFilter() {
@@ -81,7 +133,7 @@ public class EmployeeControlController {
     // ---------- Add ----------
     private void openAddEmploye() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddEmployePopUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddEmployeePopUp.fxml"));
             Parent root = loader.load();
 
             AddEmployeeController c = loader.getController();
@@ -98,9 +150,7 @@ public class EmployeeControlController {
         }
     }
 
-    public void refreshTable() {
-        loadEmployes();
-    }
+
 
     // ---------- View ----------
     private void addViewButtonToTable() {
