@@ -290,7 +290,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <MFXButton depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="253.0" rippleColor="WHITE" styleClass="payment-button" text="💳 Complete the payment" translateX="20.0" translateY="10.0">
+                        <MFXButton fx:id="btnPayment" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="253.0" rippleColor="WHITE" styleClass="payment-button" text="💳 Complete the payment" translateX="20.0" translateY="10.0">
                            <font>
                               <Font name="Poppins Light" size="16.0" />
                            </font>

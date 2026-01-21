@@ -212,6 +212,7 @@ public class PointOfSaleController {
         if (constituerDAO.verifierPresenceProduit(venteActuelle.getNumFacture(), s.getReference())) {
             // lehne leezem nekhou ll quantite illi chreha bch nzidha fll quantité affiché w bch nakess mll total
             int qteVendu = constituerDAO.getQuantiteVendu(venteActuelle.getNumFacture(), s.getReference());
+            System.out.println(qteVendu);
             float prix = stockDAO.getPrixProduitByRef(s.getReference());
 
             constituerDAO.supprimerLigneVente(venteActuelle.getNumFacture(), s.getReference());

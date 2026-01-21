@@ -36,7 +36,7 @@ public class VenteIM implements VenteDAO {
     }
     public void updatePrixTotal(int numFacture, float total) {
         // mettre a jour ll total
-        String sql = "UPDATE vente SET PrixTotal = ? WHERE NumFacture = ?";
+        String sql = "UPDATE Vente SET PrixTotal = ? WHERE NumFacture = ?";
 
         try (Connection con = DBConnection.getAdminConnection(); // Utilisez votre classe de connexion
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -54,7 +54,7 @@ public class VenteIM implements VenteDAO {
     public List<Vente> getAllVentes() {
         List<Vente> listeVentes = new ArrayList<>();
         // On récupère les ventes triées par date (la plus récente en premier)
-        String sql = "SELECT * FROM vente ORDER BY DateVente DESC";
+        String sql = "SELECT * FROM Vente ORDER BY DateVente DESC";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql);

@@ -82,7 +82,7 @@ public class ConstituerIM implements ConstituerDAO {
     }
     public int getQuantiteVendu(int numFacture, int reference) {
         int qte = 0;
-        String sql = "SELECT Quantite FROM constituer WHERE NumFacture = ? AND Référence = ?";
+        String sql = "SELECT QuantiteVendu FROM Constituer WHERE NumFacture = ? AND Reference = ?";
 
         try (Connection con = DBConnection.getAdminConnection(); // Ou votre méthode de connexion
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class ConstituerIM implements ConstituerDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    qte = rs.getInt("Quantite");
+                    qte = rs.getInt("QuantiteVendu");
                 }
             }
         } catch (SQLException e) {
@@ -103,7 +103,7 @@ public class ConstituerIM implements ConstituerDAO {
 
     public int getNombreProduitsParFacture(int numFacture) {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM constituer WHERE NumFacture = ?";
+        String sql = "SELECT COUNT(*) FROM Constituer WHERE NumFacture = ?";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, numFacture);
@@ -116,15 +116,15 @@ public class ConstituerIM implements ConstituerDAO {
     // ll bouton view history controller
     public List<Constituer> getLignesParFacture(int numFacture) {
         List<Constituer> liste = new ArrayList<>();
-        String sql = "SELECT * FROM constituer WHERE NumFacture = ?";
+        String sql = "SELECT * FROM Constituer WHERE NumFacture = ?";
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, numFacture);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Constituer c = new Constituer();
-                c.setReference(rs.getInt("Référence"));
-                c.setQuantiteVendu(rs.getInt("Quantite"));
+                c.setReference(rs.getInt("Reference"));
+                c.setQuantiteVendu(rs.getInt("QuantiteVendu"));
                 liste.add(c);
             }
         } catch (Exception e) { e.printStackTrace(); }

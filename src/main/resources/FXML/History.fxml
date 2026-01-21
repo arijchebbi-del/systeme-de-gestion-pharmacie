@@ -236,13 +236,13 @@
             </HBox>
          </top>
          <left>
-            <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" styleClass="pos-table" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableHistory" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" styleClass="pos-table" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="192.33334350585938" text="ActionID" />
-                <TableColumn prefWidth="328.6666564941406" text="Date" />
-                  <TableColumn prefWidth="337.3333740234375" text="Products" />
-                  <TableColumn prefWidth="378.6666259765625" text="Total" />
-                  <TableColumn prefWidth="146.6666259765625" text="Actions" />
+                <TableColumn fx:id="colActionID" prefWidth="192.33334350585938" text="ActionID" />
+                <TableColumn fx:id="colDate" prefWidth="328.6666564941406" text="Date" />
+                  <TableColumn fx:id="colProducts" prefWidth="337.3333740234375" text="Products" />
+                  <TableColumn fx:id="colTotal" prefWidth="378.6666259765625" text="Total" />
+                  <TableColumn fx:id="colActions" prefWidth="146.6666259765625" text="Actions" />
               </columns>
             </TableView>
          </left>
