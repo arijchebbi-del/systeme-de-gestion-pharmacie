@@ -78,4 +78,25 @@ public class ConstituerIM implements ConstituerDAO {
             e.printStackTrace();
         }
     }
+    public int getQuantiteVendu(int numFacture, int reference) {
+        int qte = 0;
+        String sql = "SELECT Quantite FROM constituer WHERE NumFacture = ? AND Référence = ?";
+
+        try (Connection con = DBConnection.getAdminConnection(); // Ou votre méthode de connexion
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, numFacture);
+            ps.setInt(2, reference);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    qte = rs.getInt("Quantite");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return qte;
+    }
+
 }

@@ -32,4 +32,21 @@ public class VenteIM implements VenteDAO {
             System.err.println("Erreur SQL lors de la creation de la vente : " + e.getMessage());
         }
     }
+    public void updatePrixTotal(int numFacture, float total) {
+        // mettre a jour ll total
+        String sql = "UPDATE vente SET PrixTotal = ? WHERE NumFacture = ?";
+
+        try (Connection con = DBConnection.getAdminConnection(); // Utilisez votre classe de connexion
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setFloat(1, total);
+            ps.setInt(2, numFacture);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du prix total : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
