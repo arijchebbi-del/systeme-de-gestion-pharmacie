@@ -80,7 +80,7 @@ public class ComposerService {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, composer.getQuantiteComposer());
             ps.setInt(2, composer.getIdCommande());
-            ps.setInt(3, composer.getIdProduit());
+            ps.setInt(3, composer.getReference());
 
             ps.executeUpdate();
         } catch (SQLException e) {

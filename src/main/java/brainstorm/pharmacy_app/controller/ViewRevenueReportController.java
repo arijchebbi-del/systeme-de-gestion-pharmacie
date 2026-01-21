@@ -1,6 +1,7 @@
 package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.RapportIM;
+import io.github.palexdev.materialfx.controls.MFXListView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,8 +16,8 @@ public class ViewRevenueReportController {
     @FXML private Label lblNbSales;
     @FXML private Label lblAverageBasket;
 
-    @FXML private ListView<String> listTopEmployees;
-    @FXML private ListView<String> listTopProducts;
+    @FXML private MFXListView<String> listTopEmployees;
+    @FXML private MFXListView<String> listTopProducts;
 
     private RapportIM rapportIM = new RapportIM();
 

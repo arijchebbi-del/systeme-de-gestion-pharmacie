@@ -314,8 +314,8 @@ public class RapportIM {
 
         List<String> list = new ArrayList<>();
 
-        String sql = "SELECT p.NomProduit, SUM(c.Quantite) AS qte, " +
-                "SUM(c.Quantite * p.PrixVente) AS ca " +
+        String sql = "SELECT p.NomProduit, SUM(c.QuantiteVendu) AS qte, " +
+                "SUM(c.QuantiteVendu * p.PrixVente) AS ca " +
                 "FROM Constituer c JOIN Produit p ON c.Reference = p.Reference " +
                 "JOIN Vente v ON c.NumFacture = v.NumFacture " +
                 "WHERE v.DateVente BETWEEN ? AND ? " +

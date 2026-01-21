@@ -23,8 +23,26 @@
                   <Image url="@../images/DashbordAppLogo.png" />
                </image>
             </ImageView>
-            <MFXDatePicker fx:id="dateDebut" />
-            <MFXDatePicker fx:id="dateFin" />
+            <VBox prefHeight="200.0" prefWidth="100.0" translateX="105.0" translateY="45.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date :">
+                     <font>
+                        <Font name="Poppins Light" size="21.0" />
+                     </font>
+                  </Text>
+                  <MFXDatePicker fx:id="dateDebut" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#showSummaries" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" translateX="125.0" translateY="45.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date :">
+                     <font>
+                        <Font name="Poppins Light" size="21.0" />
+                     </font>
+                  </Text>
+                  <MFXDatePicker fx:id="dateFin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#showSummaries" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </top>
@@ -288,7 +306,7 @@
                         <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
                         <HBox prefHeight="80.0" prefWidth="200.0">
                            <children>
-                              <MFXButton fx:id="btnFullRevenueReport" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #135909; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" text="Full Revenue Report 📥">
+                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#openFullRevenueReport" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #135909; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Revenue Report 📥">
                                  <font>
                                     <Font name="Poppins SemiBold" size="30.0" />
                                  </font>
@@ -366,7 +384,7 @@
                         <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#5d52ba" strokeWidth="1.2" translateX="20.0" />
                         <HBox prefHeight="80.0" prefWidth="200.0">
                            <children>
-                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #091C59; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Stock Report 📥">
+                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#openStockReport" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #091C59; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Stock Report 📥">
                                  <font>
                                     <Font name="Poppins SemiBold" size="30.0" />
                                  </font>
@@ -444,7 +462,7 @@
                         <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#8152ba" strokeWidth="1.2" translateX="20.0" />
                         <HBox prefHeight="80.0" prefWidth="200.0">
                            <children>
-                              <MFXButton fx:id="btnFullSuppliersReport" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #400959; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" text="Full Suppliers Report 📥">
+                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #400959; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Suppliers Report 📥">
                                  <font>
                                     <Font name="Poppins SemiBold" size="30.0" />
                                  </font>

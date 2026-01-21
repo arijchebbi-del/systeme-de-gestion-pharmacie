@@ -36,7 +36,21 @@ public class PointOfSaleController {
     @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
-    @FXML private void chargerEmployeesControl(ActionEvent event) { Navigation.navTo("/FXML/EmployeesControl.fxml",((Node) event.getSource())); }
+    @FXML private void chargerEmployeesControl(ActionEvent event) {
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/EmployeeControl.fxml", ((Node) event.getSource()));
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        } }
     @FXML private void chargerAnalysisReports(ActionEvent event) { Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); }
 
     @FXML private MFXTextField txtSearch;

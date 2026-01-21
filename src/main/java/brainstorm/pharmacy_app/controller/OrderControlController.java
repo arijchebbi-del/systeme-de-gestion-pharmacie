@@ -3,8 +3,13 @@ package brainstorm.pharmacy_app.controller;
 import brainstorm.pharmacy_app.DAO.*;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.nav.Navigation;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,6 +65,8 @@ public class OrderControlController {
     private void chargerAnalysisReports(ActionEvent event) {
         Navigation.navTo("/FXML/AnalysisReports.fxml",((Node) event.getSource())); //charger dashboard
     }
+    @FXML private MFXTextField txtSearch;
+    @FXML private MFXComboBox<String> comboCategory;
 
     @FXML private TableView<Commande> tableOrders;
     @FXML private TableColumn<Commande, Integer> colId;
@@ -70,6 +77,8 @@ public class OrderControlController {
     @FXML private TableColumn<Commande, String> colEtat;
     @FXML private TableColumn<Commande, Void> colActions;
 
+    private ObservableList<Commande> masterOrderData = FXCollections.observableArrayList();
+
     // --- DAO ---
     private CommandeIM commandeDAO = new CommandeIM();
     private ComposerIM composerDAO = new ComposerIM();
@@ -79,6 +88,8 @@ public class OrderControlController {
     public void initialize() {
         setupColumns();
         loadOrders();
+        setupSearchFilter();
+
     }
 
     private void setupColumns() {
@@ -100,6 +111,34 @@ public class OrderControlController {
         setupActionsColumn();
     }
 
+    private void setupSearchFilter() {
+        if (txtSearch == null) return;
+        FilteredList<Commande> filteredData = new FilteredList<>(masterOrderData, p -> true);
+
+        // hedhi bch tkhalik des que tenzel aal categorie yetbadel ll affichage
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> updatePredicate(filteredData));
+
+        if (comboCategory != null) {
+            comboCategory.valueProperty().addListener((obs, old, newValue) -> updatePredicate(filteredData));
+        }
+
+        //bch yodhhrou mnadhmin
+        SortedList<Commande> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableOrders.comparatorProperty());
+        tableOrders.setItems(sortedData);
+    }
+
+    // filtrage mtaa barre de recherche w categorie
+    private void updatePredicate(FilteredList<Commande> filteredData) {
+        filteredData.setPredicate(commande -> {
+            String filter = txtSearch.getText() == null ? "" : txtSearch.getText().toLowerCase();
+            String cat = comboCategory.getValue();
+            boolean matchesSearch = String.valueOf(commande.getIdCommande()).contains(filter) ||
+                    commande.getEtat().toLowerCase().contains(filter);
+            boolean matchesCategory = cat == null || cat.equals("Toutes") || commande.getEtat().equals(cat);
+            return matchesSearch && matchesCategory;
+        });
+    }
     private void setupActionsColumn() {
         colActions.setCellFactory(param -> new TableCell<>() {
             private final Button btnReceive = new Button("Receive");
@@ -136,8 +175,11 @@ public class OrderControlController {
     }
 
     private void loadOrders() {
-        List<Commande> liste = commandeDAO.getAllCommandes();
-        tableOrders.setItems(FXCollections.observableArrayList(liste));
+        masterOrderData.setAll(commandeDAO.getAllCommandes());
+        if (comboCategory != null) {
+            comboCategory.setItems(FXCollections.observableArrayList("Toutes", "CREE", "MODIFIE", "ANNULEE","RECUE"));
+            comboCategory.getSelectionModel().selectFirst();
+        }
     }
 
     // mise a jour mtaa stock
@@ -187,6 +229,7 @@ public class OrderControlController {
         TableColumn<Composer, Integer> colQte = new TableColumn<>("Qté Commandée");
         colQte.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
+
         detailTable.getColumns().addAll(colRef, colQte);
         detailTable.setItems(FXCollections.observableArrayList(composerDAO.getProduitsParCommande(cmd.getIdCommande())));
 
@@ -205,7 +248,7 @@ public class OrderControlController {
     @FXML
     private void chargerAddOrder(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/FXML/AddOrderController.fxml"));//zid thabettt
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddOrderPopUp.fxml"));//zid thabettt
             Parent root = loader.load();
 
             // scene jdida

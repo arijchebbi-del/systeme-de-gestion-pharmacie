@@ -1,7 +1,9 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Service.FournisseurService;
+import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -53,7 +55,20 @@ public class SuppliersControlController {
     }
     @FXML
     private void chargerEmployeesControl(ActionEvent event) {
-        Navigation.navTo("/FXML/EmployeesControl.fxml",((Node) event.getSource())); //charger dashboard
+        // تجيب المستخدم اللي متسجل
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Navigation.navTo("/FXML/EmployeeControl.fxml", ((Node) event.getSource()));
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        } //charger dashboard
     }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {

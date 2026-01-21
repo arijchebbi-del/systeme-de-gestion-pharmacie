@@ -66,6 +66,7 @@ public class StockProduitIM {
             ps.setDate(2, fin);
 
             ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
 
             StockProduit sp = new StockProduit();
             Produit p = new Produit();
@@ -90,6 +91,7 @@ public class StockProduitIM {
             sp.setStock(s);
             sp.setProduit(p);
             list.add(sp);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
