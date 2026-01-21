@@ -16,7 +16,7 @@ public class StockIM implements StockDAO {
     public void creation_s(Stock s) {
 
 
-        String query = "INSERT INTO Stock (DerniereMiseAJour, Quantite, SeuilMinimal, Reference)VALUES (?, ?, ?, ?) ";
+        String query = "INSERT INTO Stock (DerniereMiseAJour, Quantite, Reference)VALUES (?, ?, ?) ";
 
 
         try (Connection con = DBConnection.getEmployeeConnection();
@@ -25,8 +25,7 @@ public class StockIM implements StockDAO {
 
             ps.setTimestamp(1, s.getDerniereMiseAJour());
             ps.setInt(2, s.getQuantite());
-            ps.setInt(3, s.getSeuilMinimal());
-            ps.setInt(4, s.getNumLot());
+            ps.setInt(3, s.getReference());
 
 
             ps.executeUpdate();
@@ -40,7 +39,7 @@ public class StockIM implements StockDAO {
     public void modification_s(Stock s) {
 
 
-        String query = "UPDATE Stock SET DerniereMiseAJour = ?,Quantite = ?,SeuilMinimal = ? WHERE NumLot = ?";
+        String query = "UPDATE Stock SET DerniereMiseAJour = ?,Quantite = ? WHERE NumLot = ?";
 
 
         try (Connection con = DBConnection.getEmployeeConnection();
@@ -49,8 +48,7 @@ public class StockIM implements StockDAO {
 
             ps.setTimestamp(1, s.getDerniereMiseAJour());
             ps.setInt(2, s.getQuantite());
-            ps.setInt(3, s.getSeuilMinimal());
-            ps.setInt(4, s.getNumLot());
+            ps.setInt(3, s.getNumLot());
 
 
             ps.executeUpdate();
@@ -92,7 +90,6 @@ public class StockIM implements StockDAO {
 
             if (rs.next()) {
                 int quantite = rs.getInt("Quantite");
-                int seuil = rs.getInt("SeuilMinimal");
                 int ref = rs.getInt("Reference");
                 Timestamp derniereMAJ = rs.getTimestamp("DerniereMiseAJour");
 
@@ -100,7 +97,7 @@ public class StockIM implements StockDAO {
 
 
 
-                Stock s = new Stock(numLot, ref, quantite, seuil);
+                Stock s = new Stock(numLot, ref, quantite);
                 s.setDerniereMiseAJour(derniereMAJ);
                 return s;
             }
@@ -140,8 +137,7 @@ public class StockIM implements StockDAO {
                 Stock s = new Stock(
                         rs.getInt("numLot"),
                         rs.getInt("Reference"),
-                        rs.getInt("Quantite"),
-                        rs.getInt("SeuilMinimal")
+                        rs.getInt("Quantite")
                 );
 
                 s.setDerniereMiseAJour(rs.getTimestamp("derniereMiseAJour"));
@@ -192,8 +188,7 @@ public class StockIM implements StockDAO {
                 Stock s = new Stock(
                         rs.getInt("NumLot"),
                         rs.getInt("Reference"),
-                        rs.getInt("Quantite"),
-                        rs.getInt("SeuilMinimal")
+                        rs.getInt("Quantite")
                 );
 
 

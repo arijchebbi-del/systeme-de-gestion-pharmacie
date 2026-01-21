@@ -2,7 +2,9 @@ package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.RapportIM;
 import brainstorm.pharmacy_app.DAO.StockIM;
+import brainstorm.pharmacy_app.DAO.StockProduitIM;
 import brainstorm.pharmacy_app.Model.Stock;
+import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -92,19 +94,19 @@ public class AnalysisReportsController {
     @FXML private MFXButton btnFullSuppliersReport;
 
     private RapportIM rapportIM = new RapportIM();
-    private ObservableList<Stock> stockList = FXCollections.observableArrayList();
+    private ObservableList<StockProduit> stockProduitList = FXCollections.observableArrayList();
 
     // labels taa stock w yaamllhom uapdate
     private void updateStockSummary() {
-        int totalProducts = stockList.size();
+        int totalProducts = stockProduitList.size();
         int lowStockProducts = 0;
         int outOfStockProducts = 0;
 
-        for (Stock s : stockList) {
-            if ("LOW".equals(s.getEtat())) {
+        for (StockProduit sp : stockProduitList) {
+            if ("LOW".equals(sp.getEtat())) {
                 lowStockProducts++;
             }
-            if (s.getQuantite() == 0) {
+            if (sp.getStock().getQuantite() == 0) {
                 outOfStockProducts++;
             }
         }
@@ -120,7 +122,7 @@ public class AnalysisReportsController {
         Date debut = Date.valueOf(dateDebut.getValue());
         Date fin   = Date.valueOf(dateFin.getValue());
 
-        stockList.setAll(StockIM.getStockByPeriod(debut, fin));
+        stockProduitList.setAll(StockProduitIM.getStockByPeriod(debut, fin));
         updateStockSummary();
     }
 

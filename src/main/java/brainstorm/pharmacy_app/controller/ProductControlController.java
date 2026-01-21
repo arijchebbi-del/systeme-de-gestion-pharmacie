@@ -103,7 +103,9 @@ public class ProductControlController {
     public void refreshTable() {
         // Ici, vous devriez avoir une méthode getAll() dans ProduitIM
         masterData.setAll(produitService.getAllProduits());
-        tableProducts.refresh();
+        if (tableProducts != null) {
+            tableProducts.refresh();
+        }
     }
 
     private void setupFilters() {

@@ -119,14 +119,14 @@ public class StockDetailsController {
             );
 
             colSeuil.setCellValueFactory(cd ->
-                    new SimpleIntegerProperty(cd.getValue().getStock().getSeuilMinimal()).asObject()
+                    new SimpleIntegerProperty(cd.getValue().getProduit().getSeuilMinimal()).asObject()
             );
 
             colEtat.setCellValueFactory(cd ->
-                    new SimpleStringProperty(cd.getValue().getStock().getEtat())
+                    new SimpleStringProperty(cd.getValue().getEtat())
             );
             colDecalage.setCellValueFactory(cd ->
-                    new SimpleIntegerProperty(cd.getValue().getStock().getDecalage()).asObject()
+                    new SimpleIntegerProperty(cd.getValue().getDecalage()).asObject()
             );
             colDerniereMAJ.setCellValueFactory(cd -> {
                 Timestamp ts = cd.getValue().getStock().getDerniereMiseAJour();
@@ -195,7 +195,7 @@ public class StockDetailsController {
             boolean matchesSearch = matchesReference || matchesNom;
 
             // Etat filter
-            boolean matchesEtat = selectedEtat == null || selectedEtat.equals("Tous") || stock.getEtat().equals(selectedEtat);
+            boolean matchesEtat = selectedEtat == null || selectedEtat.equals("Tous") || stockProduit.getEtat().equals(selectedEtat);
 
             return matchesSearch && matchesEtat;
         });
