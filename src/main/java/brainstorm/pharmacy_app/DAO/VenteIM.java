@@ -4,6 +4,8 @@ import brainstorm.pharmacy_app.Model.Vente;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VenteIM implements VenteDAO {
 
@@ -48,5 +50,29 @@ public class VenteIM implements VenteDAO {
             System.err.println("Erreur lors de la mise à jour du prix total : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    public List<Vente> getAllVentes() {
+        List<Vente> listeVentes = new ArrayList<>();
+        // On récupère les ventes triées par date (la plus récente en premier)
+        String sql = "SELECT * FROM vente ORDER BY DateVente DESC";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Vente v = new Vente();
+                v.setNumFacture(rs.getInt("NumFacture"));
+                v.setDateVente(rs.getDate("DateVente"));
+                v.setPrixTotal(rs.getDouble("PrixTotal"));
+                v.setIdEmploye(rs.getInt("IdEmploye"));
+
+                listeVentes.add(v);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de l'historique : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listeVentes;
     }
 }

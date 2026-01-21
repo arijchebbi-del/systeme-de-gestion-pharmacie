@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConstituerIM implements ConstituerDAO {
 
@@ -99,4 +101,33 @@ public class ConstituerIM implements ConstituerDAO {
         return qte;
     }
 
+    public int getNombreProduitsParFacture(int numFacture) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM constituer WHERE NumFacture = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, numFacture);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) count = rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return count;
+    }
+
+    // ll bouton view history controller
+    public List<Constituer> getLignesParFacture(int numFacture) {
+        List<Constituer> liste = new ArrayList<>();
+        String sql = "SELECT * FROM constituer WHERE NumFacture = ?";
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, numFacture);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Constituer c = new Constituer();
+                c.setReference(rs.getInt("Référence"));
+                c.setQuantiteVendu(rs.getInt("Quantite"));
+                liste.add(c);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return liste;
+    }
 }
