@@ -34,7 +34,7 @@ public class App extends Application {
 
             Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
-            double scaleX = 0.9;
+            double scaleX = 0.87;
             double scaleY = 0.9;
             scene.getRoot().setScaleX(scaleX);
             scene.getRoot().setScaleY(scaleY);
