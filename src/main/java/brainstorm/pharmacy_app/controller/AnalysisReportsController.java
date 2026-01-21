@@ -23,7 +23,7 @@ import java.sql.Date;
 
 public class AnalysisReportsController {
 
-    // -------- Navigation --------
+    // nav
     @FXML
     private void chargerDashboard(ActionEvent event) {
         Navigation.navTo("/FXML/Dashboard.fxml", ((Node) event.getSource()));
@@ -69,23 +69,23 @@ public class AnalysisReportsController {
         Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource()));
     }
 
-    // -------- Date Pickers --------
+    // date
     @FXML private MFXDatePicker dateDebut;
     @FXML private MFXDatePicker dateFin;
 
-    // -------- Stock labels --------
+    // diel e stock
     @FXML private Label lblTotalProducts;
     @FXML private Label lblLowStockProducts;
     @FXML private Label lblOutOfStockProducts;
     @FXML private Button btnStockReport;
 
-    // -------- Revenue labels --------
+    // diel e revenue
     @FXML private Label lblTotalRevenue;
     @FXML private Label lblNbSales;
     @FXML private Label lblAverageBasket;
     @FXML private MFXButton btnFullRevenueReport;
 
-    // -------- Suppliers labels --------
+    // diel l fournisseur
     @FXML private Label lblTotalSuppliersOrders;
     @FXML private Label lblSuppliersOnTime;
     @FXML private Label lblSuppliersLate;
@@ -94,7 +94,7 @@ public class AnalysisReportsController {
     private RapportIM rapportIM = new RapportIM();
     private ObservableList<Stock> stockList = FXCollections.observableArrayList();
 
-    // -------- STOCK SUMMARY --------
+    // labels taa stock w yaamllhom uapdate
     private void updateStockSummary() {
         int totalProducts = stockList.size();
         int lowStockProducts = 0;
@@ -113,51 +113,60 @@ public class AnalysisReportsController {
         lblLowStockProducts.setText(String.valueOf(lowStockProducts));
         lblOutOfStockProducts.setText(String.valueOf(outOfStockProducts));
     }
-
-    // 🔹 Button action: load stock + update labels
     @FXML
     private void showStockSummary(ActionEvent event) {
-        stockList.setAll(StockIM.getToutLeStock()); // must return List<Stock> or ObservableList<Stock>
+        if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
+
+        Date debut = Date.valueOf(dateDebut.getValue());
+        Date fin   = Date.valueOf(dateFin.getValue());
+
+        stockList.setAll(StockIM.getStockByPeriod(debut, fin));
         updateStockSummary();
     }
 
-    // -------- REVENUE SUMMARY --------
     @FXML
     private void showRevenueSummary(ActionEvent event) {
-        if (dateDebut.getValue() == null || dateFin.getValue() == null) {
-            return;
-        }
+        if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
 
         Date debut = Date.valueOf(dateDebut.getValue());
-        Date fin = Date.valueOf(dateFin.getValue());
+        Date fin   = Date.valueOf(dateFin.getValue());
 
         lblTotalRevenue.setText(rapportIM.getTotalRevenue(debut, fin) + " DT");
         lblNbSales.setText(String.valueOf(rapportIM.getNumberOfSales(debut, fin)));
         lblAverageBasket.setText(rapportIM.getAverageBasket(debut, fin) + " DT");
     }
 
-    // -------- SUPPLIERS SUMMARY --------
+    // SUPPLIERS
     @FXML
     private void showSuppliersSummary(ActionEvent event) {
-        lblTotalSuppliersOrders.setText(String.valueOf(rapportIM.getTotalSupplierOrders()));
-        lblSuppliersOnTime.setText(String.valueOf(rapportIM.getSuppliersOnTime()));
-        lblSuppliersLate.setText(String.valueOf(rapportIM.getSuppliersLate()));
+        if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
+
+        Date debut = Date.valueOf(dateDebut.getValue());
+        Date fin   = Date.valueOf(dateFin.getValue());
+
+        lblTotalSuppliersOrders.setText(
+                String.valueOf(rapportIM.getTotalSupplierOrders(debut, fin))
+        );
+        lblSuppliersOnTime.setText(
+                String.valueOf(rapportIM.getSuppliersOnTime(debut, fin))
+        );
+        lblSuppliersLate.setText(
+                String.valueOf(rapportIM.getSuppliersLate(debut, fin))
+        );
     }
 
-    // -------- FULL REVENUE REPORT --------
+    // FULL REVENUE REPORT
     @FXML
     private void openFullRevenueReport(ActionEvent event) {
         try {
-            if (dateDebut.getValue() == null || dateFin.getValue() == null) {
-                return;
-            }
+            if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ViewRevenueReport.fxml"));
             Parent root = loader.load();
 
             ViewRevenueReportController controller = loader.getController();
             Date debut = Date.valueOf(dateDebut.getValue());
-            Date fin = Date.valueOf(dateFin.getValue());
+            Date fin   = Date.valueOf(dateFin.getValue());
             controller.showReport(debut, fin);
 
             Stage stage = new Stage();
@@ -170,7 +179,7 @@ public class AnalysisReportsController {
         }
     }
 
-    // -------- FULL STOCK REPORT --------
+    //FULL STOCK REPORT
     @FXML
     private void openStockReport(ActionEvent event) {
         try {
@@ -190,3 +199,4 @@ public class AnalysisReportsController {
         }
     }
 }
+

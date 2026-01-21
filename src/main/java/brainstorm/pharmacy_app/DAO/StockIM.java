@@ -4,6 +4,7 @@ package brainstorm.pharmacy_app.DAO;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.Produit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
+import javafx.collections.ObservableList;
 
 
 import java.sql.*;
@@ -173,5 +174,44 @@ public class StockIM implements StockDAO {
         }
         return prix;
     }
+    public static List<Stock> getStockByPeriod(Date debut, Date fin) {
+
+        List<Stock> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM Stock WHERE DerniereMiseAJour BETWEEN ? AND ?";
+
+        try (
+                Connection cnx = DBConnection.getEmployeeConnection();
+                PreparedStatement ps = cnx.prepareStatement(sql);
+        ) {
+            ps.setDate(1, debut);
+            ps.setDate(2, fin);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Stock s = new Stock(
+                        rs.getInt("NumLot"),
+                        rs.getInt("Reference"),
+                        rs.getInt("Quantite"),
+                        rs.getInt("SeuilMinimal")
+                );
+
+                // set the last update timestamp
+                s.setDerniereMiseAJour(rs.getTimestamp("DerniereMiseAJour"));
+
+                list.add(s);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
+
+
 
 }
