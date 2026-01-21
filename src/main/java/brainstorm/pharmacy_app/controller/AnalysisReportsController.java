@@ -23,8 +23,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class AnalysisReportsController {
 
@@ -93,23 +95,26 @@ public class AnalysisReportsController {
     @FXML private Label lblTotalProducts;
     @FXML private Label lblLowStockProducts;
     @FXML private Label lblOutOfStockProducts;
-    @FXML private Button btnStockReport;
 
     // diel e revenue
     @FXML private Label lblTotalRevenue;
     @FXML private Label lblNbSales;
     @FXML private Label lblAverageBasket;
-    @FXML private MFXButton btnFullRevenueReport;
 
     // diel l fournisseur
     @FXML private Label lblTotalSuppliersOrders;
     @FXML private Label lblSuppliersOnTime;
     @FXML private Label lblSuppliersLate;
-    @FXML private MFXButton btnFullSuppliersReport;
 
     private RapportIM rapportIM = new RapportIM();
     private ObservableList<StockProduit> stockProduitList = FXCollections.observableArrayList();
 
+
+    @FXML
+    public void initialize() {
+        ActionEvent event = new ActionEvent();
+        showSummaries(event);
+    }
     // labels taa stock w yaamllhom uapdate
     private void updateStockSummary() {
         int totalProducts = stockProduitList.size();
@@ -130,11 +135,32 @@ public class AnalysisReportsController {
         lblOutOfStockProducts.setText(String.valueOf(outOfStockProducts));
     }
     @FXML
+    private void showSummaries(ActionEvent event){
+        showStockSummary(event);
+        showRevenueSummary(event);
+        showSuppliersSummary(event);
+    }
+    @FXML
     private void showStockSummary(ActionEvent event) {
-        if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
-
-        Date debut = Date.valueOf(dateDebut.getValue());
-        Date fin   = Date.valueOf(dateFin.getValue());
+        Date debut,fin;
+        if (dateDebut.getValue() == null && dateFin.getValue() == null) {
+            debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+            fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+        }
+        else if(dateDebut.getValue() == null && dateFin.getValue() != null){
+            debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+            fin   = Date.valueOf(dateFin.getValue());
+        }
+        else if(dateDebut.getValue() != null && dateFin.getValue() == null){
+            debut = Date.valueOf(dateDebut.getValue());
+            fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+        }
+        else{
+            debut = Date.valueOf(dateDebut.getValue());
+            fin   = Date.valueOf(dateFin.getValue());
+        }
+        System.out.println(debut);
+        System.out.println(fin);
 
         stockProduitList.setAll(StockProduitIM.getStockByPeriod(debut, fin));
         updateStockSummary();
@@ -142,11 +168,23 @@ public class AnalysisReportsController {
 
     @FXML
     private void showRevenueSummary(ActionEvent event) {
-        if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
-
-        Date debut = Date.valueOf(dateDebut.getValue());
-        Date fin   = Date.valueOf(dateFin.getValue());
-
+        Date debut,fin;
+        if (dateDebut.getValue() == null && dateFin.getValue() == null) {
+            debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+            fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+        }
+        else if(dateDebut.getValue() == null && dateFin.getValue() != null){
+            debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+            fin   = Date.valueOf(dateFin.getValue());
+        }
+        else if(dateDebut.getValue() != null && dateFin.getValue() == null){
+            debut = Date.valueOf(dateDebut.getValue());
+            fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+        }
+        else{
+            debut = Date.valueOf(dateDebut.getValue());
+            fin   = Date.valueOf(dateFin.getValue());
+        }
         lblTotalRevenue.setText(rapportIM.getTotalRevenue(debut, fin) + " DT");
         lblNbSales.setText(String.valueOf(rapportIM.getNumberOfSales(debut, fin)));
         lblAverageBasket.setText(rapportIM.getAverageBasket(debut, fin) + " DT");
@@ -155,11 +193,23 @@ public class AnalysisReportsController {
     // SUPPLIERS
     @FXML
     private void showSuppliersSummary(ActionEvent event) {
-        if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
-
-        Date debut = Date.valueOf(dateDebut.getValue());
-        Date fin   = Date.valueOf(dateFin.getValue());
-
+        Date debut,fin;
+        if (dateDebut.getValue() == null && dateFin.getValue() == null) {
+            debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+            fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+        }
+        else if(dateDebut.getValue() == null && dateFin.getValue() != null){
+            debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+            fin   = Date.valueOf(dateFin.getValue());
+        }
+        else if(dateDebut.getValue() != null && dateFin.getValue() == null){
+            debut = Date.valueOf(dateDebut.getValue());
+            fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+        }
+        else{
+            debut = Date.valueOf(dateDebut.getValue());
+            fin   = Date.valueOf(dateFin.getValue());
+        }
         lblTotalSuppliersOrders.setText(
                 String.valueOf(rapportIM.getTotalSupplierOrders(debut, fin))
         );
@@ -181,8 +231,24 @@ public class AnalysisReportsController {
             Parent root = loader.load();
 
             ViewRevenueReportController controller = loader.getController();
-            Date debut = Date.valueOf(dateDebut.getValue());
-            Date fin   = Date.valueOf(dateFin.getValue());
+            Date debut,fin;
+            if (dateDebut.getValue() == null && dateFin.getValue() == null) {
+                debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+                fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+            }
+            else if(dateDebut.getValue() == null && dateFin.getValue() != null){
+                debut= Date.valueOf(LocalDate.of(2000, 1, 1));
+                fin   = Date.valueOf(dateFin.getValue());
+            }
+            else if(dateDebut.getValue() != null && dateFin.getValue() == null){
+                debut = Date.valueOf(dateDebut.getValue());
+                fin   = Date.valueOf(LocalDate.of(3000, 1, 1));
+            }
+            else{
+                debut = Date.valueOf(dateDebut.getValue());
+                fin   = Date.valueOf(dateFin.getValue());
+            }
+
             controller.showReport(debut, fin);
 
             Stage stage = new Stage();
