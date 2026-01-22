@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public class PointOfSaleController {
-    // ll menu wala chessmou
     @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
     @FXML private void chargerPointOfSale(ActionEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
     @FXML private void chargerProductControl(ActionEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }
@@ -39,25 +38,22 @@ public class PointOfSaleController {
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
     @FXML private void chargerEmployeesControl(ActionEvent event) {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
-
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
             Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
-        }
-
-        else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
             alert.setContentText("Seul un administrateur peut accéder à cette page.");
             alert.show();
-        } }
+        }
+    }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
-        }
-        else {
+            Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource()));
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -76,18 +72,41 @@ public class PointOfSaleController {
     @FXML private TableColumn<StockProduit, Float> colPrice;
     @FXML private TableColumn<StockProduit, Void> colActions;
 
+    // tazzzz ahawma mtaa cart
+    @FXML private TableView<CartItem> tableCart;
+    @FXML private TableColumn<CartItem, String> colCartName;
+    @FXML private TableColumn<CartItem, Integer> colCartQty;
+    @FXML private TableColumn<CartItem, Float> colCartUnitPrice;
+    @FXML private TableColumn<CartItem, Float> colCartTotalLine;
+    @FXML private TableColumn<CartItem, Void> colCartActions;
+
     @FXML private Label lblTotal;
-    @FXML private MFXButton btnPayment; //Payment Button
+    @FXML private MFXButton btnPayment;
 
     private VenteIM venteDAO = new VenteIM();
     private ConstituerIM constituerDAO = new ConstituerIM();
     private StockIM stockDAO = new StockIM();
-    private ProduitService produitService = new ProduitService();
     private StockProduitIM stockProduitDAO = new StockProduitIM();
 
     private Vente venteActuelle = null;
     private ObservableList<StockProduit> masterStockProduitData = FXCollections.observableArrayList();
+
+
+    private ObservableList<CartItem> cartData = FXCollections.observableArrayList();
+    private FilteredList<StockProduit> filteredData;
     private float montantTotal = 0.0f;
+
+
+    public static class CartItem {
+        private final StockProduit stockProduit;
+        private int quantite;
+        public CartItem(StockProduit sp, int qty) { this.stockProduit = sp; this.quantite = qty; }
+        public String getNom() { return stockProduit.getProduit().getNomProduit(); }
+        public int getQty() { return quantite; }
+        public float getUnitPrice() { return stockProduit.getProduit().getPrixVente(); }
+        public float getTotal() { return quantite * getUnitPrice(); }
+        public Stock getStock() { return stockProduit.getStock(); }
+    }
 
     @FXML
     public void initialize() {
@@ -98,23 +117,31 @@ public class PointOfSaleController {
             colName.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getProduit().getNomProduit()));
             colPrice.setCellValueFactory(cd -> new SimpleFloatProperty(cd.getValue().getProduit().getPrixVente()).asObject());
 
+
+            setupCartTable();
             setupActionsColumn();
             loadStockData();
             setupSearchFilter();
 
-            //Button Payment
             if(btnPayment != null) {
                 btnPayment.setOnAction(event -> handlePayment());
             }
-        } else {
-            System.err.println("ERREUR : Une ou plusieurs colonnes TableColumn sont nulles. Vérifiez les fx:id dans Scene Builder.");
         }
+    }
+
+
+    private void setupCartTable() {
+        if (tableCart == null) return;
+        colCartName.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getNom()));
+        colCartQty.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().getQty()).asObject());
+        colCartUnitPrice.setCellValueFactory(cd -> new SimpleFloatProperty(cd.getValue().getUnitPrice()).asObject());
+        colCartTotalLine.setCellValueFactory(cd -> new SimpleFloatProperty(cd.getValue().getTotal()).asObject());
+        tableCart.setItems(cartData);
+        setupCartActionsColumn();
     }
 
     private void loadStockData() {
         masterStockProduitData.setAll(stockProduitDAO.getAll());
-
-        // tazz hedhi categorie ken thebni nbdadel chnowa yodhher badel wahdek hhahahhaahaha
         if (comboCategory != null) {
             comboCategory.setItems(FXCollections.observableArrayList("Toutes", "Médicament", "Parapharmacie", "Hygiène"));
             comboCategory.getSelectionModel().selectFirst();
@@ -123,28 +150,23 @@ public class PointOfSaleController {
 
     private void setupSearchFilter() {
         if (txtSearch == null) return;
-        FilteredList<StockProduit> filteredData = new FilteredList<>(masterStockProduitData, p -> true);
-
-        //Affichage selon Categorie
-        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> updatePredicate(filteredData));
-
+        filteredData = new FilteredList<>(masterStockProduitData, p -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
         if (comboCategory != null) {
-            comboCategory.valueProperty().addListener((obs, old, newValue) -> updatePredicate(filteredData));
+            comboCategory.valueProperty().addListener((obs, old, newValue) -> applyFilters());
         }
-
         SortedList<StockProduit> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableStock.comparatorProperty());
         tableStock.setItems(sortedData);
     }
 
-    // filtrage barre de recherche et categorie
-    private void updatePredicate(FilteredList<StockProduit> filteredData) {
-        filteredData.setPredicate(stockProduit -> {
-            String filter = txtSearch.getText() == null ? "" : txtSearch.getText().toLowerCase();
-            String cat = comboCategory.getValue();
-            boolean matchesSearch = String.valueOf(stockProduit.getStock().getReference()).contains(filter) ||
-                    stockProduit.getProduit().getNomProduit().toLowerCase().contains(filter);
-            boolean matchesCategory = cat == null || cat.equals("Toutes") || stockProduit.getProduit().getCategorie().equals(cat);
+    private void applyFilters() {
+        String filter = (txtSearch.getText() == null) ? "" : txtSearch.getText().toLowerCase().trim();
+        String cat = (comboCategory != null) ? comboCategory.getValue() : "Toutes";
+        filteredData.setPredicate(sp -> {
+            if (sp == null || sp.getProduit() == null || sp.getStock() == null) return false;
+            boolean matchesSearch = filter.isEmpty() || sp.getProduit().getNomProduit().toLowerCase().contains(filter) || String.valueOf(sp.getStock().getReference()).contains(filter);
+            boolean matchesCategory = cat == null || cat.equals("Toutes") || (sp.getProduit().getCategorie() != null && sp.getProduit().getCategorie().equals(cat));
             return matchesSearch && matchesCategory;
         });
     }
@@ -154,66 +176,35 @@ public class PointOfSaleController {
         colActions.setCellFactory(param -> new TableCell<>() {
             private final MFXTextField txtQty = new MFXTextField();
             private final MFXButton btnAdd = new MFXButton("+");
-            private final MFXButton btnDelete = new MFXButton("🗑");
-            private final HBox container = new HBox(8, txtQty, btnAdd, btnDelete);
+            // CHANGEMENT: Suppression du bouton Delete ici
+            private final HBox container = new HBox(8, txtQty, btnAdd);
 
             {
                 container.setAlignment(Pos.CENTER);
                 txtQty.setPrefWidth(50);
                 txtQty.setText("1");
                 btnAdd.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;");
-                btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
+                if (empty) setGraphic(null);
+                else {
                     StockProduit sp = getTableView().getItems().get(getIndex());
                     btnAdd.setOnAction(event -> {
                         try {
-                            if (sp.getProduit().getOrdonnance()) {
-                                Alert confirmOrdonnance = new Alert(Alert.AlertType.CONFIRMATION);
-                                confirmOrdonnance.setTitle("Vérification Ordonnance");
-                                confirmOrdonnance.setHeaderText("Ce produit nécessite une ordonnance.");
-                                confirmOrdonnance.setContentText("Le client a-t-il apporté une ordonnance valide ?");
-
-                                ButtonType btnOui = new ButtonType("Oui");
-                                ButtonType btnNon = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
-                                confirmOrdonnance.getButtonTypes().setAll(btnOui, btnNon);
-
-                                Optional<ButtonType> result = confirmOrdonnance.showAndWait();
-                                if (result.isEmpty() || result.get() == btnNon) {
-                                    afficherAlerte("Vente refusée", "L'achat ne peut pas être effectué sans ordonnance.", Alert.AlertType.WARNING);
-                                    return; //  arrete achat
-                                }
-                            }
-
-
                             int qte = Integer.parseInt(txtQty.getText());
-                            // Quantité
                             if (qte > sp.getStock().getQuantite()) {
-                                afficherAlerte("Stock Insuffisant", "Il ne reste que " + sp.getStock().getQuantite() + " articles.", Alert.AlertType.ERROR);
-                            }
-                            else {
-                                handleVente(sp.getStock(), qte);
+                                afficherAlerte("Stock Insuffisant", "Il ne reste que " + sp.getStock().getQuantite(), Alert.AlertType.ERROR);
+                            } else {
+                                handleVente(sp, qte);
                                 sp.getStock().setQuantite(sp.getStock().getQuantite() - qte);
-
-                                // hna zedt update mtaa el base de donnee bch ton9os mel stock
-                                stockDAO.updateQuantiteStock(sp.getStock().getNumLot(), sp.getStock().getQuantite());
-
-                                getTableView().refresh();
+                                tableStock.refresh();
                             }
                         } catch (NumberFormatException e) {
-                            afficherAlerte("Erreur", "Veuillez saisir un nombre entier.", Alert.AlertType.ERROR);
+                            afficherAlerte("Erreur", "Saisissez un nombre.", Alert.AlertType.ERROR);
                         }
-                    });
-                    // supprimer une ligne et mise à jour
-                    btnDelete.setOnAction(event -> {
-                        handleSuppression(sp.getStock());
-                        getTableView().refresh();
                     });
                     setGraphic(container);
                 }
@@ -221,77 +212,66 @@ public class PointOfSaleController {
         });
     }
 
-    private void handleVente(Stock s, int qte) {
-        if (qte <= 0) {
-            afficherAlerte("Quantité", "La quantité doit être supérieure à 0.", Alert.AlertType.WARNING);
-            return;
-        }
 
+    private void setupCartActionsColumn() {
+        colCartActions.setCellFactory(param -> new TableCell<>() {
+            private final MFXButton btnDel = new MFXButton("🗑");
+            {
+                btnDel.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");
+                setAlignment(Pos.CENTER);
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) setGraphic(null);
+                else {
+                    CartItem ci = getTableView().getItems().get(getIndex());
+                    btnDel.setOnAction(e -> handleSuppression(ci));
+                    setGraphic(btnDel);
+                }
+            }
+        });
+    }
+
+    private void handleVente(StockProduit sp, int qte) {
+        if (qte <= 0) return;
         if (venteActuelle == null) {
             venteActuelle = new Vente();
             venteActuelle.setDateVente(Date.valueOf(LocalDate.now()));
-
-            // billehi ken khatfet farahni
-            if (User.getInstance() != null) {
-                venteActuelle.setIdEmploye(User.getInstance().getUser().getIdEmploye());
-            }
-
+            if (User.getInstance() != null) venteActuelle.setIdEmploye(User.getInstance().getUser().getIdEmploye());
             venteActuelle.setPrixTotal(0.0);
-            venteDAO.creation_v(venteActuelle); // Première ajout fait le numfacture
+            venteDAO.creation_v(venteActuelle);
         }
-
         Constituer ligne = new Constituer();
-        ligne.setNumFacture(venteActuelle.getNumFacture()); // meme numfacture
-        ligne.setReference(s.getReference());
+        ligne.setNumFacture(venteActuelle.getNumFacture());
+        ligne.setReference(sp.getStock().getReference());
         ligne.setQuantiteVendu(qte);
         constituerDAO.ajouterLigneVente(ligne);
 
-        float prix = stockDAO.getPrixProduitByRef(s.getReference());
-        montantTotal += (prix * qte);
+
+        cartData.add(new CartItem(sp, qte));
+
+        montantTotal += (sp.getProduit().getPrixVente() * qte);
         updateTotalLabel();
     }
 
-    // Supprime la ligne et réduit le total
-    private void handleSuppression(Stock s) {
-        if (venteActuelle == null) return;
 
-        if (constituerDAO.verifierPresenceProduit(venteActuelle.getNumFacture(), s.getReference())) {
-            //on doit prendre la quantité achetée pour l'afficher et diminuer du total
-            int qteVendu = constituerDAO.getQuantiteVendu(venteActuelle.getNumFacture(), s.getReference());
-            System.out.println(qteVendu);
-            float prix = stockDAO.getPrixProduitByRef(s.getReference());
-
-            constituerDAO.supprimerLigneVente(venteActuelle.getNumFacture(), s.getReference());
-
-            montantTotal -= (prix * qteVendu);
-            updateTotalLabel();
-
-
-            s.setQuantite(s.getQuantite() + qteVendu);
-
-            // mise à jour dans la base de donnés
-            stockDAO.updateQuantiteStock(s.getNumLot(), s.getQuantite());
-
-            afficherAlerte("Succès", "Produit retiré de la facture.", Alert.AlertType.INFORMATION);
-        } else {
-            afficherAlerte("Erreur", "Ce produit n'est pas dans la vente en cours.", Alert.AlertType.ERROR);
-        }
+    private void handleSuppression(CartItem ci) {
+        constituerDAO.supprimerLigneVente(venteActuelle.getNumFacture(), ci.getStock().getReference());
+        montantTotal -= ci.getTotal();
+        ci.getStock().setQuantite(ci.getStock().getQuantite() + ci.getQty());
+        cartData.remove(ci);
+        tableStock.refresh();
+        updateTotalLabel();
     }
 
-    // finir le paymenet
     private void handlePayment() {
-        if (montantTotal <= 0 || venteActuelle == null) {
-            afficherAlerte("Erreur", "Le total est nul ou aucune vente en cours.", Alert.AlertType.ERROR);
-            return;
-        }
-
+        if (montantTotal <= 0 || venteActuelle == null) return;
         venteActuelle.setPrixTotal((double) montantTotal);
         venteDAO.updatePrixTotal(venteActuelle.getNumFacture(), montantTotal);
-
-        afficherAlerte("Succès", "Paiement effectué. Facture #" + venteActuelle.getNumFacture() + " enregistrée.", Alert.AlertType.INFORMATION);
-
-
+        afficherAlerte("Succès", "Vente terminée.", Alert.AlertType.INFORMATION);
         venteActuelle = null;
+        cartData.clear();
         montantTotal = 0.0f;
         updateTotalLabel();
     }
@@ -301,7 +281,6 @@ public class PointOfSaleController {
     }
 
     private void afficherAlerte(String t, String m, Alert.AlertType type) {
-        Alert a = new Alert(type);
-        a.setTitle(t); a.setHeaderText(null); a.setContentText(m); a.showAndWait();
+        Alert a = new Alert(type); a.setTitle(t); a.setContentText(m); a.showAndWait();
     }
 }
