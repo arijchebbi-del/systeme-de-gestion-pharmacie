@@ -99,7 +99,6 @@ public class AddOrderController {
     @FXML
     private void handleAddItem(ActionEvent event) {
         try {
-            // nthabet illi kteb fournisseur mi lowel
             // AJOUT : On verifie aussi que le fournisseur existe bien
             if (txtFournisseurId.getText().isEmpty() || lblFournisseurName.getText().equals("Fournisseur inconnu")) {
                 lblError.setText("Veuillez saisir un fournisseur valide.");
