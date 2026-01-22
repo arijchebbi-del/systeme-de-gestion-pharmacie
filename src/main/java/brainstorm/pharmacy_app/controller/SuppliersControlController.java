@@ -125,7 +125,7 @@ public class SuppliersControlController {
         });
     }
 
-    // ---------------- Add Supplier ----------------
+    // yzid fournisseur
     void openAddSupplier() {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
@@ -148,7 +148,6 @@ public class SuppliersControlController {
                 e.printStackTrace();
             }
         } else {
-            // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -162,7 +161,7 @@ public class SuppliersControlController {
         loadFournisseurs();
     }
 
-    // ---------------- View Button ----------------
+    // bouton vue
     private void addViewButtonToTable() {
         colView.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("View");
@@ -201,7 +200,7 @@ public class SuppliersControlController {
         }
     }
 
-    // ---------------- Delete Button ----------------
+    // bouton yfasakh
     private void addDeleteButtonToTable() {
         colDelete.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("Delete");
@@ -224,7 +223,6 @@ public class SuppliersControlController {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
             confirm.setTitle("Confirmation");
             confirm.setHeaderText("Supprimer Fournisseur");
@@ -240,7 +238,6 @@ public class SuppliersControlController {
                 info.show();
             }
         } else {
-            // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
