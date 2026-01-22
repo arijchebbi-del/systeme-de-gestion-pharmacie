@@ -13,7 +13,7 @@ import java.util.List;
 public class EmployeIM implements EmployeDAO{
     public void creation_e(Employe e) {
 
-        String query = "INSERT INTO Employe(MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,Username) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO Employe(MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,Username,Salaire) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -26,6 +26,7 @@ public class EmployeIM implements EmployeDAO{
             ps.setString(6, e.getNom());
             ps.setString(7, e.getEmail());
             ps.setString(8,e.getUsername());
+            ps.setInt(8,e.getSalaire());
 
             ps.executeUpdate();
             System.out.println("Employé ajouté");
