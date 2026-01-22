@@ -217,7 +217,25 @@ public class OrderControlController {
     }
 
     private void handleDelete(Commande cmd) {
-        commandeDAO.annulation_c(cmd.getIdCommande());
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
+
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            if (!(cmd.getEtat().equalsIgnoreCase("RECUE"))){commandeDAO.annulation_c(cmd.getIdCommande());}
+            else {Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Demande refusé");
+                alert.setHeaderText("Demande refusé");
+                alert.setContentText("You can't delete received orders");
+                alert.show();
+            }
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
+        }
         loadOrders();
     }
 
@@ -235,7 +253,7 @@ public class OrderControlController {
         TableColumn<Composer, Integer> colQte = new TableColumn<>("Qté Commandée");
         // CHANGEMENT : PropertyValueFactory doit être "quantite" pour matcher avec getQuantite()
         colQte.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-
+        System.out.println(cmd.getIdCommande());
         detailTable.getColumns().addAll(colRef, colQte);
         detailTable.setItems(FXCollections.observableArrayList(composerDAO.getProduitsParCommande(cmd.getIdCommande())));
 

@@ -39,10 +39,11 @@ public class AddOrderController {
     private ComposerIM composerDAO = new ComposerIM();
     private FournisseurIM fournisseurDAO = new FournisseurIM();
 
+
     @FXML
     public void initialize() {
         colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
-        colQty.setCellValueFactory(new PropertyValueFactory<>("quantiteComposer"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
         tableTempItems.setItems(tempItems);
 
         lblTotalPrix.setText("0.00 DT");
@@ -51,15 +52,11 @@ public class AddOrderController {
             if (!newValue.isEmpty()) verifierProduit();
             else lblProductName.setText("");
         });
-
-
         txtFournisseurId.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) verifierFournisseur();
             else lblFournisseurName.setText("");
         });
     }
-
-
     @FXML
     private void verifierFournisseur() {
         try {
@@ -78,7 +75,6 @@ public class AddOrderController {
             lblFournisseurName.setText("ID Invalide");
         }
     }
-
     @FXML
     private void verifierProduit() {
         try {
@@ -110,6 +106,7 @@ public class AddOrderController {
                 return;
             }
 
+
             if (txtRef.getText().isEmpty() || txtQty.getText().isEmpty()) {
                 lblError.setText("Saisissez une référence et une quantité.");
                 return;
@@ -129,7 +126,7 @@ public class AddOrderController {
             lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
 
             // yzid fi lista
-            tempItems.add(new Composer(ref, 0, qte));
+            tempItems.add(new Composer(commandeDAO.getLastId()+1, ref, qte));
 
             // ma nfasskhou ken champ mtaa produit
             txtRef.clear();
@@ -139,7 +136,6 @@ public class AddOrderController {
 
 
             txtFournisseurId.setDisable(true);
-
 
         } catch (NumberFormatException e) {
             lblError.setText("Format invalide.");

@@ -1,7 +1,12 @@
 package brainstorm.pharmacy_app.DAO;
 
 import brainstorm.pharmacy_app.Model.Commande;
+import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Utils.DBConnection;
+import brainstorm.pharmacy_app.Utils.User;
+import brainstorm.pharmacy_app.nav.Navigation;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 
 import java.sql.*; // Import modifié pour inclure Statement et List
 import java.util.ArrayList;
@@ -61,9 +66,22 @@ public class CommandeIM implements CommandeDAO {
 
     public void annulation_c(int idCommande) {
 
-        String sql = "DELETE FROM Commande WHERE IdCommande = ?";
 
-        try (Connection con = DBConnection.getEmployeeConnection();
+        String sql = "DELETE FROM Composer WHERE IdCommande = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idCommande);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        sql = "DELETE FROM Commande WHERE IdCommande = ?";
+
+        try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idCommande);
@@ -142,5 +160,19 @@ public class CommandeIM implements CommandeDAO {
             e.printStackTrace();
         }
         return "ID: " + idEmploye;
+    }
+
+    public int getLastId(){
+        String query = "SELECT IdCommande FROM Commande ORDER BY IdCommande DESC";
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                return rs.getInt("IdCommande");
+            }
+            }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

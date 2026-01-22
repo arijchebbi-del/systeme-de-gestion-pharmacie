@@ -136,7 +136,7 @@ public class FournisseurIM implements FournisseurDAO{
     public String getNomFournisseur(int id) {
         String nom = null;
 
-        String query = "SELECT NomFournisseur FROM Fournisseur WHERE IdFournisseur = ?";
+        String query = "SELECT Nom FROM Fournisseur WHERE IdFournisseur = ?";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -145,7 +145,7 @@ public class FournisseurIM implements FournisseurDAO{
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    nom = rs.getString("NomFournisseur");
+                    nom = rs.getString("Nom");
                 }
             }
         } catch (SQLException e) {

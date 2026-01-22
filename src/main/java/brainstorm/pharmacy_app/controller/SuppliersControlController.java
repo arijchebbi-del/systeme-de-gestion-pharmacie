@@ -133,23 +133,35 @@ public class SuppliersControlController {
 
     // ---------------- Add Supplier ----------------
     void openAddSupplier() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddSupplierPopUp.fxml"));
-            Parent root = loader.load();
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
-            AddSupplierController controller = loader.getController();
-            controller.setParentController(this);
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddSupplierPopUp.fxml"));
+                Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.setTitle("Ajouter Fournisseur");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
+                AddSupplierController controller = loader.getController();
+                controller.setParentController(this);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.UTILITY);
+                stage.setTitle("Ajouter Fournisseur");
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
         }
+
     }
 
     public void refreshTable() {
@@ -213,20 +225,33 @@ public class SuppliersControlController {
     }
 
     private void deleteSupplier(Fournisseur f) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirmation");
-        confirm.setHeaderText("Supprimer Fournisseur");
-        confirm.setContentText("Voulez-vous vraiment supprimer ce fournisseur ?");
+        Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
-        if (confirm.showAndWait().get() == ButtonType.OK) {
-            fournisseurService.supprimerFournisseur(f.getId_Fournisseur());
-            loadFournisseurs();
+        if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
+            // يسمح بالوصول
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirmation");
+            confirm.setHeaderText("Supprimer Fournisseur");
+            confirm.setContentText("Voulez-vous vraiment supprimer ce fournisseur ?");
 
-            Alert info = new Alert(Alert.AlertType.INFORMATION);
-            info.setTitle("Succès");
-            info.setContentText("Fournisseur supprimé avec succès !");
-            info.show();
+            if (confirm.showAndWait().get() == ButtonType.OK) {
+                fournisseurService.supprimerFournisseur(f.getId_Fournisseur());
+                loadFournisseurs();
+
+                Alert info = new Alert(Alert.AlertType.INFORMATION);
+                info.setTitle("Succès");
+                info.setContentText("Fournisseur supprimé avec succès !");
+                info.show();
+            }
+        } else {
+            // ممنوع الوصول
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText("Accès interdit");
+            alert.setContentText("Seul un administrateur peut accéder à cette page.");
+            alert.show();
         }
+
     }
 
 }
