@@ -26,7 +26,7 @@ public class EmployeIM implements EmployeDAO{
             ps.setString(6, e.getNom());
             ps.setString(7, e.getEmail());
             ps.setString(8,e.getUsername());
-            ps.setInt(8,e.getSalaire());
+            ps.setFloat(8,e.getSalaire());
 
             ps.executeUpdate();
             System.out.println("Employé ajouté");
