@@ -7,7 +7,7 @@ public class Fournisseur {
     private String email;
     private String adresse;
     private String typeProduits;
-
+ 
     //Getters
     public int getId_Fournisseur() {return id_Fournisseur;}
     public String getNom() {return nom;}
