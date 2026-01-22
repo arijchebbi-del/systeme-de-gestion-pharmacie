@@ -227,6 +227,11 @@ public class AnalysisReportsController {
             controller.showReport(debut, fin);
 
             Stage stage = new Stage();
+            double scaleX = 0.87;
+            double scaleY = 0.9;
+            root.setScaleX(scaleX);
+            root.setScaleY(scaleY);
+
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Full Revenue Report");

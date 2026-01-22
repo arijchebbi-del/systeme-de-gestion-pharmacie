@@ -101,11 +101,11 @@ CREATE TABLE Gerer(
 INSERT INTO Employe
 (Username, MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,Salaire)
 VALUES
-    ('taz', 'taz123', 'admin', '09:00-17:00', 223456781, 'Zouari', 'Moetaz', 'zouaritaz@pharma.tn',2000.00),
-    ('rkh', 'rkh123', 'employee', '14:00-22:00', 221334451, 'Khammar', 'Rayen', 'rayenkhammar@mypharma.tn',1500.00),
-    ('ons', 'ons456', 'admin', '8:00-16:00', 525678901, 'Sassi', 'Ons', 'onssassi@pharma.tn',1500.00),
-    ('arij', 'arij456', 'employee', '8:00-16:00', 924668201, 'Chebbi', 'Arij', 'arijchebbi@pharma.tn',1500.00),
-    ('joseph', 'joseph123', 'employee', '8:00-16:00', 424668201, 'Akermi', 'Yousseef', 'akermiyoussef@pharma.tn',1500.00);
+    ('taz', 'taz123', 'admin', '09:00-17:00', 223456781, 'Moetez', 'Zouari', 'zouaritaz@pharma.tn',2000.00),
+    ('rkh', 'rkh123', 'employee', '14:00-22:00', 221334451, 'Rayen', 'Khammar', 'rayenkhammar@mypharma.tn',1500.00),
+    ('ons', 'ons456', 'admin', '8:00-16:00', 525678901, 'Ons', 'Sassi', 'onssassi@pharma.tn',1500.00),
+    ('arij', 'arij456', 'employee', '8:00-16:00', 924668201, 'Arij', 'Chebbi', 'arijchebbi@pharma.tn',1500.00),
+    ('joseph', 'joseph123', 'employee', '8:00-16:00', 424668201, 'Youssef', 'Akermi', 'akermiyoussef@pharma.tn',1500.00);
 
 INSERT INTO Fournisseur
 (Nom, NumTel, Email, Adresse, TypeProduit)
