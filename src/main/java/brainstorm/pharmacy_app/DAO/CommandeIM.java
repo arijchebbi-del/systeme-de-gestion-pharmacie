@@ -175,4 +175,24 @@ public class CommandeIM implements CommandeDAO {
         }
         return 0;
     }
+    public int nbrPendingOrders() {
+        int count = 0;
+
+        String sql = "SELECT COUNT(*) AS total FROM commande WHERE Etat != 'RECUE'";
+
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors du comptage des commandes en attente : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }

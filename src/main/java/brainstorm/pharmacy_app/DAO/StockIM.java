@@ -219,4 +219,27 @@ public class StockIM implements StockDAO {
         }
         return null;
     }
+    public int nbrProduitsDessousSeuil() {
+        int count = 0;
+
+        String sql = "SELECT COUNT(*) AS total " +
+                "FROM stock s " +
+                "JOIN produit p ON s.Reference = p.Reference " +
+                "WHERE s.Quantite <= p.SeuilMinimal";
+
+        try (Connection con = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors du comptage des alertes stock (jointure) : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }
