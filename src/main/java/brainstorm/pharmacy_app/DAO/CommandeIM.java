@@ -104,13 +104,7 @@ public class CommandeIM implements CommandeDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String nom = rs.getString("Nom");
-
-
-
                     String nomAffichage = (nom != null) ? nom : "";
-
-
-
                     return (nomAffichage ).trim();
                 }
             }

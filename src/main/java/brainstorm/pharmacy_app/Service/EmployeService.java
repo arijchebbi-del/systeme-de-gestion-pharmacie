@@ -9,32 +9,31 @@ import brainstorm.pharmacy_app.Exceptions.MotDePasseInvalideException;
 
 public class EmployeService {
 
-    private EmployeIM empDAO = new EmployeIM(); // DAO utilisé par le Service
-
-    // Ajouter un employé avec validation simple par admin
+    private EmployeIM empDAO = new EmployeIM();
+    
     public void ajouterEmploye(Employe e) throws AucunNomException{
         if (e.getNom() == null || e.getNom().isEmpty()) {
             throw new AucunNomException("Le nom est obligatoire");
         }
-        empDAO.creation_e(e); // Appelle le DAO
+        empDAO.creation_e(e);
         System.out.println("Employé ajouté via le service !");
     }
 
-    // Modifier un employé par admin
+
     public void modifierEmploye(Employe e) throws IdEmployeNegativeException{
         if (e.getIdEmploye() <= 0) {
             throw new IdEmployeNegativeException("ID invalide pour la modification");
         }
-        empDAO.modification_e(e); // Appelle le DAO
+        empDAO.modification_e(e);
         System.out.println("Employé modifié via le service !");
     }
 
-    // Supprimer un employé par admin
+
     public void supprimerEmploye(int id) throws IdEmployeNegativeException{
         if (id <= 0) {
             throw new IdEmployeNegativeException("ID invalide pour la suppression");
         }
-        empDAO.suppression_e(id); // Appelle le DAO
+        empDAO.suppression_e(id);
         System.out.println("Employé supprimé via le service !");
     }
 
