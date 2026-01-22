@@ -76,7 +76,7 @@ public class PointOfSaleController {
     @FXML private TableView<CartItem> tableCart;
     @FXML private TableColumn<CartItem, String> colCartName;
     @FXML private TableColumn<CartItem, Integer> colCartQty;
-    @FXML private TableColumn<CartItem, Float> colCartUnitPrice;
+//    @FXML private TableColumn<CartItem, Float> colCartUnitPrice;
     @FXML private TableColumn<CartItem, Float> colCartTotalLine;
     @FXML private TableColumn<CartItem, Void> colCartActions;
 
@@ -134,7 +134,7 @@ public class PointOfSaleController {
         if (tableCart == null) return;
         colCartName.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getNom()));
         colCartQty.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().getQty()).asObject());
-        colCartUnitPrice.setCellValueFactory(cd -> new SimpleFloatProperty(cd.getValue().getUnitPrice()).asObject());
+        //colCartUnitPrice.setCellValueFactory(cd -> new SimpleFloatProperty(cd.getValue().getUnitPrice()).asObject());
         colCartTotalLine.setCellValueFactory(cd -> new SimpleFloatProperty(cd.getValue().getTotal()).asObject());
         tableCart.setItems(cartData);
         setupCartActionsColumn();
@@ -200,6 +200,7 @@ public class PointOfSaleController {
                             } else {
                                 handleVente(sp, qte);
                                 sp.getStock().setQuantite(sp.getStock().getQuantite() - qte);
+                                stockDAO.updateQuantiteStock(sp.getStock().getNumLot(), sp.getStock().getQuantite());
                                 tableStock.refresh();
                             }
                         } catch (NumberFormatException e) {
@@ -234,7 +235,7 @@ public class PointOfSaleController {
     }
 
     private void handleVente(StockProduit sp, int qte) {
-        if (qte <= 0) return;
+        if (qte <= 0) {afficherAlerte("Quantité", "La quantité doit être supérieure à 0.", Alert.AlertType.WARNING);return;}
         if (venteActuelle == null) {
             venteActuelle = new Vente();
             venteActuelle.setDateVente(Date.valueOf(LocalDate.now()));
@@ -261,6 +262,7 @@ public class PointOfSaleController {
         montantTotal -= ci.getTotal();
         ci.getStock().setQuantite(ci.getStock().getQuantite() + ci.getQty());
         cartData.remove(ci);
+        stockDAO.updateQuantiteStock(ci.getStock().getNumLot(),ci.getStock().getQuantite());
         tableStock.refresh();
         updateTotalLabel();
     }

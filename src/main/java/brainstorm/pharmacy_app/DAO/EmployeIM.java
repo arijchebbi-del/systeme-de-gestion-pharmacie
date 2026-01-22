@@ -26,7 +26,7 @@ public class EmployeIM implements EmployeDAO{
             ps.setString(6, e.getNom());
             ps.setString(7, e.getEmail());
             ps.setString(8,e.getUsername());
-            ps.setFloat(8,e.getSalaire());
+            ps.setFloat(9,e.getSalaire());
 
             ps.executeUpdate();
             System.out.println("Employé ajouté");
@@ -36,11 +36,10 @@ public class EmployeIM implements EmployeDAO{
         }
     }
     public void modification_e(Employe e) {
-        String query = "UPDATE Employe SET MotDePasse = ?,Role = ?,HoraireDeTravail = ?,NumTel = ?,Prenom = ?,Nom = ?,Email = ? WHERE IdEmploye = ?";
+        String query = "UPDATE Employe SET MotDePasse = ?,Role = ?,HoraireDeTravail = ?,NumTel = ?,Prenom = ?,Nom = ?,Email = ?,Salaire = ? WHERE IdEmploye = ?";
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
-
             ps.setString(1, e.getMotdePasse());
             ps.setString(2, e.getRole());
             ps.setString(3, e.getHoraire());
@@ -48,15 +47,12 @@ public class EmployeIM implements EmployeDAO{
             ps.setString(5, e.getPrenom());
             ps.setString(6, e.getNom());
             ps.setString(7, e.getEmail());
-            ps.setInt(8, e.getIdEmploye());
+            ps.setFloat(8,e.getSalaire());
+            ps.setInt(9, e.getIdEmploye());
 
             int rows = ps.executeUpdate();
 
-            if (rows > 0) {
-                System.out.println("Employé modifié avec succès");
-            } else {
-                System.out.println("Aucun employé trouvé avec cet ID");
-            }
+            System.out.println("Employé modifié avec succès");
 
         } catch (SQLException ex) {
             System.err.println("Erreur SQL: " + ex.getMessage());
@@ -99,6 +95,7 @@ public class EmployeIM implements EmployeDAO{
                 e.setHoraire(rs.getString("HoraireDeTravail"));
                 e.setNumTelephone(rs.getInt("NumTel"));
                 e.setMotdepasse(rs.getString("MotDePasse"));
+                e.setSalaire(rs.getFloat("Salaire"));
                 return e;
             }
 
@@ -182,6 +179,7 @@ public class EmployeIM implements EmployeDAO{
                 e.setHoraire(rs.getString("HoraireDeTravail"));
                 e.setNumTelephone(rs.getInt("NumTel"));
                 e.setMotdepasse(rs.getString("MotDePasse"));
+                e.setSalaire(rs.getFloat("Salaire"));
 
                 employes.add(e);
             }

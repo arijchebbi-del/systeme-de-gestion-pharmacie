@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXListView?>
-<?import javafx.scene.Cursor?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,108 +13,158 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.ViewRevenueReportController">
+<BorderPane style="-fx-background-color: #E4E4E4;" styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.ViewEmployeeController">
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="856.0" prefWidth="450.0" style="-fx-background-color: E4FFE5; -fx-background-radius: 20px;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="856.0" prefWidth="450.0" style="-fx-background-color: E4E4E4; -fx-background-radius: 20px;" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="120.0" prefWidth="200.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
                      <children>
-                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Revenue :">
+                        <Text fill="#3e3e42" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
                            <font>
                               <Font name="Poppins Medium" size="20.0" />
                            </font>
                         </Text>
-                        <Label fx:id="lblTotalRevenue" textFill="#135909">
+                        <MFXTextField fx:id="txtPrenom" floatMode="DISABLED" styleClass="txt-field-emp">
                            <font>
                               <Font name="Poppins SemiBold" size="40.0" />
                            </font>
-                        </Label>
+                        </MFXTextField>
                      </children>
                   </VBox>
                   <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
                      <image>
-                        <Image url="@../images/money.png" />
+                        <Image url="@../images/personcard.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
-            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#2a2a2a" strokeWidth="1.2" translateX="20.0" />
             <HBox prefHeight="120.0" prefWidth="200.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
                      <children>
-                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Sales :">
+                        <Text fill="#3e3e42" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
                            <font>
                               <Font name="Poppins Medium" size="20.0" />
                            </font>
                         </Text>
-                        <Label fx:id="lblNbSales" textFill="#135909">
+                        <MFXTextField fx:id="txtNom" floatMode="DISABLED" styleClass="txt-field-emp">
                            <font>
                               <Font name="Poppins SemiBold" size="40.0" />
                            </font>
-                        </Label>
+                        </MFXTextField>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#2a2a2a" strokeWidth="1.2" translateX="20.0" />
             <HBox prefHeight="120.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
                      <children>
-                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Basket :">
+                        <Text fill="#3e3e42" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail">
                            <font>
                               <Font name="Poppins Medium" size="20.0" />
                            </font>
                         </Text>
-                        <Label fx:id="lblAverageBasket" textFill="#135909">
+                        <MFXTextField fx:id="txtEmail" floatMode="DISABLED" styleClass="txt-field-emp">
                            <font>
                               <Font name="Poppins SemiBold" size="40.0" />
                            </font>
-                        </Label>
+                        </MFXTextField>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
-            <HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#2a2a2a" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
                      <children>
-                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Employees :">
+                        <Text fill="#3e3e42" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number">
                            <font>
                               <Font name="Poppins Medium" size="20.0" />
                            </font>
                         </Text>
-                        <MFXListView fx:id="listTopEmployees" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="410.0" />
+                        <MFXTextField fx:id="txtTel" floatMode="DISABLED" styleClass="txt-field-emp">
+                           <font>
+                              <Font name="Poppins SemiBold" size="40.0" />
+                           </font>
+                        </MFXTextField>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
-            <HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#2a2a2a" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
                      <children>
-                        <Text fill="#135909" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Products :">
+                        <Text fill="#3e3e42" strokeType="OUTSIDE" strokeWidth="0.0" text="Salary">
                            <font>
                               <Font name="Poppins Medium" size="20.0" />
                            </font>
                         </Text>
-                        <MFXListView fx:id="listTopProducts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="410.0" />
+                        <MFXTextField fx:id="txtSalary" floatMode="DISABLED" styleClass="txt-field-emp">
+                           <font>
+                              <Font name="Poppins SemiBold" size="40.0" />
+                           </font>
+                        </MFXTextField>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#2a2a2a" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
                <children>
-                  <MFXButton fx:id="btnCancel" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="410.0" rippleAnimateBackground="false" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleRadius="0.0" style="-fx-background-color: E94040; -fx-background-radius: 40px;" styleClass="add-product-button" text="X" translateX="20.0" translateY="5.0">
-                     <cursor>
-                        <Cursor fx:constant="CLOSED_HAND" />
-                     </cursor>
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#3e3e42" strokeType="OUTSIDE" strokeWidth="0.0" text="Role">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <MFXComboBox fx:id="comboRole" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="240.0">
+                           <font>
+                              <Font name="Poppins SemiBold" size="40.0" />
+                           </font>
+                        </MFXComboBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#2a2a2a" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <MFXButton fx:id="btnCancel" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCancel" prefHeight="75.0" prefWidth="125.0" styleClass="add-supplier-button" text="Close" translateX="15.0" translateY="20.0">
+                     <font>
+                        <Font name="Poppins Medium" size="30.0" />
+                     </font>
+                  </MFXButton>
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" translateX="35.0" translateY="20.0">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="30.0" />
+                                 </font>
+                              </Text>
+                              <Label fx:id="txtId" text="1" translateX="35.0" translateY="20.0">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="31.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleConfirm" prefHeight="75.0" prefWidth="125.0" styleClass="add-product-button" text="Submit" translateX="-15.0" translateY="20.0">
+                     <font>
+                        <Font name="Poppins Medium" size="30.0" />
+                     </font>
                   </MFXButton>
                </children>
             </HBox>

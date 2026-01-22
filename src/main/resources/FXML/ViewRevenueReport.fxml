@@ -111,7 +111,7 @@
             <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#29a12d" strokeWidth="1.2" translateX="20.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <MFXButton fx:id="btnCancel" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="410.0" rippleAnimateBackground="false" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleRadius="0.0" style="-fx-background-color: E94040; -fx-background-radius: 40px;" styleClass="add-product-button" text="X" translateX="20.0" translateY="5.0">
+                  <MFXButton fx:id="btnCancel" computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCancel" prefHeight="80.0" prefWidth="410.0" rippleAnimateBackground="false" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleRadius="0.0" style="-fx-background-color: E94040; -fx-background-radius: 40px;" styleClass="add-product-button" text="X" translateX="20.0" translateY="5.0">
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>

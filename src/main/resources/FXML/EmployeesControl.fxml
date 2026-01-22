@@ -247,11 +247,11 @@
             <TableView fx:id="tableEmployes" centerShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" scaleShape="false" styleClass="pos-table" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="colId" editable="false" prefWidth="93.0" resizable="false" text="EmployeeID" />
-                <TableColumn fx:id="colPrenom" editable="false" minWidth="0.0" prefWidth="174.0" resizable="false" text="First Name" />
-                  <TableColumn fx:id="colNom" editable="false" minWidth="0.0" prefWidth="210.0" resizable="false" text="Last Name" />
-                  <TableColumn fx:id="colTel" editable="false" minWidth="0.0" prefWidth="184.0" resizable="false" text="Phone Number" />
-                  <TableColumn fx:id="colEmail" editable="false" minWidth="0.0" prefWidth="280.0" resizable="false" sortable="false" text="E-mail" />
-                  <TableColumn fx:id="colHoraire" editable="false" minWidth="0.0" prefWidth="222.0" resizable="false" sortable="false" text="Shift" />
+                <TableColumn fx:id="colPrenom" editable="false" minWidth="0.0" prefWidth="199.33331298828125" resizable="false" text="First Name" />
+                  <TableColumn fx:id="colNom" editable="false" minWidth="0.0" prefWidth="221.0" resizable="false" text="Last Name" />
+                  <TableColumn fx:id="colTel" editable="false" minWidth="0.0" prefWidth="198.666748046875" resizable="false" text="Phone Number" />
+                  <TableColumn fx:id="colHoraire" editable="false" minWidth="0.0" prefWidth="230.0" resizable="false" sortable="false" text="Shift" />
+                  <TableColumn fx:id="colSalary" editable="false" minWidth="0.0" prefWidth="223.0" resizable="false" sortable="false" text="Salary" />
                   <TableColumn fx:id="colView" editable="false" minWidth="0.0" prefWidth="112.0" resizable="false" sortable="false" />
                   <TableColumn fx:id="colDelete" editable="false" minWidth="0.0" prefWidth="104.0" resizable="false" sortable="false" />
               </columns>

@@ -14,10 +14,13 @@ import brainstorm.pharmacy_app.DAO.ConstituerIM;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
+
 import java.util.List;
 
 public class HistoryController {
@@ -159,7 +162,8 @@ public class HistoryController {
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
         layout.getChildren().addAll(title, detailTable);
-
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UTILITY);
         Scene scene = new Scene(layout, 550, 400);
         stage.setScene(scene);
         stage.setTitle("Détails de la vente #" + numFacture);

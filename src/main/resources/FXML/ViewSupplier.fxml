@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane styleClass="dashboard-body" stylesheets="@../CSS/DashboardStyle.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brainstorm.pharmacy_app.controller.ViewSupplierController">
+   <center>
+      <VBox prefWidth="450.0" style="-fx-background-color: F0DBF5; -fx-background-radius: 20px;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#510c6c" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Name">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblNom" text="Khmirato Med" textFill="#510c6c">
+                           <font>
+                              <Font name="Poppins Medium" size="30.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
+                     <image>
+                        <Image url="@../images/supplierf.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#6a1977" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#510c6c" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblEmail" text="khmirato@7ncha.tn" textFill="#510c6c">
+                           <font>
+                              <Font name="Poppins Medium" size="30.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#6a1977" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#510c6c" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblTel" text="95136888" textFill="#510c6c">
+                           <font>
+                              <Font name="Poppins Medium" size="30.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#6a1977" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="360.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#510c6c" strokeType="OUTSIDE" strokeWidth="0.0" text="Address">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblAdresse" text="7ncha, Sfax" textFill="#510c6c">
+                           <font>
+                              <Font name="Poppins Medium" size="30.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#6a1977" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <Text fill="#510c6c" strokeType="OUTSIDE" strokeWidth="0.0" text="Products Type">
+                           <font>
+                              <Font name="Poppins Medium" size="20.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="lblType" text="Médicament" textFill="#510c6c">
+                           <font>
+                              <Font name="Poppins Medium" size="30.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#6a1977" strokeWidth="1.2" translateX="20.0" />
+            <HBox prefHeight="120.0" prefWidth="200.0">
+               <children>
+                  <MFXButton minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCancel" prefHeight="75.0" prefWidth="125.0" styleClass="add-supplier-button" text="Close" translateX="15.0" translateY="20.0">
+                     <font>
+                        <Font name="Poppins Medium" size="30.0" />
+                     </font>
+                  </MFXButton>
+                  <VBox prefHeight="200.0" prefWidth="450.0" translateX="25.0" translateY="20.0">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Text fill="#510c6c" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" translateX="170.0" translateY="20.0">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="30.0" />
+                                 </font>
+                              </Text>
+                              <Label fx:id="lblId" text="1" textFill="#510c6c" translateX="170.0" translateY="20.0">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="31.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

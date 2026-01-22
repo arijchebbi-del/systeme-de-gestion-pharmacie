@@ -191,7 +191,7 @@ public class CommandeIM implements CommandeDAO {
     public int nbrPendingOrders() {
         int count = 0;
 
-        String sql = "SELECT COUNT(*) AS total FROM commande WHERE Etat != 'RECUE'";
+        String sql = "SELECT COUNT(*) AS total FROM Commande WHERE Etat != 'RECUE'";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(sql);

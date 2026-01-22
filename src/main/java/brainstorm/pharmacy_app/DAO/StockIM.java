@@ -223,8 +223,8 @@ public class StockIM implements StockDAO {
         int count = 0;
 
         String sql = "SELECT COUNT(*) AS total " +
-                "FROM stock s " +
-                "JOIN produit p ON s.Reference = p.Reference " +
+                "FROM Stock s " +
+                "JOIN Produit p ON s.Reference = p.Reference " +
                 "WHERE s.Quantite <= p.SeuilMinimal";
 
         try (Connection con = DBConnection.getEmployeeConnection();

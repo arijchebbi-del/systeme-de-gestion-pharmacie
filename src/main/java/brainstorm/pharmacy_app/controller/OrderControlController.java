@@ -23,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -72,6 +73,7 @@ public class OrderControlController {
     @FXML private TableColumn<Commande, Integer> colId;
     @FXML private TableColumn<Commande, Float> colPrix;
     @FXML private TableColumn<Commande, String> colDate;
+
     @FXML private TableColumn<Commande, String> colFournisseur;
     @FXML private TableColumn<Commande, String> colEmploye;
     @FXML private TableColumn<Commande, String> colEtat;
@@ -88,6 +90,9 @@ public class OrderControlController {
         setupColumns();
         loadOrders();
         setupSearchFilter();
+
+
+        tableOrders.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     private void setupColumns() {
@@ -95,8 +100,6 @@ public class OrderControlController {
         colPrix.setCellValueFactory(new PropertyValueFactory<>("prixTotal"));
         colDate.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getDateCommande().toString()));
         colEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-
-
         colFournisseur.setCellValueFactory(cd -> {
             String nomComplet = commandeDAO.getNomFournisseur(cd.getValue().getIdFournisseur());
             return new SimpleStringProperty(nomComplet);
@@ -109,6 +112,7 @@ public class OrderControlController {
             return new SimpleStringProperty(nom);
         });
         colEmploye.setStyle("-fx-alignment: CENTER;");
+
 
         colId.setStyle("-fx-alignment: CENTER;");
         colEtat.setStyle("-fx-alignment: CENTER;");
@@ -222,10 +226,13 @@ public class OrderControlController {
 
     private void handleViewDetails(Commande cmd) {
         Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UTILITY);
         VBox box = new VBox(10);
         box.setStyle("-fx-padding: 15; -fx-background-color: white;");
 
         TableView<Composer> detailTable = new TableView<>();
+        detailTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Anti-tronquage
 
         TableColumn<Composer, String> colNomProd = new TableColumn<>("Nom Produit");
         colNomProd.setCellValueFactory(cd -> {
@@ -246,7 +253,7 @@ public class OrderControlController {
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
         box.getChildren().addAll(title, detailTable);
-        stage.setScene(new Scene(box, 450, 400));
+        stage.setScene(new Scene(box, 500, 400));
         stage.setTitle("Contenu de la commande");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();

@@ -21,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class EmployeeControlController {
@@ -70,7 +71,7 @@ public class EmployeeControlController {
     @FXML private TableColumn<Employe, String> colNom;
     @FXML private TableColumn<Employe, String> colPrenom;
     @FXML private TableColumn<Employe, String> colTel;
-    @FXML private TableColumn<Employe, String> colEmail;
+    @FXML private TableColumn<Employe, Integer> colSalary;
     @FXML private TableColumn<Employe, String> colHoraire;
     @FXML private TableColumn<Employe, Void> colView;
     @FXML private TableColumn<Employe, Void> colDelete;
@@ -90,7 +91,7 @@ public class EmployeeControlController {
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colTel.setCellValueFactory(new PropertyValueFactory<>("numTelephoneEmploye"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("salaire"));
         colHoraire.setCellValueFactory(new PropertyValueFactory<>("horaire"));
 
         loadEmployes();
@@ -125,7 +126,7 @@ public class EmployeeControlController {
         filteredData.setPredicate(e ->
                 e.getNom().toLowerCase().contains(s) ||
                         e.getPrenom().toLowerCase().contains(s) ||
-                        e.getEmail().toLowerCase().contains(s) ||
+                        String.valueOf(e.getSalaire()).contains(s) ||
                         String.valueOf(e.getNumTelephoneEmploye()).contains(s) ||
                         e.getHoraire().toLowerCase().contains(s)
         );
@@ -142,6 +143,7 @@ public class EmployeeControlController {
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Ajouter Employé");
             stage.setScene(new Scene(root));
             stage.showAndWait();
@@ -180,6 +182,8 @@ public class EmployeeControlController {
             c.setParentController(this);
 
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Employé");
             stage.setScene(new Scene(root));
             stage.show();

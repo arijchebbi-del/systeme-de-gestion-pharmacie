@@ -183,13 +183,15 @@ public class SuppliersControlController {
 
     private void openViewSupplier(Fournisseur f) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainstorm/pharmacy_app/View/view_fournisseur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ViewSupplier.fxml"));
             Parent root = loader.load();
 
             ViewSupplierController controller = loader.getController();
             controller.setSupplier(f);
 
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Fournisseur Details");
             stage.setScene(new Scene(root));
             stage.show();

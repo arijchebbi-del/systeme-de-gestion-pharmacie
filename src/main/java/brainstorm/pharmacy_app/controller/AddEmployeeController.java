@@ -19,7 +19,7 @@ public class AddEmployeeController {
     @FXML private MFXTextField txtMDP;
     @FXML private MFXTextField txtUsername;
     @FXML private MFXTextField txtRole;
-
+    @FXML private MFXTextField txtSalaire;
     @FXML private MFXButton btnConfirm;
     @FXML private MFXButton btnCancel;
 
@@ -42,6 +42,7 @@ public class AddEmployeeController {
             emp.setMotdepasse(txtMDP.getText());
             emp.setUsername(txtUsername.getText());
             emp.setRole(txtRole.getText());
+            emp.setSalaire(Integer.parseInt(txtSalaire.getText()));
 
             employeService.ajouterEmploye(emp);
 

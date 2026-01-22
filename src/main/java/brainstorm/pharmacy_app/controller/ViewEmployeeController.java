@@ -8,18 +8,18 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
     public class ViewEmployeeController {
 
-        @FXML private MFXTextField txtId;
+        @FXML private Label txtId;
         @FXML private MFXTextField txtNom;
         @FXML private MFXTextField txtPrenom;
         @FXML private MFXTextField txtEmail;
         @FXML private MFXTextField txtTel;
-        @FXML private MFXTextField txtHoraire;
+        @FXML private MFXTextField txtSalary;
 
-        @FXML private MFXTextField txtMotDePasse;
         @FXML private MFXComboBox<String> comboRole;
 
         @FXML private MFXButton btnConfirm;
@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 
         @FXML
         public void initialize() {
-            comboRole.getItems().addAll("admin", "employe");
+            comboRole.getItems().addAll("admin", "employee");
         }
 
         public void setParentController(EmployeeControlController p) {
@@ -46,10 +46,8 @@ import javafx.stage.Stage;
             txtPrenom.setText(e.getPrenom());
             txtEmail.setText(e.getEmail());
             txtTel.setText(String.valueOf(e.getNumTelephoneEmploye()));
-            txtHoraire.setText(e.getHoraire());
-
+            txtSalary.setText(String.valueOf(e.getSalaire()));
             comboRole.setValue(e.getRole());
-            txtId.setDisable(true);
         }
 
         @FXML
@@ -58,18 +56,18 @@ import javafx.stage.Stage;
                 current.setNom(txtNom.getText());
                 current.setPrenom(txtPrenom.getText());
                 current.setEmail(txtEmail.getText());
-                current.setHoraire(txtHoraire.getText());
+                current.setSalaire(Float.parseFloat(txtSalary.getText()));
                 current.setRole(comboRole.getValue());
                 current.setNumTelephone(Integer.parseInt(txtTel.getText()));
 
                 employeService.modifierEmploye(current);
 
-                if (txtMotDePasse.getText() != null && !txtMotDePasse.getText().isEmpty()) {
-                    employeService.changerMotDePasse(
-                            current.getIdEmploye(),
-                            txtMotDePasse.getText()
-                    );
-                }
+//                if (txtMotDePasse.getText() != null && !txtMotDePasse.getText().isEmpty()) {
+//                    employeService.changerMotDePasse(
+//                            current.getIdEmploye(),
+//                            txtMotDePasse.getText()
+//                    );
+//                }
 
                 if (parentController != null)
                     parentController.refreshTable();

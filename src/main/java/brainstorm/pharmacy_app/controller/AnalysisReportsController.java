@@ -21,7 +21,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -209,8 +211,6 @@ public class AnalysisReportsController {
     @FXML
     private void openFullRevenueReport(ActionEvent event) {
         try {
-            if (dateDebut.getValue() == null || dateFin.getValue() == null) return;
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ViewRevenueReport.fxml"));
             Parent root = loader.load();
 
@@ -236,6 +236,8 @@ public class AnalysisReportsController {
             controller.showReport(debut, fin);
 
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Full Revenue Report");
             stage.setScene(new Scene(root));
             stage.show();
@@ -256,6 +258,8 @@ public class AnalysisReportsController {
             controller.refreshTable();
 
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setTitle("Stock State Report");
             stage.setScene(new Scene(root));
             stage.show();

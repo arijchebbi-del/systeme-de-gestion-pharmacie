@@ -101,3 +101,16 @@
 .pos-table{
     -fx-background-radius: 20px;
 }
+
+.txt-field-emp{
+    -fx-background-color : transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-font-size: 29px;
+    -fx-pref-width: 400px;
+}
+.txt-field-emp:focus-within{
+    -fx-background-color : transparent;
+    -fx-border-color: transparent;
+}
