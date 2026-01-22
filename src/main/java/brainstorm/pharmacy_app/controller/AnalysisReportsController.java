@@ -6,6 +6,8 @@ import brainstorm.pharmacy_app.DAO.StockProduitIM;
 import brainstorm.pharmacy_app.Model.Employe;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.StockProduit;
+import brainstorm.pharmacy_app.Utils.DBConnection;
+import brainstorm.pharmacy_app.Utils.PdfReportGenerator;
 import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -27,7 +29,10 @@ import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 public class AnalysisReportsController {
@@ -262,5 +267,15 @@ public class AnalysisReportsController {
             e.printStackTrace();
         }
     }
+    //Full Suppliers Report
+    @FXML
+    private void openFullSuppliersReport(ActionEvent event) {
+        String query = "SELECT Nom, NumTel, Email, TypeProduit FROM Fournisseur";
+        try (Connection conn = DBConnection.getAdminConnection();
+             Statement stmt = conn.createStatement()) {
+            PdfReportGenerator.generateReport("Full Suppliers Report", stmt.executeQuery(query));
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
 }
 

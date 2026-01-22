@@ -17,10 +17,7 @@ GRANT SELECT ON pharmacy_db.Produit TO 'employee'@'localhost';
 GRANT SELECT ON pharmacy_db.Fournisseur TO 'employee'@'localhost';
 GRANT SELECT ON pharmacy_db.Employe TO 'employee'@'localhost';
 
-/*INSERT INTO Employe
-(IdEmploye,Username, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email,MotDePasse)
-VALUES
-    (1234,'ahmedmohsen','admin', '09:00-17:00', 12345678, 'Ahmed', 'Mohsen', 'youremail@example.com','arouja');*/
+
 
 # Apply Changes
 FLUSH PRIVILEGES;

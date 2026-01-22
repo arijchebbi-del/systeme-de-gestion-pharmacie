@@ -462,7 +462,7 @@
                         <Line endX="310.0" fill="WHITE" startX="-100.0" stroke="#8152ba" strokeWidth="1.2" translateX="20.0" />
                         <HBox prefHeight="80.0" prefWidth="200.0">
                            <children>
-                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #400959; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Suppliers Report 📥">
+                              <MFXButton computeRadiusMultiplier="false" depthLevel="LEVEL0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#openFullSuppliersReport" prefHeight="80.0" prefWidth="450.0" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="#bdbdbd00" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-text-fill: #400959; -fx-background-color: 00000000; -fx-font-family: Poppins Medium, sans-serif;" styleClass="add-product-button" text="Full Suppliers Report 📥">
                                  <font>
                                     <Font name="Poppins SemiBold" size="30.0" />
                                  </font>
