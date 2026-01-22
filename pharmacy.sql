@@ -91,14 +91,14 @@ CREATE TABLE Constituer (
     CONSTRAINT FK_Produit FOREIGN KEY (Reference)
     REFERENCES Produit(Reference)
     ON UPDATE CASCADE
-);/*
+);
 CREATE TABLE Gerer(
 	IdEmploye INT,
 	NumLot INT,
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye),
 	FOREIGN KEY (NumLot) REFERENCES Stock(NumLot),
 	PRIMARY KEY(IdEmploye,NumLot)
-);*/
+);
 
 INSERT INTO Employe
 (Username, MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email)

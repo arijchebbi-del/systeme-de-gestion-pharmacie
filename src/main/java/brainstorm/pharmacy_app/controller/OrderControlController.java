@@ -88,9 +88,6 @@ public class OrderControlController {
         setupColumns();
         loadOrders();
         setupSearchFilter();
-
-
-        tableOrders.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     private void setupColumns() {
@@ -98,14 +95,6 @@ public class OrderControlController {
         colPrix.setCellValueFactory(new PropertyValueFactory<>("prixTotal"));
         colDate.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getDateCommande().toString()));
         colEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-
-
-        TableColumn<Commande, Integer> colIdFourn = new TableColumn<>("ID Fourn.");
-        colIdFourn.setCellValueFactory(new PropertyValueFactory<>("idFournisseur"));
-        colIdFourn.setStyle("-fx-alignment: CENTER;");
-        if (!tableOrders.getColumns().contains(colIdFourn)) {
-            tableOrders.getColumns().add(2, colIdFourn);
-        }
 
 
         colFournisseur.setCellValueFactory(cd -> {
@@ -120,7 +109,6 @@ public class OrderControlController {
             return new SimpleStringProperty(nom);
         });
         colEmploye.setStyle("-fx-alignment: CENTER;");
-
 
         colId.setStyle("-fx-alignment: CENTER;");
         colEtat.setStyle("-fx-alignment: CENTER;");
@@ -238,7 +226,6 @@ public class OrderControlController {
         box.setStyle("-fx-padding: 15; -fx-background-color: white;");
 
         TableView<Composer> detailTable = new TableView<>();
-        detailTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Anti-tronquage
 
         TableColumn<Composer, String> colNomProd = new TableColumn<>("Nom Produit");
         colNomProd.setCellValueFactory(cd -> {
@@ -259,7 +246,7 @@ public class OrderControlController {
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
         box.getChildren().addAll(title, detailTable);
-        stage.setScene(new Scene(box, 500, 400));
+        stage.setScene(new Scene(box, 450, 400));
         stage.setTitle("Contenu de la commande");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();

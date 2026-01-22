@@ -94,7 +94,7 @@ public class CommandeIM implements CommandeDAO {
     }
 
     public String getNomFournisseur(int idFournisseur) {
-        String query = "SELECT Nom, Prenom FROM Fournisseur WHERE IdFournisseur = ?";
+        String query = "SELECT Nom FROM Fournisseur WHERE IdFournisseur = ?";
 
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -104,14 +104,14 @@ public class CommandeIM implements CommandeDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String nom = rs.getString("Nom");
-                    String prenom = rs.getString("Prenom");
+
 
 
                     String nomAffichage = (nom != null) ? nom : "";
-                    String prenomAffichage = (prenom != null) ? prenom : "";
 
 
-                    return (nomAffichage + " " + prenomAffichage).trim();
+
+                    return (nomAffichage ).trim();
                 }
             }
         } catch (SQLException e) {
