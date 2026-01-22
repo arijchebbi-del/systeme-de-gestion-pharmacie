@@ -66,6 +66,7 @@ public class HistoryController {
     @FXML private TableColumn<VenteHistoryDTO, Integer> colProducts;
     @FXML private TableColumn<VenteHistoryDTO, Double> colTotal;
     @FXML private TableColumn<VenteHistoryDTO, Void> colActions;
+    //+emp id
 
     private VenteIM venteDAO = new VenteIM();
     private ConstituerIM constituerDAO = new ConstituerIM();
