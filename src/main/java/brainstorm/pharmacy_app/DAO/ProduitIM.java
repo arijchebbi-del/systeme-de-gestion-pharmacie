@@ -188,6 +188,22 @@ public class ProduitIM {
 
         return ref;
     }
+    public List<String> getAllCategories(){
+        List<String> strings = new ArrayList<>();
+        strings.add("Toutes");
+        String sql = "SELECT DISTINCT Categorie FROM Produit";
+        try (Connection conn = DBConnection.getEmployeeConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                strings.add(rs.getString("Categorie"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return strings;
+
+    }
 
 
 }

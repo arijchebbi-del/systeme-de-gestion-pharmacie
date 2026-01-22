@@ -158,7 +158,9 @@ public class EmployeeControlController {
     // bouton taa vuew
     private void addViewButtonToTable() {
         colView.setCellFactory(p -> new TableCell<>() {
-            private final Button btn = new Button("View");
+            private final Button btn = new Button("👁");
+            {btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;");}
+
             {
                 btn.setOnAction(e -> {
                     Employe emp = getTableView().getItems().get(getIndex());
@@ -196,7 +198,8 @@ public class EmployeeControlController {
     // bouton taa delete
     private void addDeleteButtonToTable() {
         colDelete.setCellFactory(p -> new TableCell<>() {
-            private final Button btn = new Button("Delete");
+            private final Button btn = new Button("🗑");
+            {btn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");}
             {
                 btn.setOnAction(e -> {
                     Employe emp = getTableView().getItems().get(getIndex());

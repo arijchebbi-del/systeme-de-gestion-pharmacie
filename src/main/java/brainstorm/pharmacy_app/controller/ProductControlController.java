@@ -92,8 +92,7 @@ public class ProductControlController {
     }
 
     private void loadData() {
-        // Liste fictive de catégories pour le filtre, à adapter selon vos besoins
-        comboCategory.setItems(FXCollections.observableArrayList("Toutes", "Médicament", "Cosmétique", "Hygiène"));
+        comboCategory.setItems(FXCollections.observableArrayList(produitDAO.getAllCategories()));
         comboCategory.getSelectionModel().selectFirst();
 
         refreshTable();

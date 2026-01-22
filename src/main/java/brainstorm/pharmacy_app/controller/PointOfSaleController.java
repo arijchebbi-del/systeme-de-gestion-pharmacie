@@ -11,6 +11,7 @@ import brainstorm.pharmacy_app.Utils.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.enums.FloatMode;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,6 +21,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -181,7 +183,17 @@ public class PointOfSaleController {
 
             {
                 container.setAlignment(Pos.CENTER);
-                txtQty.setPrefWidth(50);
+                txtQty.setAlignment(Pos.TOP_CENTER);
+                txtQty.setFloatMode(FloatMode.ABOVE);
+                txtQty.setStyle("""
+                                -fx-background-radius: 20px;
+                                -fx-border-radius: 20px;
+                                -fx-font-family: "Poppins Light";
+                                -fx-pref-width: 50px;
+                                -fx-pref-height: 15px;
+                                -fx-text-alignment: center;
+                                -fx-padding: 5px;
+                            """);
                 txtQty.setText("1");
                 btnAdd.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;");
             }
@@ -202,6 +214,7 @@ public class PointOfSaleController {
                                 sp.getStock().setQuantite(sp.getStock().getQuantite() - qte);
                                 stockDAO.updateQuantiteStock(sp.getStock().getNumLot(), sp.getStock().getQuantite());
                                 tableStock.refresh();
+                                txtQty.requestLayout();
                             }
                         } catch (NumberFormatException e) {
                             afficherAlerte("Erreur", "Saisissez un nombre.", Alert.AlertType.ERROR);

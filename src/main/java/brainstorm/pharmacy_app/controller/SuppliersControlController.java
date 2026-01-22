@@ -164,7 +164,9 @@ public class SuppliersControlController {
     // bouton vue
     private void addViewButtonToTable() {
         colView.setCellFactory(param -> new TableCell<>() {
-            private final Button btn = new Button("View");
+            private final Button btn = new Button("👁");
+            {btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;");}
+
             {
                 btn.setOnAction(event -> {
                     Fournisseur f = getTableView().getItems().get(getIndex());
@@ -203,7 +205,8 @@ public class SuppliersControlController {
     // bouton yfasakh
     private void addDeleteButtonToTable() {
         colDelete.setCellFactory(param -> new TableCell<>() {
-            private final Button btn = new Button("Delete");
+            private final Button btn = new Button("🗑");
+            {btn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");}
             {
                 btn.setOnAction(event -> {
                     Fournisseur f = getTableView().getItems().get(getIndex());

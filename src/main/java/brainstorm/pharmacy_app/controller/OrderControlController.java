@@ -139,7 +139,7 @@ public class OrderControlController {
             String cat = comboCategory.getValue();
             boolean matchesSearch = String.valueOf(commande.getIdCommande()).contains(filter) ||
                     commande.getEtat().toLowerCase().contains(filter);
-            boolean matchesCategory = cat == null || cat.equals("Toutes") || commande.getEtat().equals(cat);
+            boolean matchesCategory = cat == null || cat.equals("Toutes") || commande.getEtat().equalsIgnoreCase(cat);
             return matchesSearch && matchesCategory;
         });
     }
@@ -185,6 +185,16 @@ public class OrderControlController {
     }
 
     private void handleReceive(Commande cmd) {
+        if ((cmd.getEtat().equalsIgnoreCase("ANNULEE"))){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Demande refusée");
+            alert.setHeaderText("Action impossible");
+            alert.setContentText("You can't receive canceled orders");
+            alert.show();
+            return;
+        }
+
+
         List<Composer> produitsCommandes = composerDAO.getProduitsParCommande(cmd.getIdCommande());
         for (Composer ligne : produitsCommandes) {
             int numLotExistant = stockDAO.getNumLotParReference(ligne.getReference());
