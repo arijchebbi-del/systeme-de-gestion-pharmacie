@@ -44,8 +44,8 @@ public class ComposerIM implements ComposerDAO {
             while (rs.next()) {
                 // Utilisation du constructeur Composer(int reference, int idCommande, int quantite)
                 Composer ligne = new Composer(
-                        rs.getInt("Reference"),
                         rs.getInt("IdCommande"),
+                        rs.getInt("Reference"),
                         rs.getInt("Quantite")
                 );
                 liste.add(ligne);

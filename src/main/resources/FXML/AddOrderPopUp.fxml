@@ -75,7 +75,7 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Label layoutX="164.0" layoutY="376.0" text="Test">
+      <Label fx:id="lblFournisseurName" layoutX="164.0" layoutY="376.0">
          <font>
             <Font size="20.0" />
          </font>

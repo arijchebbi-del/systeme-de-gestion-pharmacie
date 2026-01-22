@@ -19,9 +19,9 @@ public class AddOrderController {
 
     @FXML private MFXTextField txtRef;
     @FXML private MFXTextField txtQty;
-    @FXML private MFXTextField txtFournisseurId;
+    @FXML private MFXTextField txtFournisseurId; // MA yefreghch wakt wakt tenzel aala add
     @FXML private Label lblProductName;
-    @FXML private Label lblFournisseurName;
+    @FXML private Label lblFournisseurName; // ahawa ya taz zetou houni
     @FXML private Label lblError;
     @FXML private Label lblTotalPrix;
     @FXML private MFXButton btnSubmit;
@@ -39,10 +39,11 @@ public class AddOrderController {
     private ComposerIM composerDAO = new ComposerIM();
     private FournisseurIM fournisseurDAO = new FournisseurIM();
 
+
     @FXML
     public void initialize() {
         colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
-        colQty.setCellValueFactory(new PropertyValueFactory<>("quantiteComposer"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("quantite"));
         tableTempItems.setItems(tempItems);
 
         lblTotalPrix.setText("0.00 DT");
@@ -51,15 +52,11 @@ public class AddOrderController {
             if (!newValue.isEmpty()) verifierProduit();
             else lblProductName.setText("");
         });
-
-
         txtFournisseurId.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) verifierFournisseur();
             else lblFournisseurName.setText("");
         });
     }
-
-
     @FXML
     private void verifierFournisseur() {
         try {
@@ -78,7 +75,6 @@ public class AddOrderController {
             lblFournisseurName.setText("ID Invalide");
         }
     }
-
     @FXML
     private void verifierProduit() {
         try {
@@ -103,12 +99,13 @@ public class AddOrderController {
     @FXML
     private void handleAddItem(ActionEvent event) {
         try {
-            //On verifie l'input du fournisseur
+            // nthabet illi kteb fournisseur mi lowel
             // AJOUT : On verifie aussi que le fournisseur existe bien
             if (txtFournisseurId.getText().isEmpty() || lblFournisseurName.getText().equals("Fournisseur inconnu")) {
                 lblError.setText("Veuillez saisir un fournisseur valide.");
                 return;
             }
+
 
             if (txtRef.getText().isEmpty() || txtQty.getText().isEmpty()) {
                 lblError.setText("Saisissez une référence et une quantité.");
@@ -128,10 +125,10 @@ public class AddOrderController {
             montantTotalCommande += (prixUnitaire * qte);
             lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
 
-            //Ajout dans la liste
-            tempItems.add(new Composer(ref, 0, qte));
+            // yzid fi lista
+            tempItems.add(new Composer(commandeDAO.getLastId()+1, ref, qte));
 
-            // On supprime que le champ du produit
+            // ma nfasskhou ken champ mtaa produit
             txtRef.clear();
             txtQty.clear();
             lblProductName.setText("");
@@ -139,7 +136,6 @@ public class AddOrderController {
 
 
             txtFournisseurId.setDisable(true);
-
 
         } catch (NumberFormatException e) {
             lblError.setText("Format invalide.");
@@ -155,7 +151,7 @@ public class AddOrderController {
             lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
             tempItems.remove(selected);
 
-
+            // ki tefregh ll lista nraj3ou najmou nbadlou fll fournisseur
             if (tempItems.isEmpty()) {
                 txtFournisseurId.setDisable(false);
             }
