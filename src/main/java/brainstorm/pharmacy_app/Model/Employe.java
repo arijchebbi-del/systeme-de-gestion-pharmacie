@@ -9,6 +9,7 @@ public class Employe {
     private String role;
     private String horaire;
     private String username;
+    private double salaire;
 
 
     //getter
@@ -21,6 +22,7 @@ public class Employe {
     public String getRole (){return role;}
     public String getHoraire (){return horaire;}
     public String getUsername(){return username;}
+    public double getSalaire(){return salaire;}
 
     //setters
 
@@ -34,5 +36,6 @@ public class Employe {
     public void setHoraire (String horaire ){this.horaire=horaire;}
     public void setIdemploye(int idEmploye) {this.idEmploye=idEmploye;}
     public void setUsername (String username ){this.username=username;}
+    public void setSalaire (double s){this.salaire=s;}
 
 }
