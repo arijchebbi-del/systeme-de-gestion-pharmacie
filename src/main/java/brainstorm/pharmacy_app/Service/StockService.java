@@ -52,9 +52,7 @@ public class StockService {
         if (numLot <= 0) {
             throw new NumLotNegativeException("Numéro de lot invalide pour la suppression");
         }
-        //Verification Needed to verify if numLot exist in DB before trying to delete it!
         stockDAO.suppression_s(numLot);
-        //Verification NEEDED to verify if the row was deleted successfully or not!
         System.out.println("Stock supprimé via le service !");
     }
 
