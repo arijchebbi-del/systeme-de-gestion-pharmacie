@@ -42,7 +42,6 @@ public class App extends Application {
             stage.setScene(scene);
             stage.setTitle("MyPharma");
 
-            // Supprime le décalage en centrant la fenêtre sur l'écran
             stage.show();
             stage.centerOnScreen();
 

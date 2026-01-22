@@ -94,13 +94,25 @@ public class CommandeIM implements CommandeDAO {
     }
 
     public String getNomFournisseur(int idFournisseur) {
-        String query = "SELECT Nom FROM Fournisseur WHERE IdFournisseur = ?";
+        String query = "SELECT Nom, Prenom FROM Fournisseur WHERE IdFournisseur = ?";
+
         try (Connection con = DBConnection.getEmployeeConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
+
             ps.setInt(1, idFournisseur);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("Nom");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String nom = rs.getString("Nom");
+                    String prenom = rs.getString("Prenom");
+
+
+                    String nomAffichage = (nom != null) ? nom : "";
+                    String prenomAffichage = (prenom != null) ? prenom : "";
+
+
+                    return (nomAffichage + " " + prenomAffichage).trim();
+                }
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération du fournisseur: " + e.getMessage());
@@ -108,7 +120,7 @@ public class CommandeIM implements CommandeDAO {
         return "Inconnu";
     }
 
-    // Ajout : Récupérer table view
+
     public List<Commande> getAllCommandes() {
         List<Commande> liste = new ArrayList<>();
         String query = "SELECT * FROM Commande ORDER BY DateCommande DESC";
@@ -161,6 +173,7 @@ public class CommandeIM implements CommandeDAO {
         }
         return "ID: " + idEmploye;
     }
+
 
     public int getLastId(){
         String query = "SELECT IdCommande FROM Commande ORDER BY IdCommande DESC";

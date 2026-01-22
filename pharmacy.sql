@@ -51,13 +51,15 @@ CREATE TABLE Commande(
 	CONSTRAINT CHK_Commande 
 	CHECK (Etat in ('cree','modifie','annulee','recue') AND PrixTotal>=0)
 );
-CREATE TABLE Stock(
-	NumLot INT PRIMARY KEY auto_increment,
-	DerniereMiseAJour DATETIME,
-	Quantite INT,
-	Reference INT,
-	FOREIGN KEY (Reference) REFERENCES Produit(Reference),CONSTRAINT CHK_StockCHECK (Quantite>=0 )
+CREATE TABLE Stock (
+                       NumLot INT PRIMARY KEY AUTO_INCREMENT,
+                       DerniereMiseAJour DATETIME,
+                       Quantite INT,
+                       Reference INT,
+                       FOREIGN KEY (Reference) REFERENCES Produit(Reference),
+                       CONSTRAINT CHK_StockCHECK CHECK (Quantite >= 0)
 );
+
 CREATE TABLE Vente(
 	NumFacture INT PRIMARY KEY auto_increment,
 	DateVente DATETIME,
@@ -89,14 +91,14 @@ CREATE TABLE Constituer (
     CONSTRAINT FK_Produit FOREIGN KEY (Reference)
     REFERENCES Produit(Reference)
     ON UPDATE CASCADE
-);
+);/*
 CREATE TABLE Gerer(
 	IdEmploye INT,
 	NumLot INT,
 	FOREIGN KEY (IdEmploye) REFERENCES Employe(IdEmploye),
 	FOREIGN KEY (NumLot) REFERENCES Stock(NumLot),
 	PRIMARY KEY(IdEmploye,NumLot)
-);
+);*/
 
 INSERT INTO Employe
 (Username, MotDePasse, Role, HoraireDeTravail, NumTel, Prenom, Nom, Email)

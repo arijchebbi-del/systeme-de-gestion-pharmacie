@@ -1,8 +1,10 @@
 package brainstorm.pharmacy_app.controller;
 
+import brainstorm.pharmacy_app.DAO.StockIM;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,6 +66,7 @@ public class HistoryController {
 
     private VenteIM venteDAO = new VenteIM();
     private ConstituerIM constituerDAO = new ConstituerIM();
+    private StockIM stockDAO = new StockIM();
 
     @FXML
     public void initialize() {
@@ -125,7 +128,7 @@ public class HistoryController {
         }
     }
 
-    // view->pop up
+    // view pop up
     private void showDetailsPopup(int numFacture) {
         Stage stage = new Stage();
         VBox layout = new VBox(10);
@@ -133,15 +136,22 @@ public class HistoryController {
 
         TableView<Constituer> detailTable = new TableView<>();
 
-        TableColumn<Constituer, Integer> colRef = new TableColumn<>("Référence Produit");
+        TableColumn<Constituer, String> colNom = new TableColumn<>("Nom Produit");
+        colNom.setCellValueFactory(cd -> {
+            String nom = stockDAO.getNomProduit(cd.getValue().getReference());
+            return new SimpleStringProperty(nom != null ? nom : "Inconnu");
+        });
+
+        TableColumn<Constituer, Integer> colRef = new TableColumn<>("Référence");
         colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
 
-        TableColumn<Constituer, Integer> colQty = new TableColumn<>("Quantité Vendue");
+        TableColumn<Constituer, Integer> colQty = new TableColumn<>("Qantité Vendue");
         colQty.setCellValueFactory(new PropertyValueFactory<>("quantiteVendu"));
 
-        detailTable.getColumns().addAll(colRef, colQty);
+
+        detailTable.getColumns().addAll(colNom, colRef, colQty);
         detailTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         List<Constituer> details = constituerDAO.getLignesParFacture(numFacture);
         detailTable.setItems(FXCollections.observableArrayList(details));
 
@@ -150,7 +160,7 @@ public class HistoryController {
 
         layout.getChildren().addAll(title, detailTable);
 
-        Scene scene = new Scene(layout, 450, 400);
+        Scene scene = new Scene(layout, 550, 400);
         stage.setScene(scene);
         stage.setTitle("Détails de la vente #" + numFacture);
         stage.show();
