@@ -1,16 +1,13 @@
 package brainstorm.pharmacy_app.controller;
 
 import brainstorm.pharmacy_app.DAO.RapportIM;
-import brainstorm.pharmacy_app.DAO.StockIM;
 import brainstorm.pharmacy_app.DAO.StockProduitIM;
 import brainstorm.pharmacy_app.Model.Employe;
-import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
 import brainstorm.pharmacy_app.Utils.PdfReportGenerator;
 import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,18 +18,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class AnalysisReportsController {
@@ -240,41 +232,72 @@ public class AnalysisReportsController {
             stage.setTitle("Full Revenue Report");
             stage.setScene(new Scene(root));
             stage.show();
+            String rev = lblTotalRevenue.getText();
+            String sales = lblNbSales.getText();
+            String avg = lblAverageBasket.getText();
+
+            String query = "SELECT v.NumFacture AS 'Invoice_ID', v.DateVente AS 'Date', " +
+                    "e.Nom AS 'Employee', v.PrixTotal AS 'Amount_DT' " +
+                    "FROM Vente v " +
+                    "JOIN Employe e ON v.IdEmploye = e.IdEmploye " +
+                    "WHERE v.DateVente BETWEEN ? AND ? " +
+                    "ORDER BY v.DateVente DESC";
+
+            try (Connection conn = DBConnection.getAdminConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+                pstmt.setDate(1, debut);
+                pstmt.setDate(2, fin);
+                ResultSet rs = pstmt.executeQuery();
+
+                // 4. Generate the report with both the detailed ResultSet and the summary strings
+                PdfReportGenerator.generateReport("Full Revenue Analysis Report", rs, rev, sales, avg);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     //FULL STOCK REPORT
     @FXML
     private void openStockReport(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/StockDetails.fxml"));
-            Parent root = loader.load();
+        String query = "SELECT p.NomProduit, p.Categorie, s.Quantite, p.PrixVente " +
+                "FROM Produit p JOIN Stock s ON p.Reference = s.Reference";
 
-            StockDetailsController controller = loader.getController();
-            controller.refreshTable();
+        try (Connection conn = DBConnection.getAdminConnection();
+             ResultSet rs = conn.createStatement().executeQuery(query)) {
 
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.setTitle("Stock State Report");
-            stage.setScene(new Scene(root));
-            stage.show();
+            PdfReportGenerator.generateReport("Full Stock Report", rs);
 
-        } catch (IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
     //Full Suppliers Report
     @FXML
     private void openFullSuppliersReport(ActionEvent event) {
-        String query = "SELECT Nom, NumTel, Email, TypeProduit FROM Fournisseur";
+        String query = "SELECT f.Nom, f.NumTel, f.Email, f.TypeProduit, " +
+                "COUNT(c.IdCommande) AS 'Delivered_Orders', " +
+                "SUM(IFNULL(c.PrixTotal, 0)) AS 'TotalSpentDT' " +
+                "FROM Fournisseur f " +
+                "LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur AND c.Etat = 'recue' " +
+                "GROUP BY f.IdFournisseur, f.Nom, f.NumTel, f.Email, f.TypeProduit " +
+                "ORDER BY TotalSpentDT DESC";
         try (Connection conn = DBConnection.getAdminConnection();
-             Statement stmt = conn.createStatement()) {
-            PdfReportGenerator.generateReport("Full Suppliers Report", stmt.executeQuery(query));
-        } catch (SQLException e) { e.printStackTrace(); }
+             ResultSet rs = conn.createStatement().executeQuery(query)) {
+
+            PdfReportGenerator.generateReport("Full Suppliers Report", rs);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
