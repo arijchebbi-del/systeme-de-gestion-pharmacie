@@ -12,7 +12,7 @@ public class ViewSupplierReportController {
     public void showReport() {
         listSuppliersPerformance.getItems().setAll(rapportIM.getSupplierPerformance());
     }
-    @FXML private Button btnCancel; // Cancel button in FXML
+    @FXML private Button btnCancel; // bouton taa cancel
     @FXML
     private void handleCancel() {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
