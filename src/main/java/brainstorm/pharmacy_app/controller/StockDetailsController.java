@@ -132,7 +132,7 @@ public class StockDetailsController {
                 return new SimpleStringProperty(str);
             });
 
-            // ycolori l etat hasb low wala ok
+            // Coloriser le stock en etat "low stock"
             colEtat.setCellFactory(column -> new TableCell<StockProduit, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {

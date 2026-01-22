@@ -37,14 +37,13 @@ public class PointOfSaleController {
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
     @FXML private void chargerEmployeesControl(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
-        } else {
-            // ممنوع الوصول
+        }
+
+        else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -53,13 +52,11 @@ public class PointOfSaleController {
         } }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
-        } else {
-            // ممنوع الوصول
+        }
+        else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -79,7 +76,7 @@ public class PointOfSaleController {
     @FXML private TableColumn<StockProduit, Void> colActions;
 
     @FXML private Label lblTotal;
-    @FXML private MFXButton btnPayment; // boutton mtaa ll payement
+    @FXML private MFXButton btnPayment; //Payment Button
 
     private VenteIM venteDAO = new VenteIM();
     private ConstituerIM constituerDAO = new ConstituerIM();
@@ -93,7 +90,6 @@ public class PointOfSaleController {
 
     @FXML
     public void initialize() {
-        // hedhi mtaa erreur mtaa attribut null erreur ligne 46 ya taz
         if (colIdLot != null && colReference != null && colQuantiteStock != null) {
             colIdLot.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().getStock().getNumLot()).asObject());
             colReference.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().getStock().getReference()).asObject());
@@ -105,7 +101,7 @@ public class PointOfSaleController {
             loadStockData();
             setupSearchFilter();
 
-            // ki tenzel aal bouton mtaa payement
+            //Button Payment
             if(btnPayment != null) {
                 btnPayment.setOnAction(event -> handlePayment());
             }
@@ -128,20 +124,19 @@ public class PointOfSaleController {
         if (txtSearch == null) return;
         FilteredList<StockProduit> filteredData = new FilteredList<>(masterStockProduitData, p -> true);
 
-        // hedhi bch tkhalik des que tenzel aal categorie yetbadel ll affichage
+        //Affichage selon Categorie
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> updatePredicate(filteredData));
 
         if (comboCategory != null) {
             comboCategory.valueProperty().addListener((obs, old, newValue) -> updatePredicate(filteredData));
         }
 
-        //bch yodhhrou mnadhmin
         SortedList<StockProduit> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tableStock.comparatorProperty());
         tableStock.setItems(sortedData);
     }
 
-    // filtrage mtaa barre de recherche w categorie
+    // filtrage barre de recherche et categorie
     private void updatePredicate(FilteredList<StockProduit> filteredData) {
         filteredData.setPredicate(stockProduit -> {
             String filter = txtSearch.getText() == null ? "" : txtSearch.getText().toLowerCase();
@@ -153,7 +148,6 @@ public class PointOfSaleController {
         });
     }
 
-    // ll fonction illi watretnii
     private void setupActionsColumn() {
         if (colActions == null) return;
         colActions.setCellFactory(param -> new TableCell<>() {
@@ -180,12 +174,12 @@ public class PointOfSaleController {
                     btnAdd.setOnAction(event -> {
                         try {
                             int qte = Integer.parseInt(txtQty.getText());
-                            // hedhi mtaa ll quantité
+                            // Quantité
                             if (qte > sp.getStock().getQuantite()) {
                                 afficherAlerte("Stock Insuffisant", "Il ne reste que " + sp.getStock().getQuantite() + " articles.", Alert.AlertType.ERROR);
-                            } else {
+                            }
+                            else {
                                 handleVente(sp.getStock(), qte);
-                                // hedhi des que yetaada ligne de commande tonkess ll quantite toul
                                 sp.getStock().setQuantite(sp.getStock().getQuantite() - qte);
 
                                 // hna zedt update mtaa el base de donnee bch ton9os mel stock
@@ -197,7 +191,7 @@ public class PointOfSaleController {
                             afficherAlerte("Erreur", "Veuillez saisir un nombre entier.", Alert.AlertType.ERROR);
                         }
                     });
-                    // yfassaakh ll ligne w yaamel mise à jour
+                    // supprimer une ligne et mise à jour
                     btnDelete.setOnAction(event -> {
                         handleSuppression(sp.getStock());
                         getTableView().refresh();
@@ -224,11 +218,11 @@ public class PointOfSaleController {
             }
 
             venteActuelle.setPrixTotal(0.0);
-            venteDAO.creation_v(venteActuelle); // Première vente yaamel le numfacture
+            venteDAO.creation_v(venteActuelle); // Première ajout fait le numfacture
         }
 
         Constituer ligne = new Constituer();
-        ligne.setNumFacture(venteActuelle.getNumFacture()); // lehne bch nodhmen illi les ligne de vente ll koll aandhom nafs num fact
+        ligne.setNumFacture(venteActuelle.getNumFacture()); // Garantir le meme numfacture
         ligne.setReference(s.getReference());
         ligne.setQuantiteVendu(qte);
         constituerDAO.ajouterLigneVente(ligne);
@@ -238,26 +232,25 @@ public class PointOfSaleController {
         updateTotalLabel();
     }
 
-    // Supprime la ligne et réduit le total hatta fi stock
+    // Supprime la ligne et réduit le total
     private void handleSuppression(Stock s) {
         if (venteActuelle == null) return;
 
         if (constituerDAO.verifierPresenceProduit(venteActuelle.getNumFacture(), s.getReference())) {
-            // lehne leezem nekhou ll quantite illi chreha bch nzidha fll quantité affiché w bch nakess mll total
+            //on doit prendre la quantité achetée pour l'afficher et diminuer du total
             int qteVendu = constituerDAO.getQuantiteVendu(venteActuelle.getNumFacture(), s.getReference());
             System.out.println(qteVendu);
             float prix = stockDAO.getPrixProduitByRef(s.getReference());
 
             constituerDAO.supprimerLigneVente(venteActuelle.getNumFacture(), s.getReference());
 
-            // ll tankissa mll total
             montantTotal -= (prix * qteVendu);
             updateTotalLabel();
 
-            // nrajaa ll quantité ll tableaau kif ma kenet
+
             s.setQuantite(s.getQuantite() + qteVendu);
 
-            // hna zedt update mtaa el base de donnee bch tarja3 el quantite fil stock
+            // mise à jour dans la base de donnés
             stockDAO.updateQuantiteStock(s.getNumLot(), s.getQuantite());
 
             afficherAlerte("Succès", "Produit retiré de la facture.", Alert.AlertType.INFORMATION);
@@ -266,20 +259,19 @@ public class PointOfSaleController {
         }
     }
 
-    // ykamel ll fatura
+    // finir le paymenet
     private void handlePayment() {
         if (montantTotal <= 0 || venteActuelle == null) {
             afficherAlerte("Erreur", "Le total est nul ou aucune vente en cours.", Alert.AlertType.ERROR);
             return;
         }
 
-        // lehne update ll total fi tab vente fil sql
         venteActuelle.setPrixTotal((double) montantTotal);
         venteDAO.updatePrixTotal(venteActuelle.getNumFacture(), montantTotal);
 
         afficherAlerte("Succès", "Paiement effectué. Facture #" + venteActuelle.getNumFacture() + " enregistrée.", Alert.AlertType.INFORMATION);
 
-        // ll fatoura ll jdida
+
         venteActuelle = null;
         montantTotal = 0.0f;
         updateTotalLabel();
