@@ -40,14 +40,11 @@ public class StockDetailsController {
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
     @FXML private void chargerEmployeesControl(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
         } else {
-            // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -56,13 +53,10 @@ public class StockDetailsController {
         } }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
         } else {
-            // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -138,7 +132,7 @@ public class StockDetailsController {
                 return new SimpleStringProperty(str);
             });
 
-            // ycolori l etat hasb low wala ok
+            // Coloriser le stock en etat "low stock"
             colEtat.setCellFactory(column -> new TableCell<StockProduit, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -155,15 +149,15 @@ public class StockDetailsController {
                 }
             });
 
-            // charg donnes
+            // chargement donnes
             loadStock();
 
-            // combo mfalter
+            // combo Filtré
             filterCombo.getItems().clear();
             filterCombo.getItems().addAll("Tous", "OK", "LOW");
             filterCombo.setValue("Tous");
 
-            // list mfaltra
+            // liste Filtré
             filteredData = new FilteredList<>(stockList, sp -> true);
 
             // Listeners for search and filter
@@ -180,13 +174,13 @@ public class StockDetailsController {
         }
     }
 
-    // load stock ml rapportetat stokc
+    // load stock de  rapport etat stock
     private void loadStock() {
         stockList.clear();
         stockList.addAll(rapportIM.rapportEtatStock()); // returns List<Stock>
     }
 
-    // recherche et filre
+    // recherche et filtre
     private void applyFilter() {
         filteredData.setPredicate(stockProduit -> {
             Stock stock = stockProduit.getStock();
@@ -198,7 +192,7 @@ public class StockDetailsController {
             boolean matchesNom = stockProduit.getProduit().getNomProduit().toLowerCase().contains(searchText);
             boolean matchesSearch = matchesReference || matchesNom;
 
-            // Etat filter
+            // Etat filtré
             boolean matchesEtat = selectedEtat == null || selectedEtat.equals("Tous") || stockProduit.getEtat().equals(selectedEtat);
 
             return matchesSearch && matchesEtat;
