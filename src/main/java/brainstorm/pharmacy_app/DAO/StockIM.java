@@ -203,7 +203,7 @@ public class StockIM implements StockDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1; // yaanetha mouch mawjoud
+        return -1; // inexistant
     }
 
 
@@ -217,6 +217,6 @@ public class StockIM implements StockDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // ken much mawjoud
+        return null;
     }
 }

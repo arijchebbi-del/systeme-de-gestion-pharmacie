@@ -32,14 +32,14 @@ public class EmployeeControlController {
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
     @FXML private void chargerEmployeesControl(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
+
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
+
             Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
         } else {
-            // ممنوع الوصول
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -48,13 +48,14 @@ public class EmployeeControlController {
         } }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
+
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
+
             Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
-        } else {
-            // ممنوع الوصول
+        }
+        else {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");

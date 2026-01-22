@@ -29,14 +29,11 @@ public class HistoryController {
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
     @FXML private void chargerEmployeesControl(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
         } else {
-            // ممنوع الوصول
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -45,13 +42,11 @@ public class HistoryController {
         } }
     @FXML
     private void chargerAnalysisReports(ActionEvent event) {
-        // تجيب المستخدم اللي متسجل
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
-            // يسمح بالوصول
             Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource())); //charger dashboard
-        } else {
-            // ممنوع الوصول
+        }
+        else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Accès refusé");
             alert.setHeaderText("Accès interdit");
@@ -60,7 +55,6 @@ public class HistoryController {
         }
     }
 
-// zedet fll modele class VenteHistory bch nzidou nobre de produit vendu
     @FXML private TableView<VenteHistoryDTO> tableHistory;
     @FXML private TableColumn<VenteHistoryDTO, Integer> colActionID;
     @FXML private TableColumn<VenteHistoryDTO, String> colDate;
@@ -117,7 +111,7 @@ public class HistoryController {
 
         if (ventes != null) {
             for (Vente v : ventes) {
-                // nombre de produit fll fatoura
+                //nombre de produits
                 int nbr = constituerDAO.getNombreProduitsParFacture(v.getNumFacture());
                 historyList.add(new VenteHistoryDTO(v, nbr));
             }
@@ -131,7 +125,7 @@ public class HistoryController {
         }
     }
 
-    // hedhi mtaa ki nenzel aal view yheli ll fenetre ll jdida
+    // view->pop up
     private void showDetailsPopup(int numFacture) {
         Stage stage = new Stage();
         VBox layout = new VBox(10);
@@ -147,8 +141,7 @@ public class HistoryController {
 
         detailTable.getColumns().addAll(colRef, colQty);
         detailTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // bch nekhdou ll stoura mtaa ll fatourat
+        
         List<Constituer> details = constituerDAO.getLignesParFacture(numFacture);
         detailTable.setItems(FXCollections.observableArrayList(details));
 

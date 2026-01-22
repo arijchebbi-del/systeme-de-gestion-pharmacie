@@ -96,7 +96,7 @@ public class RapportIM {
                 }
             }
 
-            //  akther ayamet ybi3 fehom
+            // les jours ayant le plus grand nombre de ventes
             System.out.println("\nJOURS AVEC LE PLUS DE VENTES");
             try (PreparedStatement ps = con.prepareStatement(sqlTopJours)) {
                 ps.setDate(1, debut);
@@ -110,7 +110,7 @@ public class RapportIM {
                 }
             }
 
-            // Top 5produits vendus
+            // Top 5 produits vendus
             System.out.println("\nTOP 5 PRODUITS LES PLUS VENDUS");
             try (PreparedStatement ps = con.prepareStatement(sqlTopProduits)) {
                 ps.setDate(1, debut);

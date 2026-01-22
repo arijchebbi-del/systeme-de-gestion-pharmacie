@@ -113,7 +113,7 @@ public class ConstituerIM implements ConstituerDAO {
         return count;
     }
 
-    // ll bouton view history controller
+    // view history controller button
     public List<Constituer> getLignesParFacture(int numFacture) {
         List<Constituer> liste = new ArrayList<>();
         String sql = "SELECT * FROM Constituer WHERE NumFacture = ?";

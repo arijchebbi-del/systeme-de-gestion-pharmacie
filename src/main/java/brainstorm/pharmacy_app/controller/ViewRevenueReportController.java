@@ -29,7 +29,7 @@ public class ViewRevenueReportController {
         listTopEmployees.getItems().setAll(rapportIM.getTopEmployees(debut, fin));
         listTopProducts.getItems().setAll(rapportIM.getTopProducts(debut, fin));
     }
-    @FXML private Button btnCancel; // teebt fi hietiii
+    @FXML private Button btnCancel; //
     @FXML
     private void handleCancel() {
         Stage stage = (Stage) btnCancel.getScene().getWindow();

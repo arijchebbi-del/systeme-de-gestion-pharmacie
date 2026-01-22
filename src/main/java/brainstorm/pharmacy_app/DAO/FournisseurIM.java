@@ -17,7 +17,7 @@ public class FournisseurIM implements FournisseurDAO{
 
         try (Connection con = DBConnection.getAdminConnection();
              PreparedStatement ps = con.prepareStatement(query)){
-            //ps.setInt(1, f.getId_Fournisseur()); zeyda auto increment
+            //ps.setInt(1, f.getId_Fournisseur());
             ps.setString(1, f.getNom());
             ps.setString(2, f.getNumTelephone());
             ps.setString(3, f.getEmail());
