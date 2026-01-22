@@ -26,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class PointOfSaleController {
     // ll menu wala chessmou
@@ -173,6 +174,24 @@ public class PointOfSaleController {
                     StockProduit sp = getTableView().getItems().get(getIndex());
                     btnAdd.setOnAction(event -> {
                         try {
+                            if (sp.getProduit().getOrdonnance()) {
+                                Alert confirmOrdonnance = new Alert(Alert.AlertType.CONFIRMATION);
+                                confirmOrdonnance.setTitle("Vérification Ordonnance");
+                                confirmOrdonnance.setHeaderText("Ce produit nécessite une ordonnance.");
+                                confirmOrdonnance.setContentText("Le client a-t-il apporté une ordonnance valide ?");
+
+                                ButtonType btnOui = new ButtonType("Oui");
+                                ButtonType btnNon = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                confirmOrdonnance.getButtonTypes().setAll(btnOui, btnNon);
+
+                                Optional<ButtonType> result = confirmOrdonnance.showAndWait();
+                                if (result.isEmpty() || result.get() == btnNon) {
+                                    afficherAlerte("Vente refusée", "L'achat ne peut pas être effectué sans ordonnance.", Alert.AlertType.WARNING);
+                                    return; //  arrete achat
+                                }
+                            }
+
+
                             int qte = Integer.parseInt(txtQty.getText());
                             // Quantité
                             if (qte > sp.getStock().getQuantite()) {
@@ -222,7 +241,7 @@ public class PointOfSaleController {
         }
 
         Constituer ligne = new Constituer();
-        ligne.setNumFacture(venteActuelle.getNumFacture()); // Garantir le meme numfacture
+        ligne.setNumFacture(venteActuelle.getNumFacture()); // meme numfacture
         ligne.setReference(s.getReference());
         ligne.setQuantiteVendu(qte);
         constituerDAO.ajouterLigneVente(ligne);
