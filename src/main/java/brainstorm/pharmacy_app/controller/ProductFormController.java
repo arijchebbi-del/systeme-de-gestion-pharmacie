@@ -47,13 +47,6 @@ public class ProductFormController {
         currentProduit.setPrixVente(Float.parseFloat(txtPrixVente.getText()));
         currentProduit.setSeuilMinimal(Integer.parseInt(txtSeuilMinimal.getText()));
 
-        if (currentProduit.getReference() == 0) {
-            dao.creation_p(currentProduit); // Ajout
-            sdao.creation_s(new Stock(0,dao.getRefByNom(currentProduit.getNomProduit()),0));
-
-        } else {
-            dao.modification_p(currentProduit); // Modif
-        }
 
         parent.refreshTable();
         closeStage();
