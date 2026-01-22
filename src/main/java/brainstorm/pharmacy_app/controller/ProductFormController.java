@@ -47,6 +47,12 @@ public class ProductFormController {
         currentProduit.setPrixVente(Float.parseFloat(txtPrixVente.getText()));
         currentProduit.setSeuilMinimal(Integer.parseInt(txtSeuilMinimal.getText()));
 
+        if (currentProduit.getReference() == 0) {
+            dao.creation_p(currentProduit); // Ajout
+
+        } else {
+            dao.modification_p(currentProduit); // Modif
+        }
 
         parent.refreshTable();
         closeStage();
