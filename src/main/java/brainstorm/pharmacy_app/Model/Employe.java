@@ -9,7 +9,7 @@ public class Employe {
     private String role;
     private String horaire;
     private String username;
-    private int salaire;
+    private float salaire;
 
 
     //getter
@@ -22,7 +22,7 @@ public class Employe {
     public String getRole (){return role;}
     public String getHoraire (){return horaire;}
     public String getUsername(){return username;}
-    public int getSalaire(){return salaire;}
+    public float getSalaire(){return salaire;}
 
     //setters
 
@@ -36,6 +36,6 @@ public class Employe {
     public void setHoraire (String horaire ){this.horaire=horaire;}
     public void setIdemploye(int idEmploye) {this.idEmploye=idEmploye;}
     public void setUsername (String username ){this.username=username;}
-    public void setSalaire (int s){this.salaire=s;}
+    public void setSalaire (float s){this.salaire=s;}
 
 }
