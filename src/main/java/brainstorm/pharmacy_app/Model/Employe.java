@@ -12,7 +12,7 @@ public class Employe {
     private float salaire;
 
 
-    //getter
+    //getters
     public int getIdEmploye(){return idEmploye;}
     public String getNom (){return nom;}
     public String getPrenom (){return prenom;}

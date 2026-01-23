@@ -19,7 +19,7 @@ public class Vente {
         this.prixTotal = prixTotal;
     }
 
-    // --- GETTERS ET SETTERS ---
+    // getters et setters
     public int getNumFacture() { return numFacture; }
     public void setNumFacture(int numFacture) { this.numFacture = numFacture; }
 
