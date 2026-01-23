@@ -132,7 +132,7 @@ public class EmployeeControlController {
         );
     }
 
-    // bouton taa add
+    // le passage quand on open le bouton add
     private void openAddEmploye() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AddEmployeePopUp.fxml"));
@@ -155,7 +155,7 @@ public class EmployeeControlController {
 
 
 
-    // bouton taa vuew
+    // passage a l ouverture du bouton view
     private void addViewButtonToTable() {
         colView.setCellFactory(p -> new TableCell<>() {
             private final Button btn = new Button("👁");
@@ -195,7 +195,7 @@ public class EmployeeControlController {
         }
     }
 
-    // bouton taa delete
+    // manip du bouton delete
     private void addDeleteButtonToTable() {
         colDelete.setCellFactory(p -> new TableCell<>() {
             private final Button btn = new Button("🗑");

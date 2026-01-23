@@ -39,7 +39,7 @@ public class AnalysisReportsController {
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
     @FXML private void chargerEmployeesControl(ActionEvent event) {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
-
+        //verifie que l utilisateur est un admin pour quil puisse acceder aau rapport
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
             Navigation.navTo("/FXML/EmployeesControl.fxml", ((Node) event.getSource()));
         } else {
