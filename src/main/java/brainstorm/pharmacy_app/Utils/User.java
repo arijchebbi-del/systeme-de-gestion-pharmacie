@@ -10,7 +10,7 @@ public class User{
         loggedUser = user;
     }
 
-    // ll jot3a illi naaytoulha fll login
+    // on appelle cette methode dans le login pour sauv l user
     public static void getInstace(Employe user) {
         if (instance == null) {
             instance = new User(user);
