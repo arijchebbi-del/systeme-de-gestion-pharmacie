@@ -86,7 +86,24 @@ public class PdfReportGenerator {
                         table.addCell(new Paragraph(resultSet.getString(i)));
                     }
                 }
+
                 document.add(table);
+
+                //Cachet
+                try {
+                    URL stampUrl = PdfReportGenerator.class.getResource("/images/Cachet.png");
+                    if (stampUrl != null) {
+                        Image stamp = new Image(com.itextpdf.io.image.ImageDataFactory.create(stampUrl));
+                        stamp.setWidth(270);
+                        stamp.setFixedPosition(320, 15);
+                        stamp.setOpacity(0.85f);
+
+                        document.add(stamp);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erreur cachet: " + e.getMessage());
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -157,6 +174,20 @@ public class PdfReportGenerator {
                         table.addCell(new com.itextpdf.layout.element.Cell()
                                 .add(new Paragraph(val != null ? val.toString() : "").setFontSize(9.5f)));
                     }
+                }
+                //Cachet
+                try {
+                    URL stampUrl = PdfReportGenerator.class.getResource("/images/Cachet.png");
+                    if (stampUrl != null) {
+                        Image stamp = new Image(com.itextpdf.io.image.ImageDataFactory.create(stampUrl));
+                        stamp.setWidth(250);
+                        stamp.setFixedPosition(580, 20);
+                        stamp.setOpacity(0.85f);
+
+                        document.add(stamp);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erreur cachet: " + e.getMessage());
                 }
 
                 document.add(table);
@@ -232,9 +263,27 @@ public class PdfReportGenerator {
                         table.addCell(new Paragraph(resultSet.getString(i)));
                     }
                 }
-
                 document.add(table);
+
+
+                try {
+                    URL stampUrl = PdfReportGenerator.class.getResource("/images/Cachet.png");
+                    if (stampUrl != null) {
+                        Image stamp = new Image(com.itextpdf.io.image.ImageDataFactory.create(stampUrl));
+                        stamp.setWidth(270);
+                        stamp.setFixedPosition(320, 15);
+                        stamp.setOpacity(0.85f);
+
+                        document.add(stamp);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erreur cachet: " + e.getMessage());
+                }
+
+
                 document.close();
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
