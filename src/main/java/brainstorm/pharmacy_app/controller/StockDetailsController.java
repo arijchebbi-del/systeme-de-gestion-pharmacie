@@ -90,7 +90,7 @@ public class StockDetailsController {
     private MFXComboBox<String> filterCombo;
     @FXML
     private MFXButton btnRefresh;
-    //hedhouma lalbe fehom infos khater azyen
+    //infos labels
 
 
     private RapportIM rapportIM = new RapportIM();

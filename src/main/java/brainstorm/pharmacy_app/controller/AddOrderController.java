@@ -124,10 +124,10 @@ public class AddOrderController {
             montantTotalCommande += (prixUnitaire * qte);
             lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
 
-            // yzid fi lista
+            // ajout dans la liste
             tempItems.add(new Composer(commandeDAO.getLastId()+1, ref, qte));
 
-            // ma nfasskhou ken champ mtaa produit
+            // on efface que le champ du produit
             txtRef.clear();
             txtQty.clear();
             lblProductName.setText("");
@@ -150,7 +150,7 @@ public class AddOrderController {
             lblTotalPrix.setText(String.format("%.2f DT", montantTotalCommande));
             tempItems.remove(selected);
 
-            // ki tefregh ll lista nraj3ou najmou nbadlou fll fournisseur
+
             if (tempItems.isEmpty()) {
                 txtFournisseurId.setDisable(false);
             }

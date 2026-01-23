@@ -4,6 +4,8 @@ import brainstorm.pharmacy_app.Model.Fournisseur;
 import brainstorm.pharmacy_app.Model.Stock;
 import brainstorm.pharmacy_app.Model.StockProduit;
 import brainstorm.pharmacy_app.Utils.DBConnection;
+import brainstorm.pharmacy_app.Utils.PdfReportGenerator;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,33 +193,7 @@ public class RapportIM {
 
 
     }
-    public void rapportPerformanceFournisseurs() {
-        String sql = "SELECT f.IdFournisseur, f.Nom, " + "COUNT(c.IdCommande) AS nbCommandes, " + "SUM(c.PrixTotal) AS valeurTotale, " + "SUM(CASE WHEN c.DateArrivee <= c.DateCommande THEN 1 ELSE 0 END) AS commandesATemps, " + "SUM(CASE WHEN c.DateArrivee > c.DateCommande THEN 1 ELSE 0 END) AS commandesEnRetard, " + "AVG(DATEDIFF(c.DateArrivee, c.DateCommande)) AS delaiMoyen " + "FROM Fournisseur f " + "LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur " + "GROUP BY f.IdFournisseur, f.Nom";
 
-        try (Connection con = DBConnection.getAdminConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            System.out.println("Rapport de performance des fournisseurs \n");
-            while (rs.next()) {
-                int id = rs.getInt("IdFournisseur");
-                String nom = rs.getString("Nom");
-                int nbCommandes = rs.getInt("nbCommandes");
-                double valeurTotale = rs.getDouble("valeurTotale");
-                int commandesATemps = rs.getInt("commandesATemps");
-                int commandesEnRetard = rs.getInt("commandesEnRetard");
-                double delaiMoyen = rs.getDouble("delaiMoyen");
-                System.out.println("Fournisseur : " + nom + " (ID : " + id + ")");
-                System.out.println("Nombre de commandes : " + nbCommandes);
-                System.out.println("Valeur totale des commandes : " + valeurTotale + " DT");
-                System.out.println("Commandes à temps : " + commandesATemps);
-                System.out.println("Commandes en retard : " + commandesEnRetard);
-                System.out.println("Délai moyen de livraison : " + String.format("%.2f", delaiMoyen) + " jours");
-                System.out.println("fin rapport");
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la génération du rapport : " + e.getMessage());
-        }
-    }
     public float getTotalRevenue(Date debut, Date fin) {
 
         String sql = "SELECT SUM(PrixTotal) AS total FROM Vente WHERE DateVente BETWEEN ? AND ?";
@@ -465,6 +441,34 @@ public class RapportIM {
 
         return total;
     }
+
+
+
+    public ResultSet getFullSuppliersReportData() throws SQLException {
+        String query = "SELECT f.Nom, f.NumTel, f.Email, f.TypeProduit, " +
+                "COUNT(c.IdCommande) AS 'Delivered', " +
+                "SUM(CASE WHEN c.DateArrivee <= c.DateCommande THEN 1 ELSE 0 END) AS 'OnTime', " +
+                "SUM(CASE WHEN c.DateArrivee > c.DateCommande THEN 1 ELSE 0 END) AS 'Late', " +
+                "SUM(IFNULL(c.PrixTotal, 0)) AS 'TotalSpent' " +
+                "FROM Fournisseur f " +
+                "LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur AND c.Etat = 'recue' " +
+                "GROUP BY f.IdFournisseur, f.Nom, f.NumTel, f.Email, f.TypeProduit " +
+                "ORDER BY TotalSpent DESC";
+
+        Connection conn = DBConnection.getAdminConnection();
+        Statement stmt = conn.createStatement();
+        return stmt.executeQuery(query);
+    }
+
+    public ResultSet getFullStockReportData() throws SQLException {
+        String query = "SELECT p.NomProduit, p.Categorie, s.Quantite, p.PrixVente " +
+                "FROM Produit p JOIN Stock s ON p.Reference = s.Reference";
+
+        Connection conn = DBConnection.getAdminConnection();
+        Statement stmt = conn.createStatement();
+        return stmt.executeQuery(query);
+    }
+
 
 
 

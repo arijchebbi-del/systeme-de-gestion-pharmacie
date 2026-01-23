@@ -74,7 +74,7 @@ public class PointOfSaleController {
     @FXML private TableColumn<StockProduit, Float> colPrice;
     @FXML private TableColumn<StockProduit, Void> colActions;
 
-    // tazzzz ahawma mtaa cart
+    //cart
     @FXML private TableView<CartItem> tableCart;
     @FXML private TableColumn<CartItem, String> colCartName;
     @FXML private TableColumn<CartItem, Integer> colCartQty;

@@ -68,17 +68,17 @@ public class AnalysisReportsController {
     @FXML private MFXDatePicker dateDebut;
     @FXML private MFXDatePicker dateFin;
 
-    // diel e stock
+    //stock
     @FXML private Label lblTotalProducts;
     @FXML private Label lblLowStockProducts;
     @FXML private Label lblOutOfStockProducts;
 
-    // diel e revenue
+    //revenue
     @FXML private Label lblTotalRevenue;
     @FXML private Label lblNbSales;
     @FXML private Label lblAverageBasket;
 
-    // diel l fournisseur
+    //fournisseur
     @FXML private Label lblTotalSuppliersOrders;
     @FXML private Label lblSuppliersOnTime;
     @FXML private Label lblSuppliersLate;
@@ -92,7 +92,7 @@ public class AnalysisReportsController {
         ActionEvent event = new ActionEvent();
         showSummaries(event);
     }
-    // labels taa stock w yaamllhom uapdate
+    // stock labels + uapdate
     private void updateStockSummary() {
         int totalProducts = stockProduitList.size();
         int lowStockProducts = 0;
@@ -241,8 +241,10 @@ public class AnalysisReportsController {
             String sales = lblNbSales.getText();
             String avg = lblAverageBasket.getText();
 
-            String query = "SELECT v.NumFacture AS 'Invoice_ID', v.DateVente AS 'Date', " +
-                    "e.Nom AS 'Employee', v.PrixTotal AS 'Amount_DT' " +
+
+            //PDF
+            String query = "SELECT v.NumFacture AS 'InvoiceID', v.DateVente AS 'Date', " +
+                    "e.Nom AS 'Employee', v.PrixTotal AS 'AmountDT' " +
                     "FROM Vente v " +
                     "JOIN Employe e ON v.IdEmploye = e.IdEmploye " +
                     "WHERE v.DateVente BETWEEN ? AND ? " +
@@ -254,8 +256,6 @@ public class AnalysisReportsController {
                 pstmt.setDate(1, debut);
                 pstmt.setDate(2, fin);
                 ResultSet rs = pstmt.executeQuery();
-
-                // 4. Generate the report with both the detailed ResultSet and the summary strings
                 PdfReportGenerator.generateReport("Full Revenue Analysis Report", rs, rev, sales, avg);
 
             } catch (SQLException e) {
@@ -270,39 +270,16 @@ public class AnalysisReportsController {
 
     //FULL STOCK REPORT
     @FXML
-    private void openStockReport(ActionEvent event) {
-        String query = "SELECT p.NomProduit, p.Categorie, s.Quantite, p.PrixVente " +
-                "FROM Produit p JOIN Stock s ON p.Reference = s.Reference";
+    private void openStockReport(ActionEvent event) throws SQLException {
 
-        try (Connection conn = DBConnection.getAdminConnection();
-             ResultSet rs = conn.createStatement().executeQuery(query)) {
 
-            PdfReportGenerator.generateReport("Full Stock Report", rs);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            PdfReportGenerator.generateStockReport("Full Stock Report", rapportIM.getFullStockReportData());
 
     }
     //Full Suppliers Report
     @FXML
-    private void openFullSuppliersReport(ActionEvent event) {
-        String query = "SELECT f.Nom, f.NumTel, f.Email, f.TypeProduit, " +
-                "COUNT(c.IdCommande) AS 'Delivered_Orders', " +
-                "SUM(IFNULL(c.PrixTotal, 0)) AS 'TotalSpentDT' " +
-                "FROM Fournisseur f " +
-                "LEFT JOIN Commande c ON f.IdFournisseur = c.IdFournisseur AND c.Etat = 'recue' " +
-                "GROUP BY f.IdFournisseur, f.Nom, f.NumTel, f.Email, f.TypeProduit " +
-                "ORDER BY TotalSpentDT DESC";
-        try (Connection conn = DBConnection.getAdminConnection();
-             ResultSet rs = conn.createStatement().executeQuery(query)) {
-
-            PdfReportGenerator.generateReport("Full Suppliers Report", rs);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+    private void openFullSuppliersReport(ActionEvent event) throws SQLException {
+            PdfReportGenerator.generateReport("Full Suppliers Report", rapportIM.getFullSuppliersReportData());
     }
 
 }

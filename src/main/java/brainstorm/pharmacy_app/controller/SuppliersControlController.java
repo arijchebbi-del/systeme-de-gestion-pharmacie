@@ -125,7 +125,7 @@ public class SuppliersControlController {
         });
     }
 
-    // yzid fournisseur
+    // ajout fournisseur
     void openAddSupplier() {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
 
@@ -161,7 +161,7 @@ public class SuppliersControlController {
         loadFournisseurs();
     }
 
-    // bouton vue
+    // view button
     private void addViewButtonToTable() {
         colView.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("👁");
@@ -202,7 +202,7 @@ public class SuppliersControlController {
         }
     }
 
-    // bouton yfasakh
+    // delete button
     private void addDeleteButtonToTable() {
         colDelete.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("🗑");

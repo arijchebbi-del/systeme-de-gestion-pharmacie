@@ -99,7 +99,6 @@ public class ProductControlController {
     }
 
     public void refreshTable() {
-        // Ici, vous devriez avoir une méthode getAll() dans ProduitIM
         masterData.setAll(produitService.getAllProduits());
         if (tableProducts != null) {
             tableProducts.refresh();
