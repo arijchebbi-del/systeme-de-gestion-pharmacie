@@ -215,6 +215,31 @@
                   </ImageView>
                </children>
             </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="64.0" prefWidth="300.0">
+               <children>
+                  <MFXButton alignment="TOP_LEFT" computeRadiusMultiplier="false" depthLevel="LEVEL0" onAction="#handleLogout" prefHeight="46.0" prefWidth="270.0" rippleAnimateBackground="false" rippleColor="WHITE" text="Logout" textAlignment="CENTER" textFill="#d75f5f">
+                     <styleClass>
+                        <String fx:value="dashboard-buttons" />
+                        <String fx:value="pos-button" />
+                     </styleClass>
+                     <font>
+                        <Font name="Poppins Light" size="20.0" />
+                     </font>
+                  </MFXButton>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/logout.png" />
+                     </image>
+                     <styleClass>
+                        <String fx:value="pos-icon" />
+                        <String fx:value="empolyee-icon" />
+                     </styleClass>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets top="165.0" />
+               </padding>
+            </HBox>
          </children>
       </VBox>
    </left>

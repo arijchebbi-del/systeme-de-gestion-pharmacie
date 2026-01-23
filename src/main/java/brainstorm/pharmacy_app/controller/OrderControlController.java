@@ -31,6 +31,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderControlController {
+    @FXML private void handleLogout(ActionEvent event){
+        User.cleanUser();
+        Navigation.navTo("/FXML/Login.fxml",((Node) event.getSource()));}
     @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
     @FXML private void chargerPointOfSale(ActionEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
     @FXML private void chargerProductControl(ActionEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }

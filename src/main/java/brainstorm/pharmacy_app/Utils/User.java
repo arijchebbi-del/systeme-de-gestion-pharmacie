@@ -25,7 +25,8 @@ public class User{
         return loggedUser;
     }
 
-    public void cleanUser() {
+    public static void cleanUser() {
         instance = null;
+        loggedUser = null;
     }
 }

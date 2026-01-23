@@ -47,7 +47,6 @@ public class DashboardController {
     @FXML private void chargerOrderControl(ActionEvent event) { Navigation.navTo("/FXML/OrderControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerSuppliersControl(ActionEvent event) { Navigation.navTo("/FXML/SuppliersControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerHistory(ActionEvent event) { Navigation.navTo("/FXML/History.fxml",((Node) event.getSource())); }
-
     @FXML private void chargerEmployeesControl(ActionEvent event) {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if(current != null && "admin".equalsIgnoreCase(current.getRole())) {
@@ -60,9 +59,7 @@ public class DashboardController {
             alert.show();
         }
     }
-
-    @FXML
-    private void chargerAnalysisReports(ActionEvent event) {
+    @FXML private void chargerAnalysisReports(ActionEvent event) {
         Employe current = User.getInstance() != null ? User.getInstance().getUser() : null;
         if (current != null && "admin".equalsIgnoreCase(current.getRole())) {
             Navigation.navTo("/FXML/AnalysisReports.fxml", ((Node) event.getSource()));
@@ -74,7 +71,9 @@ public class DashboardController {
             alert.show();
         }
     }
-
+    @FXML private void handleLogout(ActionEvent event){
+        User.cleanUser();
+        Navigation.navTo("/FXML/Login.fxml",((Node) event.getSource()));}
     @FXML private void chargerPointOfSaleim(MouseEvent event) { Navigation.navTo("/FXML/PointOfSale.fxml",((Node) event.getSource())); }
     @FXML private void chargerProductControlim(MouseEvent event) { Navigation.navTo("/FXML/ProductControl.fxml",((Node) event.getSource())); }
     @FXML private void chargerStockDetailsim(MouseEvent event) { Navigation.navTo("/FXML/StockDetails.fxml",((Node) event.getSource())); }
