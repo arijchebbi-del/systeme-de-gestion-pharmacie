@@ -5,7 +5,6 @@ import brainstorm.pharmacy_app.DAO.VenteIM;
 import brainstorm.pharmacy_app.DAO.ConstituerIM;
 import brainstorm.pharmacy_app.DAO.StockIM;
 import brainstorm.pharmacy_app.Model.*;
-import brainstorm.pharmacy_app.Service.ProduitService;
 import brainstorm.pharmacy_app.nav.Navigation;
 import brainstorm.pharmacy_app.Utils.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -21,14 +20,14 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Optional;
+import brainstorm.pharmacy_app.Utils.PdfReportGenerator;
 
 public class PointOfSaleController {
     @FXML private void chargerDashboard(ActionEvent event) { Navigation.navTo("/FXML/Dashboard.fxml",((Node) event.getSource())); }
@@ -126,7 +125,13 @@ public class PointOfSaleController {
             setupSearchFilter();
 
             if(btnPayment != null) {
-                btnPayment.setOnAction(event -> handlePayment());
+                btnPayment.setOnAction(event -> {
+                    try {
+                        handlePayment();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
         }
     }
@@ -280,15 +285,17 @@ public class PointOfSaleController {
         updateTotalLabel();
     }
 
-    private void handlePayment() {
+    private void handlePayment() throws SQLException {
         if (montantTotal <= 0 || venteActuelle == null) return;
         venteActuelle.setPrixTotal((double) montantTotal);
         venteDAO.updatePrixTotal(venteActuelle.getNumFacture(), montantTotal);
+        PdfReportGenerator.generateStockReport("Facture", venteDAO.getFacture(venteActuelle.getNumFacture()));
         afficherAlerte("Succès", "Vente terminée.", Alert.AlertType.INFORMATION);
         venteActuelle = null;
         cartData.clear();
         montantTotal = 0.0f;
         updateTotalLabel();
+
     }
 
     private void updateTotalLabel() {

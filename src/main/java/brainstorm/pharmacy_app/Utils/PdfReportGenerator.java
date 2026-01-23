@@ -171,7 +171,7 @@ public class PdfReportGenerator {
 
 
 
-    //Stock Report
+    //Stock Report+Facture
     public static void generateStockReport(String title, ResultSet resultSet) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName(title.replace(" ", "_") + ".pdf");

@@ -75,4 +75,17 @@ public class VenteIM implements VenteDAO {
         }
         return listeVentes;
     }
+
+    public ResultSet getFacture(int numFacture) throws SQLException {
+        String query = "SELECT p.NomProduit AS 'Produit', c.QuantiteVendu AS 'Quantité', " +
+                "p.PrixVente AS 'PrixUnitaire(DT)', (c.QuantiteVendu * p.PrixVente) AS 'Total(DT)' " +
+                "FROM Constituer c " +
+                "JOIN Produit p ON c.Reference = p.Reference " +
+                "WHERE c.NumFacture = ?";
+
+        Connection con = brainstorm.pharmacy_app.Utils.DBConnection.getAdminConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, numFacture);
+        return (ps.executeQuery());
+    }
 }
