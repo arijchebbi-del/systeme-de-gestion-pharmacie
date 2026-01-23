@@ -104,6 +104,7 @@ public class StockDetailsController {
 
         // map col
         if (colNumLot != null && colProduit != null && colQuantite != null) {
+
             colNumLot.setCellValueFactory(cd ->
                     new SimpleIntegerProperty(cd.getValue().getStock().getNumLot()).asObject()
             );
@@ -123,33 +124,48 @@ public class StockDetailsController {
             colEtat.setCellValueFactory(cd ->
                     new SimpleStringProperty(cd.getValue().getEtat())
             );
+
             colDecalage.setCellValueFactory(cd ->
                     new SimpleIntegerProperty(cd.getValue().getDecalage()).asObject()
             );
+
             colDerniereMAJ.setCellValueFactory(cd -> {
                 Timestamp ts = cd.getValue().getStock().getDerniereMiseAJour();
-                String str = (ts == null) ? "" : ts.toString();  // format as needed
+                String str = (ts == null) ? "" : ts.toString();
                 return new SimpleStringProperty(str);
             });
 
-            // Coloriser le stock en etat "low stock"
+            // Coloriser la colonne Etat selon la quantité réelle
             colEtat.setCellFactory(column -> new TableCell<StockProduit, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
+
                     if (empty || item == null) {
                         setText(null);
                         setStyle("");
                     } else {
                         setText(item);
-                        if (item.equals("LOW")) {
-                            setStyle("-fx-background-color: lightcoral; -fx-alignment: CENTER;");
+
+                        StockProduit sp = getTableView().getItems().get(getIndex());
+                        int qte = sp.getStock().getQuantite();
+                        int seuil = sp.getProduit().getSeuilMinimal();
+
+                        if (qte == 0) {
+                            // rouge pour rupture
+                            setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-alignment: CENTER;");
+                        } else if (qte > 0 && qte <= seuil) {
+                            // orange pour stock faible
+                            setStyle("-fx-background-color: orange; -fx-alignment: CENTER;");
+                        } else {
+                            // sinon état normal
+                            setStyle("-fx-alignment: CENTER;");
                         }
                     }
                 }
             });
 
-            // chargement donnes
+            // chargement données
             loadStock();
 
             // combo Filtré
@@ -173,6 +189,7 @@ public class StockDetailsController {
             btnRefresh.setOnAction(e -> loadStock());
         }
     }
+
 
     // load stock de  rapport etat stock
     private void loadStock() {
