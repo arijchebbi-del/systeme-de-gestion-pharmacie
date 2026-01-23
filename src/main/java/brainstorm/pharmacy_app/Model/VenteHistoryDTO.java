@@ -16,5 +16,6 @@ public class VenteHistoryDTO {
     public Date getDateVente() { return vente.getDateVente(); }
     public int getNombreProduits() { return nombreProduits; }
     public double getTotal() { return vente.getPrixTotal(); }
+    public int getIdEmp(){ return vente.getIdEmploye(); }
 }
 

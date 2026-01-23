@@ -4,6 +4,7 @@ import brainstorm.pharmacy_app.DAO.StockIM;
 import brainstorm.pharmacy_app.Model.*;
 import brainstorm.pharmacy_app.Utils.User;
 import brainstorm.pharmacy_app.nav.Navigation;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -68,6 +69,7 @@ public class HistoryController {
     @FXML private TableColumn<VenteHistoryDTO, Integer> colProducts;
     @FXML private TableColumn<VenteHistoryDTO, Double> colTotal;
     @FXML private TableColumn<VenteHistoryDTO, Void> colActions;
+    @FXML private TableColumn<VenteHistoryDTO, Integer> colIdEmp;
     //+emp id
 
     private VenteIM venteDAO = new VenteIM();
@@ -89,6 +91,8 @@ public class HistoryController {
         colDate.setCellValueFactory(new PropertyValueFactory<>("dateVente"));
         colProducts.setCellValueFactory(new PropertyValueFactory<>("nombreProduits"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colIdEmp.setCellValueFactory(new PropertyValueFactory<>("idEmp"));
+
 
         // mtaa ll bouton view
         colActions.setCellFactory(param -> new TableCell<>() {
@@ -142,16 +146,16 @@ public class HistoryController {
 
         TableView<Constituer> detailTable = new TableView<>();
 
-        TableColumn<Constituer, String> colNom = new TableColumn<>("Nom Produit");
+        TableColumn<Constituer, String> colNom = new TableColumn<>("Product");
         colNom.setCellValueFactory(cd -> {
             String nom = stockDAO.getNomProduit(cd.getValue().getReference());
             return new SimpleStringProperty(nom != null ? nom : "Inconnu");
         });
 
-        TableColumn<Constituer, Integer> colRef = new TableColumn<>("Référence");
+        TableColumn<Constituer, Integer> colRef = new TableColumn<>("Reference");
         colRef.setCellValueFactory(new PropertyValueFactory<>("reference"));
 
-        TableColumn<Constituer, Integer> colQty = new TableColumn<>("Qantité Vendue");
+        TableColumn<Constituer, Integer> colQty = new TableColumn<>("Quantity Sold");
         colQty.setCellValueFactory(new PropertyValueFactory<>("quantiteVendu"));
 
 

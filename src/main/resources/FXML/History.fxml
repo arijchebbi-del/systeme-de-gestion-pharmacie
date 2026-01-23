@@ -264,11 +264,12 @@
          <left>
             <TableView fx:id="tableHistory" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1380.0" styleClass="pos-table" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="colActionID" editable="false" prefWidth="192.33334350585938" text="Receipt Number" />
-                <TableColumn fx:id="colDate" editable="false" prefWidth="328.6666564941406" text="Date" />
-                  <TableColumn fx:id="colProducts" editable="false" prefWidth="337.3333740234375" text="Products" />
-                  <TableColumn fx:id="colTotal" editable="false" prefWidth="378.6666259765625" text="Total" />
-                  <TableColumn fx:id="colActions" editable="false" prefWidth="146.6666259765625" text="Actions" />
+                <TableColumn fx:id="colActionID" editable="false" prefWidth="191.66668701171875" text="Receipt Number" />
+                  <TableColumn fx:id="colIdEmp" editable="false" prefWidth="233.33331298828125" text="Employee Id" />
+                  <TableColumn fx:id="colProducts" editable="false" prefWidth="230.0" text="Products" />
+                  <TableColumn fx:id="colTotal" editable="false" prefWidth="257.0" text="Total" />
+                <TableColumn fx:id="colDate" editable="false" prefWidth="271.3333740234375" text="Date" />
+                  <TableColumn fx:id="colActions" editable="false" prefWidth="246.6666259765625" text="Actions" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
